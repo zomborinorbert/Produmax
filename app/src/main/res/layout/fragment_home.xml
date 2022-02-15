@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.HomeFragment"
-    android:padding="22dp">
+    android:padding="22dp"
+    android:id="@+id/testid">
 
     <TextView
         android:id="@+id/welcome_text"
