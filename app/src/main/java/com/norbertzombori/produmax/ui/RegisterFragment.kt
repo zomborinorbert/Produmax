@@ -28,13 +28,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
         button_register_confirm.setOnClickListener{
-            viewModel.register(edit_text_login_email.text.toString(), edit_text_login_password.text.toString(), requireActivity())
+            viewModel.register(edit_text_register_email.text.toString(), edit_text_register_password.text.toString(), requireActivity())
         }
 
     }
 
-    fun updateUI(){
-        val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+    private fun updateUI(){
+        val action = RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 }
