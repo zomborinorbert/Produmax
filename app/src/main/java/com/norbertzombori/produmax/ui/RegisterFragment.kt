@@ -28,7 +28,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
         button_register_confirm.setOnClickListener{
-            viewModel.register(edit_text_register_email.text.toString(), edit_text_register_password.text.toString(), requireActivity())
+            viewModel.register(edit_text_register_email.text.toString(), edit_text_register_password.text.toString(), edit_text_register_username.text.toString(), requireActivity())
         }
 
     }

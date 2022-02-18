@@ -15,7 +15,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         val user = Firebase.auth.currentUser
 
-        welcome_text.text = "Welcome ${user?.email}!"
+        welcome_text.text = "Welcome ${user?.displayName}!"
 
 
         button_logout.setOnClickListener {

@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -26,15 +27,25 @@ class AppRepository() {
             }
     }
 
-    fun register(email: String, password: String, mainActivity: FragmentActivity) {
+    fun register(email: String, password: String, username: String, mainActivity: FragmentActivity) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(mainActivity) { task ->
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
-                    Toast.makeText(mainActivity,"Successful registration",Toast.LENGTH_LONG).show()
-                    userMutableLiveData.postValue(firebaseAuth.currentUser)
+
                     if(user != null){
-                        createUserCollection(user.uid)
+                        createUserCollection(user?.uid)
+                    }
+
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = username
+                    }
+
+                    user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(mainActivity,"Successful registration",Toast.LENGTH_LONG).show()
+                            userMutableLiveData.postValue(firebaseAuth.currentUser)
+                        }
                     }
                 } else {
                     Toast.makeText(mainActivity,"Failed to register",Toast.LENGTH_LONG).show()
