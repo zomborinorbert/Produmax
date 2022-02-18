@@ -34,7 +34,7 @@ class AppRepository() {
                     val user = firebaseAuth.currentUser
 
                     if(user != null){
-                        createUserCollection(user?.uid)
+                        createUserCollection(user.uid)
                     }
 
                     val profileUpdates = userProfileChangeRequest {

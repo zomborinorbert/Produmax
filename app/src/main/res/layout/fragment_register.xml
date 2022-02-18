@@ -17,6 +17,7 @@
 
     <EditText
         android:id="@+id/edit_text_register_email"
+        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email" />
@@ -24,6 +25,7 @@
     <EditText
         android:id="@+id/edit_text_register_password"
         android:layout_width="match_parent"
+        android:inputType="textPassword"
         android:layout_height="wrap_content"
         android:hint="Password" />
 

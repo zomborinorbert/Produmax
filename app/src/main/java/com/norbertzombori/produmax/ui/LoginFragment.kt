@@ -2,6 +2,7 @@ package com.norbertzombori.produmax.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -26,7 +27,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
         button_login_confirm.setOnClickListener{
-            viewModel.login(edit_text_login_email.text.toString(), edit_text_login_password.text.toString(), requireActivity())
+            if(edit_text_login_email.text.length > 6 && edit_text_login_password.text.length > 5){
+                viewModel.login(edit_text_login_email.text.toString(), edit_text_login_password.text.toString(), requireActivity())
+            }else{
+                Toast.makeText(requireActivity(),"Email or password is not long enough!", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
