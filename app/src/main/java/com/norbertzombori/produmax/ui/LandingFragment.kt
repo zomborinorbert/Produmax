@@ -1,6 +1,7 @@
 package com.norbertzombori.produmax.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,9 +17,11 @@ import kotlinx.android.synthetic.main.fragment_landing.*
 class LandingFragment : Fragment(R.layout.fragment_landing) {
     private lateinit var db : FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private val TAG = "MyActivity"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         db = Firebase.firestore
         auth = Firebase.auth
@@ -40,15 +43,18 @@ class LandingFragment : Fragment(R.layout.fragment_landing) {
         }
 
         button_testdb.setOnClickListener(){
-            val user = hashMapOf(
-                "first" to "Ada",
-                "last" to "Lovelace",
-                "born" to 1815
-            )
-
-            db.collection("users/doc_id/newuserX32")
-                .add(user)
-
+            val docRef = db.collection("users").document("K1VsAtqodgRKLVArbjafXxZ85ff1")
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
         }
     }
 }

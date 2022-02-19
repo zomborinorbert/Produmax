@@ -18,23 +18,29 @@ class AppRepository() {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(mainActivity) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(mainActivity,"Logged in successfully!",Toast.LENGTH_LONG).show()
+                    Toast.makeText(mainActivity, "Logged in successfully!", Toast.LENGTH_LONG)
+                        .show()
                     userMutableLiveData.postValue(firebaseAuth.currentUser)
 
                 } else {
-                    Toast.makeText(mainActivity,"Failed to log in!",Toast.LENGTH_LONG).show()
+                    Toast.makeText(mainActivity, "Failed to log in!", Toast.LENGTH_LONG).show()
                 }
             }
     }
 
-    fun register(email: String, password: String, username: String, mainActivity: FragmentActivity) {
+    fun register(
+        email: String,
+        password: String,
+        username: String,
+        mainActivity: FragmentActivity
+    ) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(mainActivity) { task ->
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
 
-                    if(user != null){
-                        createUserCollection(user.uid)
+                    if (user != null) {
+                        createUserCollection(user.uid, email, username)
                     }
 
                     val profileUpdates = userProfileChangeRequest {
@@ -43,22 +49,35 @@ class AppRepository() {
 
                     user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(mainActivity,"Successful registration",Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                mainActivity,
+                                "Successful registration",
+                                Toast.LENGTH_LONG
+                            ).show()
                             userMutableLiveData.postValue(firebaseAuth.currentUser)
                         }
                     }
                 } else {
-                    Toast.makeText(mainActivity,"Failed to register",Toast.LENGTH_LONG).show()
+                    Toast.makeText(mainActivity, "Failed to register", Toast.LENGTH_LONG).show()
                 }
             }
     }
 
-    fun createUserCollection(userId: String){
+    fun createUserCollection(userId: String, email: String, displayName: String) {
         val user = hashMapOf(
-            "email" to "example@gmail.com",
-            "displayName" to "testUser"
+            "email" to email,
+            "displayName" to displayName
         )
 
         db.collection("users").document(userId).set(user)
+    }
+
+    fun createEventForUser(userId: String, event: Event) {
+        val newEvent = hashMapOf(
+            "eventName" to event.eventName,
+            "eventDate" to event.eventDate
+        )
+
+        db.collection("users").document(userId).collection("events").add(newEvent)
     }
 }

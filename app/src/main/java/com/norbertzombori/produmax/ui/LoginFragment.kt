@@ -35,7 +35,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    fun updateUI(){
+    private fun updateUI(){
         val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         findNavController().navigate(action)
     }
