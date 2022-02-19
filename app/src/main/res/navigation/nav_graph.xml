@@ -52,5 +52,21 @@
             app:destination="@id/landingFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_trackerFragment"
+            app:destination="@id/trackerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_plannerFragment"
+            app:destination="@id/plannerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/plannerFragment"
+        android:name="com.norbertzombori.produmax.ui.PlannerFragment"
+        android:label="fragment_planner"
+        tools:layout="@layout/fragment_planner" />
+    <fragment
+        android:id="@+id/trackerFragment"
+        android:name="com.norbertzombori.produmax.ui.TrackerFragment"
+        android:label="fragment_tracker"
+        tools:layout="@layout/fragment_tracker" />
 </navigation>

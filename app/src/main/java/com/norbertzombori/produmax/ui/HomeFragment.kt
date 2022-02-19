@@ -56,6 +56,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewModel.createEvent(user?.uid!!, Event("TestEvent2","TestDate2"))
         }
 
+        button_planner.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToPlannerFragment()
+            findNavController().navigate(action)
+        }
+
+        button_tracker.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToTrackerFragment()
+            findNavController().navigate(action)
+        }
+
         button_log_events.setOnClickListener(){
             val docRef = viewModel.appRepository.db.collection("users").document(user?.uid!!).collection("events")
             docRef.get()
