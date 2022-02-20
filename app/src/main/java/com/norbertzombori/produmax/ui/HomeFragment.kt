@@ -52,9 +52,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(action)
         }
 
-        button_create_event.setOnClickListener{
-            viewModel.createEvent(user?.uid!!, Event("TestEvent2","TestDate2"))
-        }
+        //button_create_event.setOnClickListener{
+        //    viewModel.createEvent(user?.uid!!, Event("TestEvent2","TestDate2"))
+        //}
 
         button_planner.setOnClickListener{
             val action = HomeFragmentDirections.actionHomeFragmentToPlannerFragment()

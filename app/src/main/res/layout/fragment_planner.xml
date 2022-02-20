@@ -9,9 +9,9 @@
     android:padding="22dp">
 
     <Button
-        android:id="@+id/nothingbutton"
+        android:id="@+id/button_navigate_to_create_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Todo"/>
+        android:text="Create new event"/>
 
 </LinearLayout>
