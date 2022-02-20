@@ -8,11 +8,15 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.norbertzombori.produmax.R
+import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import kotlinx.android.synthetic.main.fragment_create_event.*
 import java.util.*
 
 class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    private lateinit var viewModel: CreateEventViewModel
+
     var day = 0
     var month = 0
     var year = 0
@@ -27,8 +31,17 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), Date
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = CreateEventViewModel()
 
         pickDate()
+
+        button_create_event.setOnClickListener {
+            val newDate = Date(savedYear-1900, savedMonth, savedDay, savedHour, savedMinute)
+            viewModel.createEvent(viewModel.getUserId(), edit_text_event_name.text.toString(), newDate)
+
+            val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun getDateTimeCalender(){
@@ -65,7 +78,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), Date
 
         textView_selected_date.text = "$savedYear-$savedMonth-$savedDay $savedHour $savedMinute"
     }
-
 
 
 }

@@ -77,5 +77,11 @@
         android:id="@+id/createEventFragment"
         android:name="com.norbertzombori.produmax.ui.CreateEventFragment"
         android:label="fragment_create_event"
-        tools:layout="@layout/fragment_create_event" />
+        tools:layout="@layout/fragment_create_event" >
+        <action
+            android:id="@+id/action_createEventFragment_to_plannerFragment"
+            app:destination="@id/plannerFragment"
+            app:popUpTo="@id/createEventFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

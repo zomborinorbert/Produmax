@@ -23,12 +23,6 @@
 
 
     <Button
-        android:id="@+id/button_log_events"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log events" />
-
-    <Button
         android:id="@+id/button_planner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

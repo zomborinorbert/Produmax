@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.data.Event
+import java.util.*
 
 class EventAdapter(private val eventList: MutableList<Event>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
@@ -23,7 +24,7 @@ class EventAdapter(private val eventList: MutableList<Event>) :
     override fun onBindViewHolder(holder: EventAdapter.EventViewHolder, position: Int) {
         val event : Event = eventList[position]
 
-        holder.textView1.text = event.eventDate
+        holder.textView1.text = Date(event.eventDate.seconds*1000).toString()
         holder.textView2.text = event.eventName
     }
 

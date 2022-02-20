@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class AppRepository() {
     val userMutableLiveData = MutableLiveData<FirebaseUser>()
@@ -72,12 +73,13 @@ class AppRepository() {
         db.collection("users").document(userId).set(user)
     }
 
-    fun createEventForUser(userId: String, event: Event) {
+    fun createEventForUser(userId: String, eventName: String, eventDate: Date) {
         val newEvent = hashMapOf(
-            "eventName" to event.eventName,
-            "eventDate" to event.eventDate
+            "eventName" to eventName,
+            "eventDate" to eventDate
         )
 
         db.collection("users").document(userId).collection("events").add(newEvent)
     }
+
 }
