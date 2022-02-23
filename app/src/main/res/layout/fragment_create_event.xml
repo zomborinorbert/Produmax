@@ -26,10 +26,29 @@
         tools:text="@tools:sample/date/ddmmyy"
         android:id="@+id/textView_selected_date"/>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add other user"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Other username"
+            android:id="@+id/edit_text_other_user"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/button_create_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create event" />
+
 
 </LinearLayout>

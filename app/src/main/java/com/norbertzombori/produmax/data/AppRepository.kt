@@ -1,5 +1,7 @@
 package com.norbertzombori.produmax.data
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -80,6 +82,27 @@ class AppRepository() {
         )
 
         db.collection("users").document(userId).collection("events").add(newEvent)
+    }
+
+    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date){
+        val docRef = db.collection("users")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        var currentUser = document.toObject(User::class.java)
+                        if(currentUser.displayName == name){
+                            createEventForUser(document.id, eventName, eventDate)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
     }
 
 }

@@ -41,6 +41,10 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), Date
 
             val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
             findNavController().navigate(action)
+
+            if(edit_text_other_user.text.toString().isNotEmpty()){
+                viewModel.createEventForOtherUser(edit_text_other_user.text.toString(),edit_text_event_name.text.toString(), newDate)
+            }
         }
     }
 

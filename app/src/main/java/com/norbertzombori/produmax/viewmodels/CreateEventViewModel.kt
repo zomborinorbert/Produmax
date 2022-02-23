@@ -15,4 +15,8 @@ class CreateEventViewModel() : ViewModel() {
     }
 
     fun getUserId() = appRepository.firebaseAuth.currentUser?.uid!!
+
+    fun createEventForOtherUser(name: String, eventName: String, eventDate: Date){
+        appRepository.createEventForUserWithName(name, eventName, eventDate)
+    }
 }
