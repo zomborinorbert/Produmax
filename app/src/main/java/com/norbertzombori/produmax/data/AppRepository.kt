@@ -75,24 +75,25 @@ class AppRepository() {
         db.collection("users").document(userId).set(user)
     }
 
-    fun createEventForUser(userId: String, eventName: String, eventDate: Date) {
+    fun createEventForUser(userId: String, eventName: String, eventDate: Date, accepted: Boolean = true) {
         val newEvent = hashMapOf(
             "eventName" to eventName,
-            "eventDate" to eventDate
+            "eventDate" to eventDate,
+            "accepted" to accepted
         )
 
         db.collection("users").document(userId).collection("events").add(newEvent)
     }
 
-    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date){
+    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date) {
         val docRef = db.collection("users")
         docRef.get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
                         var currentUser = document.toObject(User::class.java)
-                        if(currentUser.displayName == name){
-                            createEventForUser(document.id, eventName, eventDate)
+                        if (currentUser.displayName == name) {
+                            createEventForUser(document.id, eventName, eventDate, false)
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }

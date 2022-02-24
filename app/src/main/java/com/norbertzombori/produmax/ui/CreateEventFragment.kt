@@ -14,7 +14,8 @@ import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import kotlinx.android.synthetic.main.fragment_create_event.*
 import java.util.*
 
-class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
+    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private lateinit var viewModel: CreateEventViewModel
 
     var day = 0
@@ -36,19 +37,27 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), Date
         pickDate()
 
         button_create_event.setOnClickListener {
-            val newDate = Date(savedYear-1900, savedMonth, savedDay, savedHour, savedMinute)
-            viewModel.createEvent(viewModel.getUserId(), edit_text_event_name.text.toString(), newDate)
+            val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
+            viewModel.createEvent(
+                viewModel.getUserId(),
+                edit_text_event_name.text.toString(),
+                newDate
+            )
 
             val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
             findNavController().navigate(action)
 
-            if(edit_text_other_user.text.toString().isNotEmpty()){
-                viewModel.createEventForOtherUser(edit_text_other_user.text.toString(),edit_text_event_name.text.toString(), newDate)
+            if (edit_text_other_user.text.toString().isNotEmpty()) {
+                viewModel.createEventForOtherUser(
+                    edit_text_other_user.text.toString(),
+                    edit_text_event_name.text.toString(),
+                    newDate
+                )
             }
         }
     }
 
-    private fun getDateTimeCalender(){
+    private fun getDateTimeCalender() {
         val cal = Calendar.getInstance()
         day = cal.get(Calendar.DAY_OF_MONTH)
         month = cal.get(Calendar.MONTH)
@@ -58,7 +67,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), Date
 
     }
 
-    private fun pickDate(){
+    private fun pickDate() {
         button_date_time_picker.setOnClickListener {
             getDateTimeCalender()
 
@@ -72,7 +81,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event), Date
         savedDay = day
 
         getDateTimeCalender()
-        TimePickerDialog(requireActivity(),this,hour,minute,true).show()
+        TimePickerDialog(requireActivity(), this, hour, minute, true).show()
     }
 
     @SuppressLint("SetTextI18n")
