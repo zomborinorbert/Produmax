@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
@@ -17,7 +18,6 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_planner.*
 import kotlinx.android.synthetic.main.fragment_planner.recycler_view
 
@@ -46,6 +46,11 @@ class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItem
             val action = PlannerFragmentDirections.actionPlannerFragmentToCreateEventFragment()
             findNavController().navigate(action)
         }
+
+        button_navigate_to_invites.setOnClickListener {
+            val action = PlannerFragmentDirections.actionPlannerFragmentToInvitesFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onItemClick(position: Int) {
@@ -57,7 +62,7 @@ class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItem
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     for(dc : DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
+                        if(dc.type == DocumentChange.Type.ADDED && dc.document.toObject(Event::class.java).accepted){
                             eventList.add(dc.document.toObject(Event::class.java))
                         }
                     }
@@ -66,7 +71,6 @@ class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItem
                 }
 
             })
-
 
     }
 

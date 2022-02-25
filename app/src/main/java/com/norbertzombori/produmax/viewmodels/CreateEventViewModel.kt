@@ -19,4 +19,8 @@ class CreateEventViewModel() : ViewModel() {
     fun createEventForOtherUser(name: String, eventName: String, eventDate: Date){
         appRepository.createEventForUserWithName(name, eventName, eventDate)
     }
+
+    fun acceptInviteForEvent(event: Event){
+        appRepository.acceptInviteForEvent(event)
+    }
 }

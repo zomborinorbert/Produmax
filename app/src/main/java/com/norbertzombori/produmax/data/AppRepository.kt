@@ -106,4 +106,37 @@ class AppRepository() {
             }
     }
 
+    fun changeInviteStatusForEvent(event: Event, eventId: String){
+        val changedEvent = hashMapOf(
+            "eventName" to event.eventName,
+            "eventDate" to event.eventDate,
+            "accepted" to !event.accepted
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).set(changedEvent)
+    }
+
+    fun acceptInviteForEvent(event: Event){
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        var currentEvent = document.toObject(Event::class.java)
+                        if (currentEvent.eventName == event.eventName) {
+                            changeInviteStatusForEvent(event, document.id)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+
+
 }
