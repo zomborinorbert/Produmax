@@ -10,17 +10,17 @@ import java.util.*
 class CreateEventViewModel() : ViewModel() {
     val appRepository = AppRepository()
 
-    fun createEvent(userId: String, eventName: String, eventDate: Date){
+    fun createEvent(userId: String, eventName: String, eventDate: Date) {
         appRepository.createEventForUser(userId, eventName, eventDate)
     }
 
     fun getUserId() = appRepository.firebaseAuth.currentUser?.uid!!
 
-    fun createEventForOtherUser(name: String, eventName: String, eventDate: Date){
+    fun createEventForOtherUser(name: String, eventName: String, eventDate: Date) {
         appRepository.createEventForUserWithName(name, eventName, eventDate)
     }
 
-    fun acceptInviteForEvent(event: Event){
+    fun acceptInviteForEvent(event: Event) {
         appRepository.acceptInviteForEvent(event)
     }
 }

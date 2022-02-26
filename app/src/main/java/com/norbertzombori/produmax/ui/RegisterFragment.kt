@@ -14,31 +14,38 @@ import kotlinx.android.synthetic.main.fragment_register.*
 
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
-    private lateinit var viewModel: LoginRegisterViewModel
+    private var viewModel: LoginRegisterViewModel = LoginRegisterViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = LoginRegisterViewModel()
-
         val userObserver = Observer<FirebaseUser> { user ->
-            if(user != null) {
+            if (user != null) {
                 updateUI()
             }
         }
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
-        button_register_confirm.setOnClickListener{
-            if(edit_text_register_email.text.length > 6 && edit_text_register_password.text.length > 5){
-                viewModel.register(edit_text_register_email.text.toString(), edit_text_register_password.text.toString(), edit_text_register_username.text.toString(), requireActivity())
-            }else{
-                Toast.makeText(requireActivity(),"Email or password is not long enough!", Toast.LENGTH_LONG).show()
+        button_register_confirm.setOnClickListener {
+            if (edit_text_register_email.text.length > 6 && edit_text_register_password.text.length > 5) {
+                viewModel.register(
+                    edit_text_register_email.text.toString(),
+                    edit_text_register_password.text.toString(),
+                    edit_text_register_username.text.toString(),
+                    requireActivity()
+                )
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Email or password is not long enough!",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         val action = RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
         findNavController().navigate(action)
     }

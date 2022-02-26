@@ -12,30 +12,37 @@ import com.norbertzombori.produmax.viewmodels.LoginRegisterViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
-    private lateinit var viewModel: LoginRegisterViewModel
+    private var viewModel: LoginRegisterViewModel = LoginRegisterViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = LoginRegisterViewModel()
 
         val userObserver = Observer<FirebaseUser> { user ->
-            if(user != null) {
+            if (user != null) {
                 updateUI()
             }
         }
 
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
-        button_login_confirm.setOnClickListener{
-            if(edit_text_login_email.text.length > 6 && edit_text_login_password.text.length > 5){
-                viewModel.login(edit_text_login_email.text.toString(), edit_text_login_password.text.toString(), requireActivity())
-            }else{
-                Toast.makeText(requireActivity(),"Email or password is not long enough!", Toast.LENGTH_LONG).show()
+        button_login_confirm.setOnClickListener {
+            if (edit_text_login_email.text.length > 6 && edit_text_login_password.text.length > 5) {
+                viewModel.login(
+                    edit_text_login_email.text.toString(),
+                    edit_text_login_password.text.toString(),
+                    requireActivity()
+                )
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Email or password is not long enough!",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         findNavController().navigate(action)
     }

@@ -14,6 +14,7 @@ import java.util.*
 
 class AppRepository() {
     val userMutableLiveData = MutableLiveData<FirebaseUser>()
+    val newEventLiveData = MutableLiveData(false)
     val firebaseAuth = FirebaseAuth.getInstance()
     val db = Firebase.firestore
 
@@ -125,6 +126,27 @@ class AppRepository() {
                         var currentEvent = document.toObject(Event::class.java)
                         if (currentEvent.eventName == event.eventName) {
                             changeInviteStatusForEvent(event, document.id)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun checkForNewEvent() {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        var currentEvent = document.toObject(Event::class.java)
+                        if (!currentEvent.accepted) {
+                            newEventLiveData.postValue(true)
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }

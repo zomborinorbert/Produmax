@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
@@ -16,21 +18,27 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
+import com.norbertzombori.produmax.viewmodels.HomeViewModel
+import com.norbertzombori.produmax.viewmodels.LoginRegisterViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        showAlertDialog()
-    }
+    private var viewModel: HomeViewModel = HomeViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val user = Firebase.auth.currentUser
 
-        welcome_text.text = "Welcome ${user?.displayName}!"
+        viewModel.appRepository.checkForNewEvent()
 
+        welcome_text.text = "Welcome ${viewModel.appRepository.firebaseAuth.currentUser?.displayName}!"
+
+        val eventObserver = Observer<Boolean> { value ->
+            if(value) {
+                showAlertDialog()
+            }
+        }
+
+        viewModel.appRepository.newEventLiveData.observe(viewLifecycleOwner, eventObserver)
 
         button_logout.setOnClickListener {
             Firebase.auth.signOut()
@@ -47,9 +55,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val action = HomeFragmentDirections.actionHomeFragmentToTrackerFragment()
             findNavController().navigate(action)
         }
-
-
-
 
     }
 
