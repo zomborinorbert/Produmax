@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.norbertzombori.produmax.R
@@ -55,10 +56,18 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
     override fun onItemClick(position: Int) {
         userList = viewModel.userList.value!!
         if(!userList[position].sent && !userList[position].accepted){
+            MaterialAlertDialogBuilder(requireActivity())
+                .setTitle("Do you want to accept this friend request?")
+                .setNegativeButton("No"){ _, _ ->
+
+                }.setPositiveButton("Yes"){ _, _ ->
+                    viewModel.acceptFriendRequest(userList[position].displayName, position)
+                    friendsAdapter.notifyDataSetChanged()
+                }.show()
             Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
-            viewModel.acceptFriendRequest(userList[position].displayName, position)
-            friendsAdapter.notifyDataSetChanged()
         }
+
+
     }
 
 }
