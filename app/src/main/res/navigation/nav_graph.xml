@@ -93,6 +93,9 @@
         <action
             android:id="@+id/action_homeFragment_to_invitesFragment"
             app:destination="@id/invitesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
     </fragment>
     <fragment
         android:id="@+id/plannerFragment"
@@ -109,6 +112,9 @@
         <action
             android:id="@+id/action_plannerFragment_to_invitesFragment"
             app:destination="@id/invitesFragment" />
+        <action
+            android:id="@+id/action_plannerFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackerFragment"
@@ -135,4 +141,14 @@
         android:name="com.norbertzombori.produmax.ui.InvitesFragment"
         android:label="fragment_invites"
         tools:layout="@layout/fragment_invites" />
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.norbertzombori.produmax.ui.EventDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.norbertzombori.produmax.ui.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
 </navigation>

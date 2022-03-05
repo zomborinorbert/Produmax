@@ -1,30 +1,22 @@
 package com.norbertzombori.produmax.ui
 
-import android.content.ContentValues.TAG
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.norbertzombori.produmax.R
-import com.norbertzombori.produmax.adapters.EventAdapter
-import com.norbertzombori.produmax.data.Event
-import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import com.norbertzombori.produmax.viewmodels.HomeViewModel
-import com.norbertzombori.produmax.viewmodels.LoginRegisterViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var viewModel: HomeViewModel = HomeViewModel()
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,6 +45,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         button_tracker.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToTrackerFragment()
+            findNavController().navigate(action)
+        }
+
+        button_friends.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToFriendsFragment()
             findNavController().navigate(action)
         }
 

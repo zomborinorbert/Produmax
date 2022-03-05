@@ -86,6 +86,17 @@ class AppRepository() {
         db.collection("users").document(userId).collection("events").add(newEvent)
     }
 
+    fun createFriendForUser(userId: String, displayName: String, email: String, sent: Boolean = false, accepted: Boolean = false) {
+        val newFriend = hashMapOf(
+            "displayName" to displayName,
+            "email" to email,
+            "sent" to sent,
+            "accepted" to accepted
+        )
+
+        db.collection("users").document(userId).collection("friends").add(newFriend)
+    }
+
     fun createEventForUserWithName(name: String, eventName: String, eventDate: Date) {
         val docRef = db.collection("users")
         docRef.get()
@@ -159,6 +170,81 @@ class AppRepository() {
             }
     }
 
+    fun addFriendForUser(name: String){
+        val docRef = db.collection("users")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        var currentUser = document.toObject(User::class.java)
+                        if (currentUser.displayName == name) {
+                            createFriendForUser(firebaseAuth.currentUser?.uid!!, currentUser.displayName, currentUser.email,true, false)
+                            createFriendForUser(document.id, firebaseAuth.currentUser?.displayName!!, firebaseAuth.currentUser?.email!!, false, false)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun acceptFriendRequestHelper(name: String){
+        acceptFriendRequest(name, firebaseAuth.currentUser?.uid!!)
+        val docRef = db.collection("users")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        var currentUser = document.toObject(User::class.java)
+                        if (currentUser.displayName == name) {
+                           acceptFriendRequest(firebaseAuth.currentUser?.displayName!!, document.id)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun acceptFriendRequest(name: String, userId: String){
+        val docRef = db.collection("users").document(userId).collection("friends")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        var currentFriend = document.toObject(Friend::class.java)
+                        if (currentFriend.displayName == name) {
+                            changeFriendStatus(userId, document.id, currentFriend.displayName, currentFriend.email, currentFriend.sent, true)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun changeFriendStatus(userId: String, eventId: String, displayName: String, email: String, sent: Boolean, accepted: Boolean) {
+        val changedFriendStatus = hashMapOf(
+            "accepted" to accepted,
+            "displayName" to displayName,
+            "sent" to sent,
+            "email" to email
+        )
+
+        db.collection("users").document(userId).collection("friends").document(eventId).set(changedFriendStatus)
+    }
 
 
 }

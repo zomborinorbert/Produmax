@@ -1,12 +1,14 @@
 package com.norbertzombori.produmax.ui
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,25 +24,29 @@ import kotlinx.android.synthetic.main.fragment_planner.*
 import kotlinx.android.synthetic.main.fragment_planner.recycler_view
 
 class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItemClickListener {
-    private lateinit var viewModel: CreateEventViewModel
+    private val viewModel: CreateEventViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventList: MutableList<Event>
     private lateinit var eventAdapter: EventAdapter
 
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val user = Firebase.auth.currentUser
-        viewModel = CreateEventViewModel()
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.setHasFixedSize(true)
 
 
         eventList = mutableListOf()
-        eventAdapter = EventAdapter(eventList, this)
+        eventAdapter = EventAdapter(viewModel.eventList.value!!, this)
         recyclerView.adapter = eventAdapter
 
-        eventChangeListener(user?.uid!!)
+        viewModel.eventList.observe(viewLifecycleOwner) {
+            eventAdapter.notifyDataSetChanged()
+            Log.d(ContentValues.TAG, "New document added")
+        }
 
         button_navigate_to_create_event.setOnClickListener {
             val action = PlannerFragmentDirections.actionPlannerFragmentToCreateEventFragment()
@@ -55,23 +61,10 @@ class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItem
 
     override fun onItemClick(position: Int) {
         Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun eventChangeListener(userId: String) {
-        viewModel.appRepository.db.collection("users").document(userId).collection("events").orderBy("eventDate", Query.Direction.ASCENDING)
-            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    for(dc : DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED && dc.document.toObject(Event::class.java).accepted){
-                            eventList.add(dc.document.toObject(Event::class.java))
-                        }
-                    }
-
-                    eventAdapter.notifyDataSetChanged()
-                }
-
-            })
-
+        viewModel.select(viewModel.eventList.value!![position])
+        Log.d(ContentValues.TAG, "New document added ${viewModel.selected.value?.eventName}")
+        val action = PlannerFragmentDirections.actionPlannerFragmentToEventDetailsFragment()
+        findNavController().navigate(action)
     }
 
 }
