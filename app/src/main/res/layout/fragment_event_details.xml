@@ -5,26 +5,26 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.EventDetailsFragment"
-    android:padding="22dp">
+    android:padding="22dp"
+    tools:context=".ui.EventDetailsFragment">
 
     <TextView
-        android:id="@+id/textview_event_name"
+        android:id="@+id/tv_event_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:text="" />
 
     <TextView
-        android:id="@+id/textview_event_date"
+        android:id="@+id/tv_event_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:text="" />
 
 
     <Button
+        android:id="@+id/btn_check_works"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Press"
-        android:id="@+id/button_check_works"/>
+        android:text="Press" />
 
 </LinearLayout>

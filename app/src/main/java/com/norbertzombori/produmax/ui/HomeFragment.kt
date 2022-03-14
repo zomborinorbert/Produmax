@@ -22,7 +22,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewModel.appRepository.checkForNewEvent()
 
-        welcome_text.text = "Welcome ${viewModel.appRepository.firebaseAuth.currentUser?.displayName}!"
+        tv_welcome_text.text = "Welcome ${viewModel.appRepository.firebaseAuth.currentUser?.displayName}!"
 
         val eventObserver = Observer<Boolean> { value ->
             if(value) {
@@ -32,36 +32,36 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewModel.appRepository.newEventLiveData.observe(viewLifecycleOwner, eventObserver)
 
-        button_logout.setOnClickListener {
+        btn_logout.setOnClickListener {
             Firebase.auth.signOut()
             val action = HomeFragmentDirections.actionHomeFragmentToLandingFragment()
             findNavController().navigate(action)
         }
 
-        button_planner.setOnClickListener {
+        btn_planner.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToPlannerFragment()
             findNavController().navigate(action)
         }
 
-        button_tracker.setOnClickListener {
+        btn_tracker.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToTrackerFragment()
             findNavController().navigate(action)
         }
 
-        button_friends.setOnClickListener {
+        btn_friends.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToFriendsFragment()
             findNavController().navigate(action)
         }
 
     }
 
-    fun showAlertDialog(){
+    private fun showAlertDialog(){
         MaterialAlertDialogBuilder(requireActivity())
             .setTitle("New event invitation!")
             .setMessage("You have been invited to an event, do you want to check the invitation?")
-            .setNegativeButton("Check them later"){dialog, which ->
+            .setNegativeButton("Check them later"){ _, _ ->
 
-            }.setPositiveButton("See invitations"){dialog, which ->
+            }.setPositiveButton("See invitations"){ _, _ ->
                 val action = HomeFragmentDirections.actionHomeFragmentToInvitesFragment()
                 findNavController().navigate(action)
             }.show()

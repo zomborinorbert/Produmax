@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.norbertzombori.produmax.data.AppRepository
 
-class LoginRegisterViewModel() : ViewModel() {
+class LoginRegisterViewModel : ViewModel() {
     val appRepository = AppRepository()
     val userMutableLiveData = appRepository.userMutableLiveData
 

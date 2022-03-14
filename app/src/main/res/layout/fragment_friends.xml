@@ -16,10 +16,10 @@
         android:hint="Enter their username..." />
 
     <Button
+        android:id="@+id/btn_send_friend_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_send_friend_request"
-        android:text="Send"/>
+        android:text="Send" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

@@ -2,9 +2,7 @@ package com.norbertzombori.produmax.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -16,7 +14,6 @@ import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import kotlinx.android.synthetic.main.fragment_planner.*
-import kotlinx.android.synthetic.main.fragment_tracker.*
 
 class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItemClickListener {
     private lateinit var viewModel: CreateEventViewModel
@@ -47,23 +44,19 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
     private fun eventChangeListener(userId: String) {
         viewModel.appRepository.db.collection("users").document(userId).collection("events")
             .orderBy("eventDate", Query.Direction.ASCENDING)
-            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    for (dc: DocumentChange in value?.documentChanges!!) {
-                        if (dc.type == DocumentChange.Type.ADDED && !dc.document.toObject(Event::class.java).accepted) {
-                            eventList.add(dc.document.toObject(Event::class.java))
-                        }
+            .addSnapshotListener { value, _ ->
+                for (dc: DocumentChange in value?.documentChanges!!) {
+                    if (dc.type == DocumentChange.Type.ADDED && !dc.document.toObject(Event::class.java).accepted) {
+                        eventList.add(dc.document.toObject(Event::class.java))
                     }
-
-                    eventAdapter.notifyDataSetChanged()
                 }
 
-            })
-
+                eventAdapter.notifyDataSetChanged()
+            }
     }
 
 
-    fun showAlertDialogAcceptInvite(position: Int) {
+    private fun showAlertDialogAcceptInvite(position: Int) {
         MaterialAlertDialogBuilder(requireActivity())
             .setTitle("Do you want to accept this invitation?")
             .setPositiveButton("Yes") { _, _ ->

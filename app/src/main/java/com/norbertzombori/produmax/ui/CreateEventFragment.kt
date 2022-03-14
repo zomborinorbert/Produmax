@@ -12,6 +12,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,29 +25,30 @@ import kotlinx.android.synthetic.main.fragment_create_event.*
 import java.util.*
 
 class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
-    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, FriendsAdapter.OnItemClickListener {
-    private lateinit var viewModel: CreateEventViewModel
+    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
+    FriendsAdapter.OnItemClickListener {
+    private val viewModel: CreateEventViewModel by viewModels()
     private val friendsViewModel: FriendsViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var userList: MutableList<Friend>
     private lateinit var friendsAdapter: FriendsAdapter
     private lateinit var invitationList: MutableList<Friend>
 
-    var day = 0
-    var month = 0
-    var year = 0
-    var hour = 0
-    var minute = 0
+    private var day = 0
+    private var month = 0
+    private var year = 0
+    private var hour = 0
+    private var minute = 0
 
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
-    var savedHour = 0
-    var savedMinute = 0
+    private var savedDay = 0
+    private var savedMonth = 0
+    private var savedYear = 0
+    private var savedHour = 0
+    private var savedMinute = 0
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = CreateEventViewModel()
 
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
@@ -65,21 +67,21 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
         invitationList = ArrayList()
 
-        button_create_event.setOnClickListener {
+        btn_create_event.setOnClickListener {
             val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
             viewModel.createEvent(
                 viewModel.getUserId(),
-                edit_text_event_name.text.toString(),
+                et_event_name.text.toString(),
                 newDate
             )
 
             val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
             findNavController().navigate(action)
 
-            for(friend in invitationList){
+            for (friend in invitationList) {
                 viewModel.createEventForOtherUser(
                     friend.displayName,
-                    edit_text_event_name.text.toString(),
+                    et_event_name.text.toString(),
                     newDate
                 )
             }
@@ -97,7 +99,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     }
 
     private fun pickDate() {
-        button_date_time_picker.setOnClickListener {
+        btn_date_time_picker.setOnClickListener {
             getDateTimeCalender()
 
             DatePickerDialog(requireActivity(), this, year, month, day).show()
@@ -124,11 +126,19 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     override fun onItemClick(position: Int) {
         userList = friendsViewModel.userList.value!!
 
-        if(invitationList.contains(userList[position])){
+        if (invitationList.contains(userList[position])) {
             invitationList.remove(userList[position])
-            Toast.makeText(requireActivity(), "User ${userList[position].displayName} removed", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(requireActivity(), "User ${userList[position].displayName} added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireActivity(),
+                "User ${userList[position].displayName} removed",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                requireActivity(),
+                "User ${userList[position].displayName} added",
+                Toast.LENGTH_SHORT
+            ).show()
             invitationList.add(userList[position])
         }
     }

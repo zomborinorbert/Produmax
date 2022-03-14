@@ -12,7 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
-class AppRepository() {
+class AppRepository {
     val userMutableLiveData = MutableLiveData<FirebaseUser>()
     val newEventLiveData = MutableLiveData(false)
     val firebaseAuth = FirebaseAuth.getInstance()
@@ -43,15 +43,13 @@ class AppRepository() {
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
 
-                    if (user != null) {
-                        createUserCollection(user.uid, email, username)
-                    }
+                    createUserCollection(user?.uid!!, email, username)
 
                     val profileUpdates = userProfileChangeRequest {
                         displayName = username
                     }
 
-                    user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
+                    user.updateProfile(profileUpdates).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(
                                 mainActivity,
@@ -67,7 +65,7 @@ class AppRepository() {
             }
     }
 
-    fun createUserCollection(userId: String, email: String, displayName: String) {
+    private fun createUserCollection(userId: String, email: String, displayName: String) {
         val user = hashMapOf(
             "email" to email,
             "displayName" to displayName
@@ -86,7 +84,7 @@ class AppRepository() {
         db.collection("users").document(userId).collection("events").add(newEvent)
     }
 
-    fun createFriendForUser(userId: String, displayName: String, email: String, sent: Boolean = false, accepted: Boolean = false) {
+    private fun createFriendForUser(userId: String, displayName: String, email: String, sent: Boolean = false, accepted: Boolean = false) {
         val newFriend = hashMapOf(
             "displayName" to displayName,
             "email" to email,
@@ -97,13 +95,35 @@ class AppRepository() {
         db.collection("users").document(userId).collection("friends").add(newFriend)
     }
 
+
+    private fun changeFriendStatus(userId: String, eventId: String, displayName: String, email: String, sent: Boolean, accepted: Boolean) {
+        val changedFriendStatus = hashMapOf(
+            "accepted" to accepted,
+            "displayName" to displayName,
+            "sent" to sent,
+            "email" to email
+        )
+
+        db.collection("users").document(userId).collection("friends").document(eventId).set(changedFriendStatus)
+    }
+
+    private fun changeInviteStatusForEvent(event: Event, eventId: String){
+        val changedEvent = hashMapOf(
+            "eventName" to event.eventName,
+            "eventDate" to event.eventDate,
+            "accepted" to !event.accepted
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).set(changedEvent)
+    }
+
     fun createEventForUserWithName(name: String, eventName: String, eventDate: Date) {
         val docRef = db.collection("users")
         docRef.get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        var currentUser = document.toObject(User::class.java)
+                        val currentUser = document.toObject(User::class.java)
                         if (currentUser.displayName == name) {
                             createEventForUser(document.id, eventName, eventDate, false)
                         }
@@ -118,15 +138,6 @@ class AppRepository() {
             }
     }
 
-    fun changeInviteStatusForEvent(event: Event, eventId: String){
-        val changedEvent = hashMapOf(
-            "eventName" to event.eventName,
-            "eventDate" to event.eventDate,
-            "accepted" to !event.accepted
-        )
-
-        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).set(changedEvent)
-    }
 
     fun acceptInviteForEvent(event: Event){
         val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events")
@@ -134,7 +145,7 @@ class AppRepository() {
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        var currentEvent = document.toObject(Event::class.java)
+                        val currentEvent = document.toObject(Event::class.java)
                         if (currentEvent.eventName == event.eventName) {
                             changeInviteStatusForEvent(event, document.id)
                         }
@@ -155,7 +166,7 @@ class AppRepository() {
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        var currentEvent = document.toObject(Event::class.java)
+                        val currentEvent = document.toObject(Event::class.java)
                         if (!currentEvent.accepted) {
                             newEventLiveData.postValue(true)
                         }
@@ -176,10 +187,16 @@ class AppRepository() {
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        var currentUser = document.toObject(User::class.java)
+                        val currentUser = document.toObject(User::class.java)
                         if (currentUser.displayName == name) {
-                            createFriendForUser(firebaseAuth.currentUser?.uid!!, currentUser.displayName, currentUser.email,true, false)
-                            createFriendForUser(document.id, firebaseAuth.currentUser?.displayName!!, firebaseAuth.currentUser?.email!!, false, false)
+                            createFriendForUser(firebaseAuth.currentUser?.uid!!, currentUser.displayName, currentUser.email,
+                                sent = true,
+                                accepted = false
+                            )
+                            createFriendForUser(document.id, firebaseAuth.currentUser?.displayName!!, firebaseAuth.currentUser?.email!!,
+                                sent = false,
+                                accepted = false
+                            )
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }
@@ -199,7 +216,7 @@ class AppRepository() {
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        var currentUser = document.toObject(User::class.java)
+                        val currentUser = document.toObject(User::class.java)
                         if (currentUser.displayName == name) {
                            acceptFriendRequest(firebaseAuth.currentUser?.displayName!!, document.id)
                         }
@@ -214,13 +231,13 @@ class AppRepository() {
             }
     }
 
-    fun acceptFriendRequest(name: String, userId: String){
+    private fun acceptFriendRequest(name: String, userId: String){
         val docRef = db.collection("users").document(userId).collection("friends")
         docRef.get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        var currentFriend = document.toObject(Friend::class.java)
+                        val currentFriend = document.toObject(Friend::class.java)
                         if (currentFriend.displayName == name) {
                             changeFriendStatus(userId, document.id, currentFriend.displayName, currentFriend.email, currentFriend.sent, true)
                         }
@@ -235,16 +252,6 @@ class AppRepository() {
             }
     }
 
-    fun changeFriendStatus(userId: String, eventId: String, displayName: String, email: String, sent: Boolean, accepted: Boolean) {
-        val changedFriendStatus = hashMapOf(
-            "accepted" to accepted,
-            "displayName" to displayName,
-            "sent" to sent,
-            "email" to email
-        )
-
-        db.collection("users").document(userId).collection("friends").document(eventId).set(changedFriendStatus)
-    }
 
 
 }

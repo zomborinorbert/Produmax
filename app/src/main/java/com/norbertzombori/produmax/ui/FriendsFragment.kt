@@ -8,22 +8,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.norbertzombori.produmax.R
-import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.adapters.FriendsAdapter
 import com.norbertzombori.produmax.data.Friend
-import com.norbertzombori.produmax.data.User
-import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import com.norbertzombori.produmax.viewmodels.FriendsViewModel
 import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.fragment_friends.recycler_view
-import kotlinx.android.synthetic.main.fragment_planner.*
 
 class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnItemClickListener {
     private val viewModel: FriendsViewModel by activityViewModels()
@@ -48,19 +41,19 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
             Log.d(ContentValues.TAG, "New document added")
         }
 
-        button_send_friend_request.setOnClickListener {
+        btn_send_friend_request.setOnClickListener {
             viewModel.addFriend(et_enter_username.text.toString())
         }
     }
 
     override fun onItemClick(position: Int) {
         userList = viewModel.userList.value!!
-        if(!userList[position].sent && !userList[position].accepted){
+        if (!userList[position].sent && !userList[position].accepted) {
             MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Do you want to accept this friend request?")
-                .setNegativeButton("No"){ _, _ ->
+                .setNegativeButton("No") { _, _ ->
 
-                }.setPositiveButton("Yes"){ _, _ ->
+                }.setPositiveButton("Yes") { _, _ ->
                     viewModel.acceptFriendRequest(userList[position].displayName, position)
                     friendsAdapter.notifyDataSetChanged()
                 }.show()

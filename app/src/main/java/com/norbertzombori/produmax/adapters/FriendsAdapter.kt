@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.data.Friend
-import com.norbertzombori.produmax.data.User
 
 class FriendsAdapter(
     private val userList: MutableList<Friend>,

@@ -1,18 +1,14 @@
 package com.norbertzombori.produmax.viewmodels
 
-import android.content.ContentValues
-import android.util.Log
-import androidx.fragment.app.FragmentActivity
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.EventListener
 import com.norbertzombori.produmax.data.AppRepository
 import com.norbertzombori.produmax.data.Event
-import java.time.LocalDateTime
 import java.util.*
 
-class CreateEventViewModel() : ViewModel() {
+class CreateEventViewModel : ViewModel() {
     val appRepository = AppRepository()
     val eventList = MutableLiveData<MutableList<Event>>()
     val selected = MutableLiveData<Event>()
@@ -22,7 +18,7 @@ class CreateEventViewModel() : ViewModel() {
         eventChangeListener()
     }
 
-    fun select(event: Event){
+    fun select(event: Event) {
         selected.value = event
     }
 
@@ -41,7 +37,8 @@ class CreateEventViewModel() : ViewModel() {
     }
 
     private fun eventChangeListener() {
-        appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!).collection("events").orderBy("eventDate", Query.Direction.ASCENDING)
+        appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
+            .collection("events").orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {
                     if (dc.type == DocumentChange.Type.ADDED && dc.document.toObject(Event::class.java).accepted) {

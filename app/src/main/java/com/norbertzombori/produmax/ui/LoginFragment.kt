@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseUser
@@ -12,7 +13,7 @@ import com.norbertzombori.produmax.viewmodels.LoginRegisterViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
-    private var viewModel: LoginRegisterViewModel = LoginRegisterViewModel()
+    private val viewModel: LoginRegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,11 +26,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
-        button_login_confirm.setOnClickListener {
-            if (edit_text_login_email.text.length > 6 && edit_text_login_password.text.length > 5) {
+        btn_login_confirm.setOnClickListener {
+            if (et_login_email.text.length > 6 && et_login_password.text.length > 5) {
                 viewModel.login(
-                    edit_text_login_email.text.toString(),
-                    edit_text_login_password.text.toString(),
+                    et_login_email.text.toString(),
+                    et_login_password.text.toString(),
                     requireActivity()
                 )
             } else {

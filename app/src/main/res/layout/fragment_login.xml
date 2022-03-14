@@ -5,27 +5,27 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.LoginFragment"
-    android:padding="22dp">
+    android:padding="22dp"
+    tools:context=".ui.LoginFragment">
 
     <EditText
-        android:id="@+id/edit_text_login_email"
-        android:inputType="textEmailAddress"
+        android:id="@+id/et_login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/edit_text_login_password"
-        android:inputType="textPassword"
+        android:id="@+id/et_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password" />
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/button_login_confirm"
+        android:id="@+id/btn_login_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"/>
+        android:text="Login" />
 
 </LinearLayout>

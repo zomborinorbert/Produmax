@@ -13,23 +13,16 @@
         android:text="Welcome to Produmax" />
 
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login" />
 
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register" />
-
-
-    <Button
-        android:id="@+id/button_testdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test DB" />
 
 
 </LinearLayout>
