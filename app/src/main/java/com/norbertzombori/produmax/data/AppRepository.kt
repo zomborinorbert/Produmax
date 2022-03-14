@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AppRepository {
@@ -84,6 +86,15 @@ class AppRepository {
         db.collection("users").document(userId).collection("events").add(newEvent)
     }
 
+    fun createHabitForUser(description: String) {
+        val newHabit = hashMapOf(
+            "habitDescription" to description,
+            "done" to false
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").add(newHabit)
+    }
+
     private fun createFriendForUser(userId: String, displayName: String, email: String, sent: Boolean = false, accepted: Boolean = false) {
         val newFriend = hashMapOf(
             "displayName" to displayName,
@@ -138,6 +149,102 @@ class AppRepository {
             }
     }
 
+    fun addHabitForToday(habitDescription: String) {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentHabit = document.toObject(Habit::class.java)
+                        Log.d(TAG, "ASDASDASDASDASD")
+                        if (currentHabit.habitDescription == habitDescription) {
+                            Log.d(TAG, "ASDASDASDASDASD")
+                            checkHabitForToday(document.id, habitDescription)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun checkHabitForToday(habitId: String, habitDescription: String) {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+
+        val newDate = hashMapOf(
+            "date" to formatted
+        )
+
+        val newHabitCheck = hashMapOf(
+            "done" to true,
+            "habitDescription" to habitDescription
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).set(newHabitCheck)
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).collection("datesDone").add(newDate)
+    }
+
+    fun deleteHabitForTodayHelper(habitDescription: String) {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentHabit = document.toObject(Habit::class.java)
+                        if (currentHabit.habitDescription == habitDescription) {
+                            deleteHabitForToday(document.id, habitDescription)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun deleteHabitForToday(habitId: String, habitDescription: String) {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).collection("datesDone")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentDate = document.toObject(DateString::class.java)
+                        if (currentDate.date == formatted) {
+                            unCheckHabitForToday(habitId, document.id, habitDescription)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun unCheckHabitForToday(habitId: String, dateId: String, habitDescription: String) {
+        val newHabitCheck = hashMapOf(
+            "done" to false,
+            "habitDescription" to habitDescription
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).set(newHabitCheck)
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).collection("datesDone").document(dateId).delete()
+    }
 
     fun acceptInviteForEvent(event: Event){
         val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events")

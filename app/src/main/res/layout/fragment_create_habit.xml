@@ -5,22 +5,19 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.TrackerFragment"
-    android:padding="22dp">
+    android:padding="22dp"
+    tools:context=".ui.CreateHabitFragment">
 
-    <TextView
+    <EditText
+        android:id="@+id/et_habit_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Track your habits!"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="455dp" />
+        android:hint="enter the habit" />
 
     <Button
+        android:id="@+id/btn_add_habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_edit_habits"
-        android:text="Create New habit"/>
+        android:text="Create Habit" />
+
 </LinearLayout>

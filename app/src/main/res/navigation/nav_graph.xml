@@ -120,7 +120,11 @@
         android:id="@+id/trackerFragment"
         android:name="com.norbertzombori.produmax.ui.TrackerFragment"
         android:label="fragment_tracker"
-        tools:layout="@layout/fragment_tracker" />
+        tools:layout="@layout/fragment_tracker" >
+        <action
+            android:id="@+id/action_trackerFragment_to_editHabitsFragment"
+            app:destination="@id/editHabitsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createEventFragment"
         android:name="com.norbertzombori.produmax.ui.CreateEventFragment"
@@ -151,4 +155,24 @@
         android:name="com.norbertzombori.produmax.ui.FriendsFragment"
         android:label="fragment_friends"
         tools:layout="@layout/fragment_friends" />
+    <fragment
+        android:id="@+id/editHabitsFragment"
+        android:name="com.norbertzombori.produmax.ui.EditHabitsFragment"
+        android:label="fragment_edit_habits"
+        tools:layout="@layout/fragment_edit_habits" >
+        <action
+            android:id="@+id/action_editHabitsFragment_to_createHabitFragment"
+            app:destination="@id/createHabitFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createHabitFragment"
+        android:name="com.norbertzombori.produmax.ui.CreateHabitFragment"
+        android:label="fragment_create_habit"
+        tools:layout="@layout/fragment_create_habit" >
+        <action
+            android:id="@+id/action_createHabitFragment_to_editHabitsFragment"
+            app:destination="@id/editHabitsFragment"
+            app:popUpTo="@id/editHabitsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
