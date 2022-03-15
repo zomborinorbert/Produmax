@@ -37,13 +37,14 @@ class HabitsAdapter(
 
 
     inner class HabitsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+        View.OnClickListener, View.OnLongClickListener {
 
         val checkBox: CheckBox = itemView.findViewById(R.id.checkbox_done)
         val habitDescription: TextView = itemView.findViewById(R.id.tv_habit_desc)
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -52,9 +53,19 @@ class HabitsAdapter(
                 listener.onItemClick(position)
             }
         }
+
+        override fun onLongClick(p0: View?): Boolean {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION){
+                listener.onItemLongClick(position)
+            }
+            return true
+        }
     }
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+
+        fun onItemLongClick(position: Int)
     }
 }

@@ -21,7 +21,7 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
                 viewModel.createNewHabit(et_habit_desc.text.toString())
             }
 
-            val action = CreateHabitFragmentDirections.actionCreateHabitFragmentToEditHabitsFragment()
+            val action = CreateHabitFragmentDirections.actionCreateHabitFragmentToTrackerFragment()
             findNavController().navigate(action)
         }
     }

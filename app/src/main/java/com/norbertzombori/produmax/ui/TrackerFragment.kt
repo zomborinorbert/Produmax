@@ -43,10 +43,14 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
         }
 
         btn_edit_habits.setOnClickListener {
-            val action = TrackerFragmentDirections.actionTrackerFragmentToEditHabitsFragment()
+            val action = TrackerFragmentDirections.actionTrackerFragmentToCreateHabitFragment()
             findNavController().navigate(action)
         }
 
+    }
+
+    override fun onItemLongClick(position: Int) {
+        Toast.makeText(requireContext(), "long click", Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClick(position: Int) {
