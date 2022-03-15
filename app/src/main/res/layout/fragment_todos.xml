@@ -5,13 +5,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.TrackerFragment"
-    android:padding="22dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Track your habits!"/>
+    android:padding="22dp"
+    tools:context=".ui.ToDoFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -19,8 +14,9 @@
         android:layout_height="455dp" />
 
     <Button
+        android:id="@+id/btn_create_todo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_edit_habits"
-        android:text="Create new habit"/>
+        android:text="Create new Todo"/>
+
 </LinearLayout>

@@ -1,11 +1,12 @@
 package com.norbertzombori.produmax.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,6 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.HabitsAdapter
 import com.norbertzombori.produmax.data.Habit
 import com.norbertzombori.produmax.viewmodels.HabitsViewModel
-import kotlinx.android.synthetic.main.fragment_landing.*
 import kotlinx.android.synthetic.main.fragment_tracker.*
 import kotlinx.android.synthetic.main.fragment_tracker.recycler_view
 
@@ -50,7 +50,14 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
     }
 
     override fun onItemLongClick(position: Int) {
-        Toast.makeText(requireContext(), "long click", Toast.LENGTH_SHORT).show()
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle("Habit")
+            .setPositiveButton("Delete Habit") { _, _ ->
+                viewModel.deleteHabit(position)
+                habitsAdapter.notifyDataSetChanged()
+            }.setNegativeButton("Edit Habit") { _, _ ->
+                showEdit(position)
+            }.show()
     }
 
     override fun onItemClick(position: Int) {
@@ -62,6 +69,26 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
         }
         viewModel.changeDone(position)
         habitsAdapter.notifyItemChanged(position)
+    }
+
+    private fun showEdit(position: Int){
+        val builder = AlertDialog.Builder(requireActivity())
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.edit_text_habit_layout, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.et_editText)
+
+        with(builder){
+            setTitle("Enter the new name!")
+            setPositiveButton("OK"){ _, _ ->
+                viewModel.editHabitName(position, editText.text.toString())
+                habitsAdapter.notifyItemChanged(position)
+            }
+            setNegativeButton("Discard"){ _,_ ->
+
+            }
+            setView(dialogLayout)
+            show()
+        }
     }
 
 

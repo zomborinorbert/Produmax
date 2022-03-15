@@ -22,7 +22,7 @@ class HabitsViewModel : ViewModel() {
         selected.value = user
     }
 
-    fun changeDone(position: Int){
+    fun changeDone(position: Int) {
         val currentHabit = habitList.value?.get(position)
         currentHabit?.let {
             it.done = !it.done
@@ -30,12 +30,28 @@ class HabitsViewModel : ViewModel() {
         }
     }
 
-    fun checkHabit(position: Int){
+    fun checkHabit(position: Int) {
         habitList.value?.get(position)?.let { appRepository.addHabitForToday(it.habitDescription) }
     }
 
-    fun unCheckHabit(position: Int){
-        habitList.value?.get(position)?.let { appRepository.deleteHabitForTodayHelper(it.habitDescription) }
+    fun unCheckHabit(position: Int) {
+        habitList.value?.get(position)
+            ?.let { appRepository.deleteHabitForTodayHelper(it.habitDescription) }
+    }
+
+    fun deleteHabit(position: Int) {
+        habitList.value?.get(position)?.let {
+            appRepository.deleteHabit(it.habitDescription)
+        }
+        habitList.value?.removeAt(position)
+    }
+
+    fun editHabitName(position: Int, newHabitDescription: String){
+        habitList.value?.get(position)?.let {
+            appRepository.editHabitName(it.habitDescription, newHabitDescription)
+            it.habitDescription = newHabitDescription
+            habitList.value?.set(position, it)
+        }
     }
 
     private fun eventChangeListener() {

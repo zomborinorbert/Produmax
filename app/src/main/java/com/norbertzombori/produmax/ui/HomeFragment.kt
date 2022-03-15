@@ -53,6 +53,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(action)
         }
 
+        btn_todos.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToToDoFragment()
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun showAlertDialog(){

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.data.Habit
+import com.norbertzombori.produmax.data.Todo
 
 class HabitsAdapter(
     private val habitList: MutableList<Habit>,
@@ -43,7 +44,7 @@ class HabitsAdapter(
         val habitDescription: TextView = itemView.findViewById(R.id.tv_habit_desc)
 
         init {
-            itemView.setOnClickListener(this)
+            checkBox.setOnClickListener(this)
             itemView.setOnLongClickListener(this)
         }
 

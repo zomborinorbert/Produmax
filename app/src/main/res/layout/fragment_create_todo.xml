@@ -5,22 +5,27 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.TrackerFragment"
-    android:padding="22dp">
+    android:padding="22dp"
+    tools:context=".ui.CreateTodoFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/et_todo_desc"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Track your habits!"/>
+        android:hint="Name of the event" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="455dp" />
+        android:layout_height="211dp" />
+
 
     <Button
+        android:id="@+id/btn_add_todo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_edit_habits"
-        android:text="Create new habit"/>
+        android:text="Create todo" />
+
+
 </LinearLayout>

@@ -359,6 +359,94 @@ class AppRepository {
             }
     }
 
+    fun deleteHabit(habitDescription: String) {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentHabit = document.toObject(Habit::class.java)
+                        if (currentHabit.habitDescription == habitDescription) {
+                            deleteHabitHelper(document.id)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun deleteHabitHelper(habitId: String) {
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).delete()
+    }
+
+    fun editHabitName(habitDescription: String, newHabitDescription: String) {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentHabit = document.toObject(Habit::class.java)
+                        if (currentHabit.habitDescription == habitDescription) {
+                            editHabitNameHelper(document.id, newHabitDescription, currentHabit.done)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun editHabitNameHelper(habitId: String, newHabitDescription: String, done: Boolean) {
+        val newHabit = hashMapOf(
+            "habitDescription" to newHabitDescription,
+            "done" to done
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).set(newHabit)
+    }
+
+    fun createTodoForUsers(description: String, members: List<String>) {
+        addTodoForUser(firebaseAuth.currentUser?.uid!!, description, members)
+        val docRef = db.collection("users")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentUser = document.toObject(User::class.java)
+                        if (members.contains(currentUser.displayName)) {
+                            addTodoForUser(document.id, description, members)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+
+
+    fun addTodoForUser(userId: String, description: String, members: List<String>){
+        val newTodo = hashMapOf(
+            "description" to description,
+            "done" to false,
+            "members" to members
+        )
+
+        db.collection("users").document(userId).collection("todos").add(newTodo)
+    }
 
 
 }
