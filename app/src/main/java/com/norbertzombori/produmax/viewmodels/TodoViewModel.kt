@@ -22,6 +22,33 @@ class TodoViewModel : ViewModel() {
         selected.value = todo
     }
 
+    fun changeDone(position: Int) {
+        val currentTodo = todoList.value?.get(position)
+        currentTodo?.let {
+            it.done = !it.done
+            todoList.value?.set(position, it)
+        }
+    }
+
+    fun checkTodo(position: Int) {
+        todoList.value?.get(position)?.let { appRepository.checkTodoForUser(it.description) }
+    }
+
+
+    fun deleteTodo(position: Int) {
+        todoList.value?.get(position)?.let {
+            appRepository.deleteTodoForUser(it.description)
+        }
+        todoList.value?.removeAt(position)
+    }
+
+    fun editTodoDesc(position: Int, newHabitDescription: String){
+        todoList.value?.get(position)?.let {
+            appRepository.editHabitName(it.description, newHabitDescription)
+            it.description = newHabitDescription
+            todoList.value?.set(position, it)
+        }
+    }
 
     private fun eventChangeListener() {
         appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
@@ -35,5 +62,6 @@ class TodoViewModel : ViewModel() {
                 }
             }
     }
+
 
 }

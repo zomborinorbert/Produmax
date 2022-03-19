@@ -1,15 +1,18 @@
 package com.norbertzombori.produmax.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.TodoAdapter
 import com.norbertzombori.produmax.data.Todo
@@ -47,8 +50,43 @@ class ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickL
 
     }
 
+
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        todoList = viewModel.todoList.value!!
+        viewModel.checkTodo(position)
+        viewModel.changeDone(position)
+        todoAdapter.notifyItemChanged(position)
+    }
+
+    override fun onItemLongClick(position: Int) {
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle("Todo")
+            .setPositiveButton("Delete Todo") { _, _ ->
+                viewModel.deleteTodo(position)
+                todoAdapter.notifyDataSetChanged()
+            }.setNegativeButton("Edit Habit") { _, _ ->
+                showEdit(position)
+            }.show()
+    }
+
+    private fun showEdit(position: Int){
+        val builder = AlertDialog.Builder(requireActivity())
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.edit_text_habit_layout, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.et_editText)
+
+        with(builder){
+            setTitle("Enter the new name!")
+            setPositiveButton("OK"){ _, _ ->
+                viewModel.editTodoDesc(position, editText.text.toString())
+                todoAdapter.notifyItemChanged(position)
+            }
+            setNegativeButton("Discard"){ _,_ ->
+
+            }
+            setView(dialogLayout)
+            show()
+        }
     }
 }
 
