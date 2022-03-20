@@ -166,7 +166,11 @@
         android:id="@+id/friendsFragment"
         android:name="com.norbertzombori.produmax.ui.FriendsFragment"
         android:label="fragment_friends"
-        tools:layout="@layout/fragment_friends" />
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_friendsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createHabitFragment"
         android:name="com.norbertzombori.produmax.ui.CreateHabitFragment"
@@ -192,4 +196,9 @@
         android:name="com.norbertzombori.produmax.ui.CreateTodoFragment"
         android:label="fragment_create_todo"
         tools:layout="@layout/fragment_create_todo" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.norbertzombori.produmax.ui.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

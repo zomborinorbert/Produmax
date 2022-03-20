@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -59,7 +60,9 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
                 }.show()
             Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
         }else if(userList[position].accepted){
-
+            viewModel.select(viewModel.userList.value!![position])
+            val action = FriendsFragmentDirections.actionFriendsFragmentToProfileFragment()
+            findNavController().navigate(action)
         }
 
 
