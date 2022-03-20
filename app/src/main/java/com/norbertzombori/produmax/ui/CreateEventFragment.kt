@@ -1,9 +1,10 @@
 package com.norbertzombori.produmax.ui
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.app.*
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.FriendsAdapter
 import com.norbertzombori.produmax.data.Friend
+import com.norbertzombori.produmax.databinding.ActivityMainBinding
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import com.norbertzombori.produmax.viewmodels.FriendsViewModel
 import kotlinx.android.synthetic.main.fragment_create_event.*
@@ -85,7 +87,11 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
                     newDate
                 )
             }
+
+            scheduleNotification()
         }
+
+        createLocalNotifications()
     }
 
     private fun getDateTimeCalender() {
@@ -95,7 +101,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         year = cal.get(Calendar.YEAR)
         hour = cal.get(Calendar.HOUR)
         minute = cal.get(Calendar.MINUTE)
-
     }
 
     private fun pickDate() {
@@ -125,7 +130,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
     override fun onItemClick(position: Int) {
         userList = friendsViewModel.userList.value!!
-
         if (invitationList.contains(userList[position])) {
             invitationList.remove(userList[position])
             Toast.makeText(
@@ -142,5 +146,44 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
             invitationList.add(userList[position])
         }
     }
+
+    private fun scheduleNotification() {
+        val intent = Intent(activity?.applicationContext, NotificationCreate::class.java)
+        intent.putExtra(messageExtra, et_event_name.text.toString())
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            activity?.applicationContext,
+            notificationID,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val time = getTime()
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time,
+            pendingIntent
+        )
+    }
+
+    private fun getTime(): Long {
+        val calendar = Calendar.getInstance()
+        calendar.set(savedYear, savedMonth, savedDay, savedHour, savedMinute)
+        return calendar.timeInMillis
+    }
+
+    private fun createLocalNotifications() {
+        val name = "This is the name of is"
+        val desc = "This is the description"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelID, name, importance)
+        channel.description = desc
+        val notificationManager =
+            activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
 
 }

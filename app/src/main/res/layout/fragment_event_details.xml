@@ -22,9 +22,10 @@
 
 
     <Button
-        android:id="@+id/btn_check_works"
+        android:id="@+id/btn_delete_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Press" />
+        android:text="Delete event"/>
+
 
 </LinearLayout>

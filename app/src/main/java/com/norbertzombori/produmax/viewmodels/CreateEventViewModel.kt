@@ -49,4 +49,9 @@ class CreateEventViewModel : ViewModel() {
             }
     }
 
+    fun deleteEvent() {
+        appRepository.deleteEvent(selected.value!!.eventName)
+        eventList.value?.remove(selected.value)
+    }
+
 }

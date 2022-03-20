@@ -58,6 +58,8 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
                     friendsAdapter.notifyDataSetChanged()
                 }.show()
             Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
+        }else if(userList[position].accepted){
+
         }
 
 

@@ -44,7 +44,7 @@ class TodoViewModel : ViewModel() {
 
     fun editTodoDesc(position: Int, newHabitDescription: String){
         todoList.value?.get(position)?.let {
-            appRepository.editHabitName(it.description, newHabitDescription)
+            appRepository.editTodoDesc(it.description, newHabitDescription)
             it.description = newHabitDescription
             todoList.value?.set(position, it)
         }

@@ -156,9 +156,7 @@ class AppRepository {
                 if (documents != null) {
                     for (document in documents) {
                         val currentHabit = document.toObject(Habit::class.java)
-                        Log.d(TAG, "ASDASDASDASDASD")
                         if (currentHabit.habitDescription == habitDescription) {
-                            Log.d(TAG, "ASDASDASDASDASD")
                             checkHabitForToday(document.id, habitDescription)
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
@@ -456,7 +454,7 @@ class AppRepository {
                     for (document in documents) {
                         val currentTodo = document.toObject(Todo::class.java)
                         if (currentTodo.description == description) {
-                            checkTodoForUserQuery(document.id, currentTodo.description, currentTodo.members, currentTodo.done)
+                            checkTodoForUserQuery(document.id, currentTodo)
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }
@@ -469,11 +467,11 @@ class AppRepository {
             }
     }
 
-    private fun checkTodoForUserQuery(todoId: String, description: String, members: List<String>, done: Boolean) {
+    private fun checkTodoForUserQuery(todoId: String, currentTodo: Todo) {
         val doneTodo = hashMapOf(
-            "description" to description,
-            "done" to !done,
-            "members" to members
+            "description" to currentTodo.description,
+            "done" to !currentTodo.done,
+            "members" to currentTodo.members
         )
 
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("todos").document(todoId).set(doneTodo)
@@ -502,6 +500,62 @@ class AppRepository {
 
     private fun deleteTodoForUserQuery(todoId: String) {
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("todos").document(todoId).delete()
+    }
+
+    fun editTodoDesc(description: String, newTodoDescription: String) {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("todos")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentTodo = document.toObject(Todo::class.java)
+                        if (currentTodo.description == description) {
+                            editTodoForUserQuery(document.id, newTodoDescription, currentTodo)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun editTodoForUserQuery(todoId: String, newTodoDescription: String, currentTodo: Todo) {
+        val editedTodo = hashMapOf(
+            "description" to newTodoDescription,
+            "done" to currentTodo.done,
+            "members" to currentTodo.members
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("todos").document(todoId).set(editedTodo)
+    }
+
+    fun deleteEvent(eventName: String) {
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentEvent = document.toObject(Event::class.java)
+                        if (currentEvent.eventName == eventName) {
+                            deleteEventQuery(document.id)
+                        }
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun deleteEventQuery(eventId: String) {
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).delete()
     }
 
 

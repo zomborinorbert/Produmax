@@ -1,5 +1,11 @@
 package com.norbertzombori.produmax.ui
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,7 +19,12 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
+import kotlinx.android.synthetic.main.fragment_create_event.*
 import kotlinx.android.synthetic.main.fragment_planner.*
+import kotlinx.android.synthetic.main.fragment_planner.recycler_view
+import com.google.firebase.Timestamp
+import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItemClickListener {
     private lateinit var viewModel: CreateEventViewModel
@@ -35,6 +46,7 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
         recyclerView.adapter = eventAdapter
 
         eventChangeListener(user?.uid!!)
+        createLocalNotifications()
     }
 
     override fun onItemClick(position: Int) {
@@ -60,11 +72,45 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
         MaterialAlertDialogBuilder(requireActivity())
             .setTitle("Do you want to accept this invitation?")
             .setPositiveButton("Yes") { _, _ ->
+                scheduleNotification(eventList[position].eventDate)
                 viewModel.acceptInviteForEvent(eventList[position])
                 eventList.removeAt(position)
                 eventAdapter.notifyDataSetChanged()
             }.setNegativeButton("No") { _, _ ->
 
             }.show()
+    }
+
+    private fun scheduleNotification(time: Timestamp) {
+        val intent = Intent(activity?.applicationContext, NotificationCreate::class.java)
+        intent.putExtra(messageExtra, "ACCEPTED INVITATION")
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            activity?.applicationContext,
+            notificationID,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time.seconds * 1000,
+            pendingIntent
+        )
+    }
+
+
+    private fun createLocalNotifications() {
+        val name = "This is the name of is"
+        val desc = "This is the description"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelID, name, importance)
+        channel.description = desc
+        val notificationManager =
+            activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 }
