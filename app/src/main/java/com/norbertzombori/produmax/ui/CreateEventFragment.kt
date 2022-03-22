@@ -70,25 +70,37 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         invitationList = ArrayList()
 
         btn_create_event.setOnClickListener {
-            val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
-            viewModel.createEvent(
-                viewModel.getUserId(),
-                et_event_name.text.toString(),
-                newDate
-            )
-
-            val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
-            findNavController().navigate(action)
+            val membersList = ArrayList<String>()
+            membersList.add(viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!)
 
             for (friend in invitationList) {
-                viewModel.createEventForOtherUser(
-                    friend.displayName,
+                membersList.add(friend.displayName)
+            }
+
+            val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
+
+            viewModel.createEventForUser(
+                viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!,
+                et_event_name.text.toString(),
+                newDate,
+                membersList,
+                true
+            )
+
+            for (member in membersList.drop(1)) {
+                viewModel.createEventForUser(
+                    member,
                     et_event_name.text.toString(),
-                    newDate
+                    newDate,
+                    membersList,
+                    false
                 )
             }
 
             scheduleNotification()
+
+            val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
+            findNavController().navigate(action)
         }
 
         createLocalNotifications()

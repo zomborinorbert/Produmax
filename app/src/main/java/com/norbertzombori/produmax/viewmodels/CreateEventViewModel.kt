@@ -22,14 +22,10 @@ class CreateEventViewModel : ViewModel() {
         selected.value = event
     }
 
-    fun createEvent(userId: String, eventName: String, eventDate: Date) {
-        appRepository.createEventForUser(userId, eventName, eventDate)
-    }
-
     fun getUserId() = appRepository.firebaseAuth.currentUser?.uid!!
 
-    fun createEventForOtherUser(name: String, eventName: String, eventDate: Date) {
-        appRepository.createEventForUserWithName(name, eventName, eventDate)
+    fun createEventForUser(name: String, eventName: String, eventDate: Date, members: List<String>, accepted: Boolean) {
+        appRepository.createEventForUserWithName(name, eventName, eventDate, members, accepted)
     }
 
     fun acceptInviteForEvent(event: Event) {
