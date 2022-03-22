@@ -19,6 +19,7 @@ class AppRepository {
     val newEventLiveData = MutableLiveData(false)
     val firebaseAuth = FirebaseAuth.getInstance()
     val db = Firebase.firestore
+    val eventList = MutableLiveData<MutableList<HabitStatistics>>()
 
     fun login(email: String, password: String, mainActivity: FragmentActivity) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -556,6 +557,53 @@ class AppRepository {
 
     private fun deleteEventQuery(eventId: String) {
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).delete()
+    }
+
+    fun getStatistics(){
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentHabit = document.toObject(Habit::class.java)
+                        getStatisticsDates(document.id, currentHabit.habitDescription)
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun getStatisticsDates(habitId: String, habitName: String){
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").document(habitId).collection("datesDone")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    var dateList : ArrayList<String> = ArrayList()
+                    for (document in documents) {
+                        val currentDate = document.toObject(DateString::class.java)
+                        dateList.add(currentDate.date)
+                    }
+                    val newHabitStatistics = HabitStatistics(habitName, dateList)
+                    val duplicateList: MutableList<HabitStatistics> = mutableListOf()
+
+                    duplicateList.add(newHabitStatistics)
+
+                    eventList.value?.forEach {duplicateList.add(it.copy())}
+                    eventList.value = duplicateList
+                    eventList.value?.forEach {
+                        Log.d(TAG, "DJKLASJ DKLASLKDJS KLAJDKLAS JKLDJASKLJDASKL JDKLASJ KLDASJKLDJSA KJDASKL JSDKLAJkl${it.habitName} habitName")
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
     }
 
 

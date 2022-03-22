@@ -18,6 +18,7 @@
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_planner.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_profile.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_register.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_statistics.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_test.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_todos.xml" value="0.5389492753623188" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_tracker.xml" value="0.2140625" />
@@ -26,6 +27,7 @@
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/list_item_friends.xml" value="0.317481884057971" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/list_item_habit.xml" value="0.24113475177304963" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/list_item_todo.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/listview_item.xml" value="0.4691358024691358" />
       </map>
     </option>
   </component>

@@ -47,6 +47,10 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
             findNavController().navigate(action)
         }
 
+        btn_navigate_to_statistics.setOnClickListener {
+            val action = TrackerFragmentDirections.actionTrackerFragmentToStatisticsFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onItemLongClick(position: Int) {

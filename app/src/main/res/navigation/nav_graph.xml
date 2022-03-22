@@ -130,6 +130,9 @@
         <action
             android:id="@+id/action_trackerFragment_to_createHabitFragment"
             app:destination="@id/createHabitFragment" />
+        <action
+            android:id="@+id/action_trackerFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
@@ -201,4 +204,9 @@
         android:name="com.norbertzombori.produmax.ui.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.norbertzombori.produmax.ui.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
 </navigation>
