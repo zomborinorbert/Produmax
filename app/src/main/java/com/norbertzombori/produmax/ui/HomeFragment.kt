@@ -1,17 +1,23 @@
 package com.norbertzombori.produmax.ui
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var viewModel: HomeViewModel = HomeViewModel()
@@ -56,6 +62,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         btn_todos.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToToDoFragment()
             findNavController().navigate(action)
+        }
+
+        btn_test_query.setOnClickListener {
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+            val date = "24-03-2022"
+            val datee = "25-03-2022"
+            val date1 = dateFormat.parse(date)
+            val date2 = dateFormat.parse(datee)
+            val startDate = Timestamp(date1)
+            val endDate = Timestamp(date2)
+
+            viewModel.appRepository.db.collection("users").document(viewModel.appRepository.firebaseAuth.currentUser?.uid!!)
+                .collection("events")
+                .whereGreaterThan("eventDate", startDate)
+                .whereLessThan("eventDate", endDate)
+                .get()
+                .addOnSuccessListener { documents ->
+                    Log.d(TAG, "THIS IS THE DATA WENT INT")
+                    for (document in documents) {
+                        Log.d(TAG, "THIS IS THE DATA ${document.id} => ${document.data}")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting documents: ", exception)
+                }
         }
 
     }

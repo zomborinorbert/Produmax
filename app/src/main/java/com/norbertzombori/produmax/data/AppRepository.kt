@@ -77,10 +77,12 @@ class AppRepository {
         db.collection("users").document(userId).set(user)
     }
 
-    fun createEventForUser(userId: String, eventName: String, eventDate: Date, accepted: Boolean = true, members: List<String>) {
+    fun createEventForUser(userId: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, accepted: Boolean = true, members: List<String>) {
         val newEvent = hashMapOf(
             "eventName" to eventName,
             "eventDate" to eventDate,
+            "eventDateEnd" to newDateEnd,
+            "eventLength" to eventLength,
             "accepted" to accepted,
             "members" to members
         )
@@ -130,7 +132,7 @@ class AppRepository {
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).set(changedEvent)
     }
 
-    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date, members: List<String>, accepted: Boolean) {
+    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, members: List<String>, accepted: Boolean) {
         val docRef = db.collection("users")
         docRef.get()
             .addOnSuccessListener { documents ->
@@ -138,7 +140,7 @@ class AppRepository {
                     for (document in documents) {
                         val currentUser = document.toObject(User::class.java)
                         if (currentUser.displayName == name) {
-                            createEventForUser(document.id, eventName, eventDate, accepted, members)
+                            createEventForUser(document.id, eventName, eventDate, newDateEnd, eventLength, accepted, members)
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }
