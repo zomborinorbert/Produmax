@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3345" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/activity_main.xml" value="0.317481884057971" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/edit_text_habit_layout.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_create_event.xml" value="0.33" />
@@ -15,10 +16,10 @@
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_invites.xml" value="0.40260416666666665" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_landing.xml" value="0.317481884057971" />
-        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_login.xml" value="0.14088541666666668" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_planner.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_profile.xml" value="0.5541666666666667" />
-        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_register.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_register.xml" value="0.33" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_settings.xml" value="0.4773550724637681" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_statistics.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_test.xml" value="0.25" />
