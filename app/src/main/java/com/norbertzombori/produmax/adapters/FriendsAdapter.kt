@@ -29,7 +29,6 @@ class FriendsAdapter(
         val user: Friend = userList[position]
 
         holder.userName.text = user.displayName
-        holder.email.text = user.email
     }
 
     override fun getItemCount() = userList.size
@@ -38,8 +37,7 @@ class FriendsAdapter(
     inner class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        val email: TextView = itemView.findViewById(R.id.tv_friends_username)
-        val userName: TextView = itemView.findViewById(R.id.tv_friends_email)
+        val userName: TextView = itemView.findViewById(R.id.tv_friends_username)
 
         init {
             itemView.setOnClickListener(this)
