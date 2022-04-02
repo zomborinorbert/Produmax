@@ -204,7 +204,13 @@
         android:id="@+id/createTodoFragment2"
         android:name="com.norbertzombori.produmax.ui.CreateTodoFragment"
         android:label="fragment_create_todo"
-        tools:layout="@layout/fragment_create_todo" />
+        tools:layout="@layout/fragment_create_todo" >
+        <action
+            android:id="@+id/action_createTodoFragment2_to_toDoFragment"
+            app:destination="@id/toDoFragment"
+            app:popUpTo="@id/toDoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.norbertzombori.produmax.ui.ProfileFragment"
