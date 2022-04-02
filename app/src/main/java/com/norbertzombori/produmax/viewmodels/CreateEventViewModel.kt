@@ -7,8 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
-import com.norbertzombori.produmax.data.AppRepository
-import com.norbertzombori.produmax.data.Event
+import com.norbertzombori.produmax.data.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,10 +15,32 @@ class CreateEventViewModel : ViewModel() {
     val appRepository = AppRepository()
     val eventList = MutableLiveData<MutableList<Event>>()
     val selected = MutableLiveData<Event>()
+    val flagList = MutableLiveData<MutableList<EventFlag>>()
 
     init {
         eventList.value = ArrayList()
+        flagList.value = ArrayList()
         eventChangeListener()
+    }
+
+    fun getFlagList() {
+        val docRef = appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!).collection("flags")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        flagList.value?.add(document.toObject(EventFlag::class.java))
+                        flagList.value = flagList.value
+                        Log.d(ContentValues.TAG, "DASJLKDJSADAS $document")
+                    }
+                    Log.d(ContentValues.TAG, "DASJLKDJSADAS ${flagList.value}")
+                } else {
+                    Log.d(ContentValues.TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "get failed with ", exception)
+            }
     }
 
     fun select(event: Event) {
@@ -28,8 +49,28 @@ class CreateEventViewModel : ViewModel() {
 
     fun getUserId() = appRepository.firebaseAuth.currentUser?.uid!!
 
-    fun createEventForUser(name: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, members: List<String>, accepted: Boolean) {
-        appRepository.createEventForUserWithName(name, eventName, eventDate, newDateEnd, eventLength, members, accepted)
+    fun createEventForUser(
+        name: String,
+        eventName: String,
+        eventDate: Date,
+        newDateEnd: Date,
+        eventLength: Int,
+        eventImportance: String,
+        eventColor: String,
+        members: List<String>,
+        accepted: Boolean
+    ) {
+        appRepository.createEventForUserWithName(
+            name,
+            eventName,
+            eventDate,
+            newDateEnd,
+            eventLength,
+            eventImportance,
+            eventColor,
+            members,
+            accepted
+        )
     }
 
     fun acceptInviteForEvent(event: Event) {
@@ -45,13 +86,17 @@ class CreateEventViewModel : ViewModel() {
         val startDate = Timestamp(date1)
         val endDate = Timestamp(date2)
 
-        Log.d(ContentValues.TAG, "THIS IS THE FUCKING DATE TIMESTAMP IN THE VIEWMODEL ${Timestamp(date1)}")
-        Log.d(ContentValues.TAG, "THIS IS THE FUCKING DATE TIMESTAMP IN THE VIEWMODEL ${Timestamp(date2)}")
+        Log.d(
+            ContentValues.TAG,
+            "THIS IS THE FUCKING DATE TIMESTAMP IN THE VIEWMODEL ${Timestamp(date1)}"
+        )
+        Log.d(
+            ContentValues.TAG,
+            "THIS IS THE FUCKING DATE TIMESTAMP IN THE VIEWMODEL ${Timestamp(date2)}"
+        )
 
         appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")
-            .whereGreaterThan("eventDate", startDate)
-            .whereLessThan("eventDate", endDate)
             .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

@@ -50,6 +50,11 @@ class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItem
             val action = PlannerFragmentDirections.actionPlannerFragmentToInvitesFragment()
             findNavController().navigate(action)
         }
+
+        btn_navigate_to_create_flag.setOnClickListener {
+            val action = PlannerFragmentDirections.actionPlannerFragmentToCreateEventFlagFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onItemClick(position: Int) {

@@ -64,6 +64,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(action)
         }
 
+        btn_settings.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
+            findNavController().navigate(action)
+        }
+
+        /*
         btn_test_query.setOnClickListener {
             val dateFormat = SimpleDateFormat("dd-MM-yyyy")
             val date = "24-03-2022"
@@ -87,7 +93,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 .addOnFailureListener { exception ->
                     Log.w(TAG, "Error getting documents: ", exception)
                 }
-        }
+        }*/
+
 
     }
 

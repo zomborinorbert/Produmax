@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.FriendsAdapter
-import com.norbertzombori.produmax.data.Event
+import com.norbertzombori.produmax.data.EventFlag
 import com.norbertzombori.produmax.data.Friend
 import com.norbertzombori.produmax.data.User
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
@@ -38,6 +38,9 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     private lateinit var userList: MutableList<Friend>
     private lateinit var friendsAdapter: FriendsAdapter
     private lateinit var invitationList: MutableList<Friend>
+    private lateinit var eventFlagList: MutableList<EventFlag>
+    private lateinit var importanceAdapter: ArrayAdapter<String>
+    private lateinit var colorAdapter: ArrayAdapter<String>
 
     private var day = 0
     private var month = 0
@@ -52,6 +55,8 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     private var savedMinute = 0
 
     private var eventLength = 1
+    private var eventImportance = "LOW"
+    private var eventColor = "BLACK"
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +74,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
             friendsAdapter.notifyDataSetChanged()
             Log.d(ContentValues.TAG, "New document added")
         }
+
 
         pickDate()
 
@@ -92,6 +98,8 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
                 newDate,
                 newDateEnd,
                 eventLength,
+                eventImportance,
+                eventColor,
                 membersList,
                 true
             )
@@ -103,6 +111,8 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
                     newDate,
                     newDateEnd,
                     eventLength,
+                    eventImportance,
+                    eventColor,
                     membersList,
                     false
                 )
@@ -116,12 +126,46 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
         createLocalNotifications()
 
+        eventFlagList = ArrayList()
+        var flagList : MutableList<String>
+        flagList = ArrayList()
+        val flagAdapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, flagList)
+        flags_spinner.adapter = flagAdapter
+        flags_spinner.onItemSelectedListener = this
 
-        val items = arrayOf(1, 2, 3, 4, 5, 6, 8, 9, 10 , 11, 12)
-        val adapter: ArrayAdapter<Int> =
-            ArrayAdapter<Int>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, items)
-        planets_spinner.adapter = adapter
-        planets_spinner.onItemSelectedListener = this;
+        val eventLengthItems = arrayOf(1, 2, 3, 4, 5, 6, 8, 9, 10 , 11, 12)
+        val eventLengthAdapter: ArrayAdapter<Int> =
+            ArrayAdapter<Int>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, eventLengthItems)
+        planets_spinner.adapter = eventLengthAdapter
+        planets_spinner.onItemSelectedListener = this
+
+        val importanceItems = arrayOf("LOW", "MEDIUM", "HIGH")
+        importanceAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, importanceItems)
+        importance_spinner.adapter = importanceAdapter
+        importance_spinner.onItemSelectedListener = this
+
+        val colorItems = arrayOf("BLACK", "RED", "PURPLE")
+        colorAdapter =
+            ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, colorItems)
+        colors_spinner.adapter = colorAdapter
+        colors_spinner.onItemSelectedListener = this
+
+        viewModel.getFlagList()
+
+        viewModel.flagList.observe(viewLifecycleOwner){
+            Log.d(ContentValues.TAG, "DASJLKDJSADAS TALALTAM asdas ds $it")
+            it?.forEach{
+                if(!flagList.contains(it.flagName)){
+                    Log.d(ContentValues.TAG, "DASJLKDJSADAS TALALTAM")
+                    flagList.add(it.flagName)
+                    eventFlagList.add(it)
+                    flagAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+
     }
 
     private fun getDateTimeCalender() {
@@ -160,7 +204,35 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        eventLength = p0?.getItemAtPosition(p2) as Int
+        when(p0!!.id){
+            R.id.planets_spinner -> eventLength = p0?.getItemAtPosition(p2) as Int
+            R.id.importance_spinner -> eventImportance = p0?.getItemAtPosition(p2) as String
+            R.id.colors_spinner -> eventColor = p0?.getItemAtPosition(p2) as String
+            R.id.flags_spinner -> {
+                Log.d("form","DSADdsadasSADSADAS $eventLength")
+                val currentFlag = getEventFlagByFlagName(p0?.getItemAtPosition(p2) as String)
+
+                eventColor = currentFlag!!.flagColor
+                val colorSpinnerPosition: Int = colorAdapter.getPosition(eventColor)
+                colors_spinner.setSelection(colorSpinnerPosition)
+
+                eventImportance = currentFlag!!.flagImportance
+                val importanceSpinnerPosition: Int = importanceAdapter.getPosition(eventImportance)
+                importance_spinner.setSelection(importanceSpinnerPosition)
+            }
+        }
+        Log.d("form","onitemselected $eventLength")
+        Log.d("form","onitemselected $eventImportance")
+        Log.d("form","onitemselected $eventColor")
+    }
+
+    fun getEventFlagByFlagName(flagName: String) : EventFlag? {
+        eventFlagList.forEach {
+            if(it.flagName == flagName){
+                return it
+            }
+        }
+        return null
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -179,6 +251,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         )
 
         val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
         val time = getTime()
 
         alarmManager.setExactAndAllowWhileIdle(

@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.data.Event
+import com.norbertzombori.produmax.ui.PlannerFragment
+import com.norbertzombori.produmax.ui.ProfileFragment
 import java.util.*
 
 class EventAdapter(

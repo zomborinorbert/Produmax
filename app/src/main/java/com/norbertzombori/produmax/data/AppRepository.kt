@@ -17,6 +17,7 @@ import java.util.*
 class AppRepository {
     val userMutableLiveData = MutableLiveData<FirebaseUser>()
     val newEventLiveData = MutableLiveData(false)
+    val visibilityLiveData = MutableLiveData(false)
     val firebaseAuth = FirebaseAuth.getInstance()
     val db = Firebase.firestore
     val eventList = MutableLiveData<MutableList<HabitStatistics>>()
@@ -77,12 +78,17 @@ class AppRepository {
         db.collection("users").document(userId).set(user)
     }
 
-    fun createEventForUser(userId: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, accepted: Boolean = true, members: List<String>) {
+
+
+
+    fun createEventForUser(userId: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, eventImportance: String, eventColor: String, accepted: Boolean = true, members: List<String>) {
         val newEvent = hashMapOf(
             "eventName" to eventName,
             "eventDate" to eventDate,
             "eventDateEnd" to newDateEnd,
             "eventLength" to eventLength,
+            "eventImportance" to eventImportance,
+            "eventColor" to eventColor,
             "accepted" to accepted,
             "members" to members
         )
@@ -98,6 +104,33 @@ class AppRepository {
 
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("habits").add(newHabit)
     }
+
+    fun editProfileVisibility(setting: Boolean){
+        val newSetting = hashMapOf(
+            "email" to firebaseAuth.currentUser?.email!!,
+            "displayName" to firebaseAuth.currentUser?.displayName!!,
+            "profileVisibility" to setting
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).set(newSetting)
+    }
+
+    fun getProfileVisibility(){
+        val docRef = db.collection("users").document(firebaseAuth.currentUser?.uid!!)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val currentUser = document.toObject(User::class.java)
+                    visibilityLiveData.postValue(currentUser!!.profileVisibility)
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
 
     private fun createFriendForUser(userId: String, displayName: String, email: String, sent: Boolean = false, accepted: Boolean = false) {
         val newFriend = hashMapOf(
@@ -122,6 +155,16 @@ class AppRepository {
         db.collection("users").document(userId).collection("friends").document(eventId).set(changedFriendStatus)
     }
 
+    fun createEventFlagForUser(flagImportance: String, flagColor: String, flagName: String){
+        val newFlag = hashMapOf(
+            "flagImportance" to flagImportance,
+            "flagColor" to flagColor,
+            "flagName" to flagName
+        )
+
+        db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("flags").add(newFlag)
+    }
+
     private fun changeInviteStatusForEvent(event: Event, eventId: String){
         val changedEvent = hashMapOf(
             "eventName" to event.eventName,
@@ -132,7 +175,7 @@ class AppRepository {
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events").document(eventId).set(changedEvent)
     }
 
-    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, members: List<String>, accepted: Boolean) {
+    fun createEventForUserWithName(name: String, eventName: String, eventDate: Date, newDateEnd: Date, eventLength: Int, eventImportance: String, eventColor: String, members: List<String>, accepted: Boolean) {
         val docRef = db.collection("users")
         docRef.get()
             .addOnSuccessListener { documents ->
@@ -140,7 +183,7 @@ class AppRepository {
                     for (document in documents) {
                         val currentUser = document.toObject(User::class.java)
                         if (currentUser.displayName == name) {
-                            createEventForUser(document.id, eventName, eventDate, newDateEnd, eventLength, accepted, members)
+                            createEventForUser(document.id, eventName, eventDate, newDateEnd, eventLength, eventImportance, eventColor, accepted, members)
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }
