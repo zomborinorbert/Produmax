@@ -1,62 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout13"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="22dp"
     tools:context=".ui.CreateEventFragment">
+
 
     <EditText
         android:id="@+id/et_event_name"
-        android:layout_width="match_parent"
+        android:layout_width="348dp"
         android:layout_height="wrap_content"
-        android:hint="Name of the event" />
+        android:hint="Name of the event"
+        app:layout_constraintBottom_toTopOf="@+id/flags_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.384" />
 
     <Button
         android:id="@+id/btn_date_time_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date" />
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/silver_pink"
+        android:text="Date"
+        app:layout_constraintBottom_toTopOf="@+id/flags_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_event_name"
+        app:layout_constraintVertical_bias="0.343" />
 
     <TextView
+        android:id="@+id/textView_selected_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@tools:sample/date/ddmmyy"
-        android:id="@+id/textView_selected_date"/>
+        app:layout_constraintBottom_toTopOf="@+id/flags_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.445"
+        app:layout_constraintStart_toEndOf="@+id/btn_date_time_picker"
+        app:layout_constraintTop_toBottomOf="@+id/et_event_name"
+        app:layout_constraintVertical_bias="0.369"
+        tools:text="@tools:sample/date/ddmmyy" />
 
     <Spinner
         android:id="@+id/flags_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="348dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/planets_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.864" />
 
     <Spinner
         android:id="@+id/planets_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintEnd_toStartOf="@+id/colors_spinner"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/importance_spinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863" />
 
     <Spinner
         android:id="@+id/colors_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/planets_spinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863" />
 
     <Spinner
         android:id="@+id/importance_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintEnd_toStartOf="@+id/planets_spinner"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="211dp" />
-
+        android:layout_width="348dp"
+        android:layout_height="210dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.829" />
 
     <Button
         android:id="@+id/btn_create_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create event" />
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/silver_pink"
+        android:text="Create event"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.931"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
