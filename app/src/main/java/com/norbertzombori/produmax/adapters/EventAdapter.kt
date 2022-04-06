@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.data.Event
-import com.norbertzombori.produmax.ui.PlannerFragment
-import com.norbertzombori.produmax.ui.ProfileFragment
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EventAdapter(
@@ -32,7 +31,11 @@ class EventAdapter(
     override fun onBindViewHolder(holder: EventAdapter.EventViewHolder, position: Int) {
         val event: Event = eventList[position]
 
-        holder.textViewDate.text = Date(event.eventDate.seconds * 1000).toString()
+
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy MMMM dd hh:mm")
+        val strDateStart: String = dateFormat.format(Date(event.eventDate.seconds * 1000))
+        val strDateEnd: String = dateFormat.format(Date(event.eventDateEnd.seconds * 1000))
+        holder.textViewDate.text = "$strDateStart-${strDateEnd.split(' ')[3]}"
         holder.textViewName.text = event.eventName
     }
 
