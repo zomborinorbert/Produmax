@@ -14,4 +14,6 @@
     <color name="blue_green">#FF4EC2CC</color>
     <color name="blue_crayola">#FF54CAE5</color>
     <color name="vivid_blue">#FF59D2FE</color>
+    <color name="han_blue">#FF3F6CCB</color>
+    <color name="bg_blue">#FF4A8FE7</color>
 </resources>

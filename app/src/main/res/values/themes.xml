@@ -10,8 +10,8 @@
         <item name="actionBarStyle">@style/ThemeActionBar</item>
 
         <item name="windowActionBarOverlay">true</item>
-        <item name="colorControlActivated">@color/champagne_pink</item>
-        <item name="colorControlHighlight">@color/champagne_pink</item>
+        <item name="colorControlActivated">@color/han_blue</item>
+        <item name="colorControlHighlight">@color/han_blue</item>
     </style>
 
     <style name="ThemeActionBar"
