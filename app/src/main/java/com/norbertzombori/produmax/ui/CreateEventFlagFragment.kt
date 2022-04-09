@@ -21,6 +21,7 @@ class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag), A
     private var flagColor = "BLACK"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().setTitle("Flag creation")
         super.onViewCreated(view, savedInstanceState)
 
         val importanceItems = arrayOf("LOW", "MEDIUM", "HIGH")

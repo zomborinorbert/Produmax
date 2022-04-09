@@ -11,19 +11,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="348dp"
-        android:layout_height="555dp"
+        android:layout_height="535dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.236" />
 
     <Button
         android:id="@+id/btn_navigate_to_invites"
         android:layout_width="235dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/silver_pink"
+        android:backgroundTint="@color/vivid_blue"
         android:fontFamily="@font/roboto_condensed_bold"
         android:text="Invitations"
         android:textSize="20sp"
@@ -36,7 +36,7 @@
         android:id="@+id/btn_navigate_to_create_event"
         android:layout_width="235dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/silver_pink"
+        android:backgroundTint="@color/vivid_blue"
         android:fontFamily="@font/roboto_condensed_bold"
         android:text="Create new event"
         android:textSize="20sp"
@@ -50,7 +50,7 @@
         android:id="@+id/btn_navigate_to_create_flag"
         android:layout_width="235dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/silver_pink"
+        android:backgroundTint="@color/vivid_blue"
         android:fontFamily="@font/roboto_condensed_bold"
         android:text="Create new flag"
         android:textSize="20sp"

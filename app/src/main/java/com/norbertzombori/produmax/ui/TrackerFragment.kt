@@ -29,6 +29,7 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().setTitle("Habit tracker")
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.setHasFixedSize(true)

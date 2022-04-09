@@ -17,6 +17,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AdapterView.OnIte
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.appRepository.getProfileVisibility()
+        requireActivity().setTitle("Settings")
 
         viewModel.visibilityLiveData.observe(viewLifecycleOwner) {
             if(it) profile_visibility_spinner.setSelection(1) else profile_visibility_spinner.setSelection(0)

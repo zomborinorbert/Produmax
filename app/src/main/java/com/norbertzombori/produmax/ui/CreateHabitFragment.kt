@@ -14,6 +14,7 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().setTitle("Habit creation")
         super.onViewCreated(view, savedInstanceState)
 
         btn_add_habit.setOnClickListener {

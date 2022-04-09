@@ -4,10 +4,16 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
@@ -26,6 +32,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().setTitle("Home")
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+        setHasOptionsMenu(true)
+
         viewModel.appRepository.checkForNewEvent()
 
         tv_welcome_text.text = "Welcome ${viewModel.appRepository.firebaseAuth.currentUser?.displayName}!"
@@ -38,11 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewModel.appRepository.newEventLiveData.observe(viewLifecycleOwner, eventObserver)
 
-        btn_logout.setOnClickListener {
-            Firebase.auth.signOut()
-            val action = HomeFragmentDirections.actionHomeFragmentToLandingFragment()
-            findNavController().navigate(action)
-        }
 
         btn_planner.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToPlannerFragment()
@@ -64,10 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(action)
         }
 
-        btn_settings.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
-            findNavController().navigate(action)
-        }
+
 
         /*
         btn_test_query.setOnClickListener {
@@ -110,5 +112,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }.show()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.SettingsFragment){
+            val action = HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
+            findNavController().navigate(action)
+            return true
+        }else if(item.itemId == R.id.logout_menu){
+            Firebase.auth.signOut()
+            val action = HomeFragmentDirections.actionHomeFragmentToLandingFragment()
+            findNavController().navigate(action)
+            return true
+        }
+        return true
+    }
 
 }

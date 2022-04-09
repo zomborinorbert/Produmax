@@ -27,6 +27,7 @@ class PlannerFragment : Fragment(R.layout.fragment_planner), EventAdapter.OnItem
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().setTitle("Planner")
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.setHasFixedSize(true)

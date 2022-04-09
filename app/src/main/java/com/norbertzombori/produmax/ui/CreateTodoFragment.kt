@@ -33,6 +33,7 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().setTitle("Todo creation")
 
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

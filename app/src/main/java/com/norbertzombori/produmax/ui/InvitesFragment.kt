@@ -30,6 +30,7 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().setTitle("Invitations")
         val user = Firebase.auth.currentUser
         viewModel = CreateEventViewModel()
         recyclerView = recycler_view

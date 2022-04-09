@@ -62,6 +62,8 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().setTitle("Event creation")
+
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.setHasFixedSize(true)

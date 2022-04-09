@@ -26,6 +26,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().setTitle("Profile")
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.setHasFixedSize(true)

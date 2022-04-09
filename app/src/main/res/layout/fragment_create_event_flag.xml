@@ -46,7 +46,7 @@
         android:id="@+id/btn_add_event_flag"
         android:layout_width="170dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/silver_pink"
+        android:backgroundTint="@color/vivid_blue"
         android:text="Create Flag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

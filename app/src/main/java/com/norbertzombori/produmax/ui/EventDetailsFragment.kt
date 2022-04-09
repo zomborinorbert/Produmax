@@ -1,9 +1,7 @@
 package com.norbertzombori.produmax.ui
 
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
@@ -12,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
 import kotlinx.android.synthetic.main.fragment_event_details.*
-import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.util.ArrayList
 
 class EventDetailsFragment : Fragment(R.layout.fragment_event_details) {

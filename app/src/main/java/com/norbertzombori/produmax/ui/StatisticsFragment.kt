@@ -26,6 +26,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().setTitle("Statistics")
 
         viewModel.appRepository.getStatistics()
         val arrayAdapter: ArrayAdapter<*>
