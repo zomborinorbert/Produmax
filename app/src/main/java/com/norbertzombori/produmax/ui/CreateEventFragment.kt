@@ -77,7 +77,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
             Log.d(ContentValues.TAG, "New document added")
         }
 
-
         pickDate()
 
         invitationList = ArrayList()

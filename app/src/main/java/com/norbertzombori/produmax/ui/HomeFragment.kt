@@ -38,7 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewModel.appRepository.checkForNewEvent()
 
-        tv_welcome_text.text = "Welcome ${viewModel.appRepository.firebaseAuth.currentUser?.displayName}!"
+        tv_welcome_text.text = "Hello, \n${viewModel.appRepository.firebaseAuth.currentUser?.displayName}"
 
         val eventObserver = Observer<Boolean> { value ->
             if(value) {

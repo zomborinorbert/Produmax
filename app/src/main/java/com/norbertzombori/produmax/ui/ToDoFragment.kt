@@ -65,7 +65,7 @@ class ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickL
             .setPositiveButton("Delete Todo") { _, _ ->
                 viewModel.deleteTodo(position)
                 todoAdapter.notifyDataSetChanged()
-            }.setNegativeButton("Edit Habit") { _, _ ->
+            }.setNegativeButton("Edit Todo") { _, _ ->
                 showEdit(position)
             }.show()
     }

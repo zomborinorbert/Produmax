@@ -77,14 +77,15 @@ class CreateEventViewModel : ViewModel() {
         appRepository.acceptInviteForEvent(event)
     }
 
-    private fun eventChangeListener() {
+    fun eventChangeListener(sdate: String = "1-4-2022 9:5", edate: String = "28-4-2022 11:5") {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy hh:mm")
-        val date = "25-3-2022 9:5"
-        val datee = "25-3-2022 11:5"
-        val date1 = dateFormat.parse(date)
-        val date2 = dateFormat.parse(datee)
+        val date1 = dateFormat.parse(sdate)
+        val date2 = dateFormat.parse(edate)
         val startDate = Timestamp(date1)
         val endDate = Timestamp(date2)
+
+        eventList.value = ArrayList()
+        eventList.value = eventList.value
 
         Log.d(
             ContentValues.TAG,
@@ -97,6 +98,8 @@ class CreateEventViewModel : ViewModel() {
 
         appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")
+            .whereGreaterThan("eventDate",startDate)
+            .whereLessThan("eventDate",endDate)
             .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {
@@ -106,6 +109,8 @@ class CreateEventViewModel : ViewModel() {
                     }
                 }
             }
+
+        eventList.value = eventList.value
     }
 
     fun deleteEvent() {

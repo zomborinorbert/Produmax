@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp">
+    android:layout_margin="6dp"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/light_blue"
+    app:cardElevation="5dp">
 
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp">
@@ -13,17 +20,26 @@
             android:id="@+id/checkbox_todo_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onCheckboxClicked" />
+            android:onClick="onCheckboxClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.048"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_todo_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/checkbox_todo_done"
             android:text="Line 1"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_todo_done"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
