@@ -19,7 +19,7 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
 import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
-import kotlinx.android.synthetic.main.fragment_planner.recycler_view
+import kotlinx.android.synthetic.main.fragment_invites.recycler_view
 import com.google.firebase.Timestamp
 
 class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItemClickListener {

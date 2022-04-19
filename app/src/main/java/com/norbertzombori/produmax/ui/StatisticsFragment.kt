@@ -8,7 +8,10 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import com.norbertzombori.produmax.R
+import com.norbertzombori.produmax.data.DateString
+import com.norbertzombori.produmax.data.Habit
 import com.norbertzombori.produmax.data.HabitStatistics
 import com.norbertzombori.produmax.viewmodels.StatisticsViewModel
 import kotlinx.android.synthetic.main.fragment_statistics.*
@@ -20,6 +23,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalField
 import java.time.temporal.WeekFields
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private val viewModel: StatisticsViewModel by viewModels()
@@ -34,7 +38,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         var habits : MutableList<String>
         habits = ArrayList()
 
-
         arrayAdapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_list_item_1, habits)
         listview_1.adapter = arrayAdapter
@@ -43,7 +46,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         viewModel.appRepository.eventList.observe(viewLifecycleOwner) { it ->
             it?.forEach{
-                habits.add("${it.habitName}: ${getMonthlyNumber(it)}")
+                val current = "${it.habitName}: ${getMonthlyNumber(it)}"
+                if(!habits.contains(current)){
+                    habits.add(current)
+                }
                 Log.d(ContentValues.TAG, "DJKLASJ DKLASLKDJS l${it.habitName}")
                 arrayAdapter.notifyDataSetChanged()
             }

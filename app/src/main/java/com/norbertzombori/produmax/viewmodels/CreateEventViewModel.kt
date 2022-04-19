@@ -15,11 +15,14 @@ class CreateEventViewModel : ViewModel() {
     val appRepository = AppRepository()
     val eventList = MutableLiveData<MutableList<Event>>()
     val selected = MutableLiveData<Event>()
+    val selectedDay = MutableLiveData<String>()
     val flagList = MutableLiveData<MutableList<EventFlag>>()
+    val currentMonth = MutableLiveData<Int>()
 
     init {
         eventList.value = ArrayList()
         flagList.value = ArrayList()
+        currentMonth.value = 0
         eventChangeListener()
     }
 
@@ -45,6 +48,14 @@ class CreateEventViewModel : ViewModel() {
 
     fun select(event: Event) {
         selected.value = event
+    }
+
+    fun selectDay(day: String){
+        selectedDay.value = day
+    }
+
+    fun setCurrentMonth(month: Int){
+        currentMonth.value = (currentMonth.value?.plus(month))
     }
 
     fun getUserId() = appRepository.firebaseAuth.currentUser?.uid!!

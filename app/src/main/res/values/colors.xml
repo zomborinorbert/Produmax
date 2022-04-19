@@ -17,4 +17,10 @@
     <color name="han_blue">#FF3F6CCB</color>
     <color name="bg_blue">#FF4A8FE7</color>
     <color name="light_blue">#FF9bb8e8</color>
+    <color name="example_5_page_bg_color">#0E0E0E</color>
+    <color name="example_5_item_view_bg_color">#1B1B1B</color>
+    <color name="example_5_toolbar_color">#282828</color>
+    <color name="example_5_text_grey">#bdbdbd</color>
+    <color name="light_gray">#bdbdbd</color>
+    <color name="example_5_text_grey_light">#616161</color>
 </resources>

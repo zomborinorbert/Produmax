@@ -127,6 +127,9 @@
         <action
             android:id="@+id/action_plannerFragment_to_createEventFlagFragment"
             app:destination="@id/createEventFlagFragment" />
+        <action
+            android:id="@+id/action_plannerFragment_to_dayViewFragment"
+            app:destination="@id/dayViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackerFragment"
@@ -237,4 +240,9 @@
         android:name="com.norbertzombori.produmax.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/dayViewFragment"
+        android:name="com.norbertzombori.produmax.ui.DayViewFragment"
+        android:label="fragment_day_view"
+        tools:layout="@layout/fragment_day_view" />
 </navigation>
