@@ -50,7 +50,7 @@ class DayViewFragment : Fragment(R.layout.fragment_day_view), EventAdapter.OnIte
         Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
         viewModel.select(viewModel.eventList.value!![position])
         Log.d(ContentValues.TAG, "New document added ${viewModel.selected.value?.eventName}")
-        val action = PlannerFragmentDirections.actionPlannerFragmentToEventDetailsFragment()
+        val action = DayViewFragmentDirections.actionDayViewFragmentToEventDetailsFragment()
         findNavController().navigate(action)
     }
 

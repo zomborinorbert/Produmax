@@ -9,10 +9,12 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
-import com.norbertzombori.produmax.data.DateString
-import com.norbertzombori.produmax.data.Habit
-import com.norbertzombori.produmax.data.HabitStatistics
+import com.norbertzombori.produmax.adapters.EventAdapter
+import com.norbertzombori.produmax.adapters.StatisticsAdapter
+import com.norbertzombori.produmax.data.*
 import com.norbertzombori.produmax.viewmodels.StatisticsViewModel
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.text.SimpleDateFormat
@@ -27,6 +29,9 @@ import kotlin.collections.ArrayList
 
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private val viewModel: StatisticsViewModel by viewModels()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var statList: MutableList<Statistics>
+    private lateinit var statisticsAdapter: StatisticsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,10 +42,17 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         var habits : MutableList<String>
         habits = ArrayList()
+        statList = ArrayList()
 
-        arrayAdapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_list_item_1, habits)
-        listview_1.adapter = arrayAdapter
+
+        recyclerView = recycler_view
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.setHasFixedSize(true)
+
+
+
+        statisticsAdapter = StatisticsAdapter(statList)
+        recyclerView.adapter = statisticsAdapter
 
 
 
@@ -49,9 +61,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 val current = "${it.habitName}: ${getMonthlyNumber(it)}"
                 if(!habits.contains(current)){
                     habits.add(current)
+                    statList.add(Statistics(it.habitName, getMonthlyNumber(it).split("*")[0], getMonthlyNumber(it).split("*")[1]))
                 }
                 Log.d(ContentValues.TAG, "DJKLASJ DKLASLKDJS l${it.habitName}")
-                arrayAdapter.notifyDataSetChanged()
+                statisticsAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -77,7 +90,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             }
         }
 
-        return "This month: $daysInMonth/$monthlyCount  This week 7/$weeklyCount"
+        return "This month: $daysInMonth/$monthlyCount*This week 7/$weeklyCount"
     }
 
     fun getWeekDates() : ArrayList<String>{

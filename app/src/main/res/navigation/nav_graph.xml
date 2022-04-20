@@ -244,5 +244,9 @@
         android:id="@+id/dayViewFragment"
         android:name="com.norbertzombori.produmax.ui.DayViewFragment"
         android:label="fragment_day_view"
-        tools:layout="@layout/fragment_day_view" />
+        tools:layout="@layout/fragment_day_view" >
+        <action
+            android:id="@+id/action_dayViewFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
+    </fragment>
 </navigation>

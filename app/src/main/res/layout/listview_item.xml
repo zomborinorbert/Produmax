@@ -4,7 +4,6 @@
     android:id="@+id/label"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:fontFamily="@font/helvetica"
     android:padding="10dip"
-    android:textSize="16dip"
-    android:textStyle="bold" >
-</TextView>
+    android:textSize="48sp" />
