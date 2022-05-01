@@ -34,6 +34,9 @@ class TodoViewModel : ViewModel() {
         todoList.value?.get(position)?.let { appRepository.checkTodoForUser(it.description) }
     }
 
+    fun createNewTodo(description: String, members: List<String>){
+        appRepository.createTodoForUsers(description, members)
+    }
 
     fun deleteTodo(position: Int) {
         todoList.value?.get(position)?.let {

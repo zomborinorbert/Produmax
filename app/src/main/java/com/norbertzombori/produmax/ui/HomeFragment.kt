@@ -36,7 +36,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         setHasOptionsMenu(true)
 
-        viewModel.appRepository.checkForNewEvent()
+        viewModel.checkForNewEvent()
+
+        viewModel.checkNewDayForTracker()
 
         tv_welcome_text.text = "Hello, \n${viewModel.appRepository.firebaseAuth.currentUser?.displayName}"
 
@@ -68,36 +70,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val action = HomeFragmentDirections.actionHomeFragmentToToDoFragment()
             findNavController().navigate(action)
         }
-
-
-
-        /*
-        btn_test_query.setOnClickListener {
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
-            val date = "24-03-2022"
-            val datee = "25-03-2022"
-            val date1 = dateFormat.parse(date)
-            val date2 = dateFormat.parse(datee)
-            val startDate = Timestamp(date1)
-            val endDate = Timestamp(date2)
-
-            viewModel.appRepository.db.collection("users").document(viewModel.appRepository.firebaseAuth.currentUser?.uid!!)
-                .collection("events")
-                .whereGreaterThan("eventDate", startDate)
-                .whereLessThan("eventDate", endDate)
-                .get()
-                .addOnSuccessListener { documents ->
-                    Log.d(TAG, "THIS IS THE DATA WENT INT")
-                    for (document in documents) {
-                        Log.d(TAG, "THIS IS THE DATA ${document.id} => ${document.data}")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents: ", exception)
-                }
-        }*/
-
-
     }
 
     private fun showAlertDialog(){
@@ -105,8 +77,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             .setTitle("New event invitation!")
             .setMessage("You have been invited to an event, do you want to check the invitation?")
             .setNegativeButton("Check them later"){ _, _ ->
-
+                viewModel.appRepository.disableNewEvent()
             }.setPositiveButton("See invitations"){ _, _ ->
+                viewModel.appRepository.disableNewEvent()
                 val action = HomeFragmentDirections.actionHomeFragmentToInvitesFragment()
                 findNavController().navigate(action)
             }.show()

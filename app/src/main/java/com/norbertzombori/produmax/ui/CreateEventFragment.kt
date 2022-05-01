@@ -2,7 +2,6 @@ package com.norbertzombori.produmax.ui
 
 import android.annotation.SuppressLint
 import android.app.*
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,16 +14,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.FriendsAdapter
 import com.norbertzombori.produmax.data.EventFlag
 import com.norbertzombori.produmax.data.Friend
-import com.norbertzombori.produmax.data.User
-import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
+import com.norbertzombori.produmax.viewmodels.PlannerViewModel
 import com.norbertzombori.produmax.viewmodels.FriendsViewModel
 import kotlinx.android.synthetic.main.fragment_create_event.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -32,7 +28,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
     FriendsAdapter.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
-    private val viewModel: CreateEventViewModel by viewModels()
+    private val viewModel: PlannerViewModel by viewModels()
     private val friendsViewModel: FriendsViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var userList: MutableList<Friend>
@@ -74,7 +70,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
         friendsViewModel.userList.observe(viewLifecycleOwner) {
             friendsAdapter.notifyDataSetChanged()
-            Log.d(ContentValues.TAG, "New document added")
         }
 
         pickDate()
@@ -155,10 +150,8 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         viewModel.getFlagList()
 
         viewModel.flagList.observe(viewLifecycleOwner){
-            Log.d(ContentValues.TAG, "DASJLKDJSADAS TALALTAM asdas ds $it")
             it?.forEach{
                 if(!flagList.contains(it.flagName)){
-                    Log.d(ContentValues.TAG, "DASJLKDJSADAS TALALTAM")
                     flagList.add(it.flagName)
                     eventFlagList.add(it)
                     flagAdapter.notifyDataSetChanged()
@@ -222,9 +215,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
                 importance_spinner.setSelection(importanceSpinnerPosition)
             }
         }
-        Log.d("form","onitemselected $eventLength")
-        Log.d("form","onitemselected $eventImportance")
-        Log.d("form","onitemselected $eventColor")
     }
 
     fun getEventFlagByFlagName(flagName: String) : EventFlag? {
@@ -282,96 +272,19 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     override fun onItemClick(position: Int) {
         userList = friendsViewModel.userList.value!!
         if (!invitationList.contains(userList[position])) {
-            var foundConflict = false
-            val docRef = viewModel.appRepository.db.collection("users")
-            docRef.get()
-                .addOnSuccessListener { documents ->
-                    if (documents != null) {
-                        for (document in documents) {
-                            val currentUser = document.toObject(User::class.java)
-                            if (currentUser.displayName == userList[position].displayName) {
-                                val docRef = viewModel.appRepository.db.collection("users").document(document.id).collection("events")
-                                    .whereGreaterThan("eventDate",getBackDateTimeStamp())
-                                    .whereLessThan("eventDate",getBackDateTimeStamp(eventLength))
-                                docRef.get()
-                                    .addOnSuccessListener { documents ->
-                                        if (documents != null) {
-                                            for (document in documents) {
-                                                foundConflict = true
-                                                Log.d(ContentValues.TAG, "I FOUND THIS EVENT${document.id} => ${document.data}")
-                                            }
-                                            if(foundConflict){
-                                                Toast.makeText(
-                                                    requireActivity(),
-                                                    "User cannot be added, he has an event",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                            }else{
-                                                val docRef = viewModel.appRepository.db.collection("users").document(document.id).collection("events")
-                                                    .whereGreaterThan("eventDateEnd",getBackDateTimeStamp())
-                                                    .whereLessThan("eventDateEnd",getBackDateTimeStamp(eventLength))
-                                                docRef.get()
-                                                    .addOnSuccessListener { documents ->
-                                                        if (documents != null) {
-                                                            for (document in documents) {
-                                                                foundConflict = true
-                                                                Log.d(ContentValues.TAG, "I FOUND THIS EVENT${document.id} => ${document.data}")
-                                                            }
-                                                            if(foundConflict){
-                                                                Toast.makeText(
-                                                                    requireActivity(),
-                                                                    "User cannot be added, he has an event",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }else{
-                                                                Toast.makeText(
-                                                                    requireActivity(),
-                                                                    "User ${userList[position].displayName} added",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                                invitationList.add(userList[position])
-                                                                Log.d(ContentValues.TAG, "No such document")
-                                                            }
-                                                        }
-                                                    }
-                                                    .addOnFailureListener { exception ->
-                                                        Log.d(ContentValues.TAG, "get failed with ", exception)
-                                                    }
-                                            }
-                                        }
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        Log.d(ContentValues.TAG, "get failed with ", exception)
-                                    }
-                            }
-                            Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
-                        }
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d(ContentValues.TAG, "get failed with ", exception)
-                }
+            invitationList.add(userList[position])
+            Toast.makeText(
+                requireActivity(),
+                "User ${userList[position].displayName} added",
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
             invitationList.remove(userList[position])
             Toast.makeText(
                 requireActivity(),
-                "User ${userList[position].displayName}  found in database",
+                "User ${userList[position].displayName} removed",
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
-
-
-    private fun getBackDateTimeStamp(additionalTime: Int = 0) : Timestamp{
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy hh:mm")
-        //val date = "24-03-2022 07:00"
-        val hour = savedHour + additionalTime
-        val date = "$savedDay-${savedMonth+1}-$savedYear $hour:$savedMinute"
-        Log.d(ContentValues.TAG, "THIS IS THE FUCKING DATE $date")
-        val date1 = dateFormat.parse(date)
-        Log.d(ContentValues.TAG, "THIS IS THE FUCKING DATE TIMESTAMP ${Timestamp(date1)}")
-        return Timestamp(date1)
-    }
-
-
 }

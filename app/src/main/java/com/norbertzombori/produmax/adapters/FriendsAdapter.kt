@@ -28,7 +28,17 @@ class FriendsAdapter(
     override fun onBindViewHolder(holder: FriendsAdapter.FriendsViewHolder, position: Int) {
         val user: Friend = userList[position]
 
-        holder.userName.text = user.displayName
+        when {
+            user.accepted -> {
+                holder.userName.text = user.displayName
+            }
+            user.sent -> {
+                holder.userName.text = "${user.displayName} - not yet accepted"
+            }
+            else -> {
+                holder.userName.text = "${user.displayName} - new friend"
+            }
+        }
     }
 
     override fun getItemCount() = userList.size

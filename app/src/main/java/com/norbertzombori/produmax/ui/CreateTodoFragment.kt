@@ -7,23 +7,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.FriendsAdapter
 import com.norbertzombori.produmax.data.Friend
-import com.norbertzombori.produmax.viewmodels.CreateTodoViewModel
 import com.norbertzombori.produmax.viewmodels.FriendsViewModel
-import kotlinx.android.synthetic.main.fragment_create_event.*
+import com.norbertzombori.produmax.viewmodels.TodoViewModel
 import kotlinx.android.synthetic.main.fragment_create_event.recycler_view
 import kotlinx.android.synthetic.main.fragment_create_todo.*
 import java.util.*
 
 class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
     FriendsAdapter.OnItemClickListener {
-    private val viewModel: CreateTodoViewModel by viewModels()
+    private val viewModel: TodoViewModel by activityViewModels()
     private val friendsViewModel: FriendsViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var userList: MutableList<Friend>

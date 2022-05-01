@@ -1,6 +1,7 @@
 package com.norbertzombori.produmax.viewmodels
 
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.*
@@ -22,8 +23,8 @@ class FriendsViewModel : ViewModel() {
         selected.value = user
     }
 
-    fun addFriend(userName: String) {
-        appRepository.addFriendForUser(userName)
+    fun addFriend(userName: String, mainActivity: FragmentActivity) {
+        appRepository.checkIfUserExists(userName, mainActivity)
     }
 
     fun acceptFriendRequest(name: String, position: Int) {
@@ -34,6 +35,12 @@ class FriendsViewModel : ViewModel() {
             userList.value?.set(position, it)
         }
     }
+
+    fun declineFriendRequest(name: String, position: Int) {
+        appRepository.deleteFriendRequestHelper(name)
+        userList.value?.removeAt(position)
+    }
+
 
     private fun eventChangeListener() {
         appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)

@@ -9,15 +9,16 @@
 
     <EditText
         android:id="@+id/et_editText"
-        android:layout_width="wrap_content"
+        android:layout_width="292dp"
         android:layout_height="wrap_content"
         android:hint="Enter the changed name"
+        android:paddingLeft="15dp"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="0.336"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.019" />
+        app:layout_constraintVertical_bias="0.039" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

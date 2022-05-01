@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Produmax" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="colorPrimary">@android:color/holo_blue_dark</item>
         <item name="windowNoTitle">false</item>
         <item name="android:actionBarStyle">@style/ThemeActionBar</item>

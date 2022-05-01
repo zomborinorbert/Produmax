@@ -1,22 +1,20 @@
 package com.norbertzombori.produmax.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.norbertzombori.produmax.R
-import com.norbertzombori.produmax.viewmodels.CreateEventFlagViewModel
-import com.norbertzombori.produmax.viewmodels.CreateHabitViewModel
-import kotlinx.android.synthetic.main.fragment_create_event.*
+import com.norbertzombori.produmax.viewmodels.PlannerViewModel
 import kotlinx.android.synthetic.main.fragment_create_event_flag.*
-import kotlinx.android.synthetic.main.fragment_create_habit.*
 
-class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag), AdapterView.OnItemSelectedListener {
-    private val viewModel: CreateEventFlagViewModel by viewModels()
+class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag),
+    AdapterView.OnItemSelectedListener {
+    private val viewModel: PlannerViewModel by activityViewModels()
     private var flagImportance = "LOW"
     private var flagColor = "BLACK"
 
@@ -26,33 +24,48 @@ class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag), A
 
         val importanceItems = arrayOf("LOW", "MEDIUM", "HIGH")
         val importanceAdapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, importanceItems)
+            ArrayAdapter<String>(
+                requireActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                importanceItems
+            )
         create_flag_importance_spinner.adapter = importanceAdapter
         create_flag_importance_spinner.onItemSelectedListener = this
 
         val colorItems = arrayOf("BLACK", "RED", "PURPLE")
         val colorAdapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, colorItems)
+            ArrayAdapter<String>(
+                requireActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                colorItems
+            )
         create_flag_colors_spinner.adapter = colorAdapter
         create_flag_colors_spinner.onItemSelectedListener = this
 
         btn_add_event_flag.setOnClickListener {
-            Log.d("form","ASDSADASDSA $flagImportance")
-            Log.d("form","ASDSADASDSA $flagColor")
-            viewModel.createNewFlag(flagImportance, flagColor, et_flag_name.text.toString())
+            if(et_flag_name.text.toString().length in 4..30){
+                viewModel.createNewFlag(flagImportance, flagColor, et_flag_name.text.toString())
 
-            val action = CreateEventFlagFragmentDirections.actionCreateEventFlagFragmentToPlannerFragment()
-            findNavController().navigate(action)
+                val action =
+                    CreateEventFlagFragmentDirections.actionCreateEventFlagFragmentToPlannerFragment()
+                findNavController().navigate(action)
+            }else{
+                Toast.makeText(
+                    requireActivity(),
+                    "The flag name should be at least 4 character long and maximum 30!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         }
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        when(p0!!.id){
-            R.id.create_flag_importance_spinner -> flagImportance = p0?.getItemAtPosition(p2) as String
+        when (p0!!.id) {
+            R.id.create_flag_importance_spinner -> flagImportance =
+                p0?.getItemAtPosition(p2) as String
             R.id.create_flag_colors_spinner -> flagColor = p0?.getItemAtPosition(p2) as String
         }
-        Log.d("form","ASDSADASDSA $flagImportance")
-        Log.d("form","ASDSADASDSA $flagColor")
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {

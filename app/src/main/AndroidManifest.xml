@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Produmax">
+
         <receiver android:name=".ui.NotificationCreate"
             android:enabled="true"/>
         <activity

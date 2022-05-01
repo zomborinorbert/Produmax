@@ -1,9 +1,7 @@
 package com.norbertzombori.produmax.ui
 
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -17,18 +15,16 @@ import com.google.firebase.firestore.Query
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
-import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
-import kotlinx.android.synthetic.main.fragment_day_view.*
+import com.norbertzombori.produmax.viewmodels.PlannerViewModel
 import kotlinx.android.synthetic.main.fragment_day_view.recycler_view
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DayViewFragment : Fragment(R.layout.fragment_day_view), EventAdapter.OnItemClickListener {
-    private val viewModel: CreateEventViewModel by activityViewModels()
+    private val viewModel: PlannerViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventList: MutableList<Event>
     private lateinit var eventAdapter: EventAdapter
-    private var currentWeek: Int = -5
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,14 +44,12 @@ class DayViewFragment : Fragment(R.layout.fragment_day_view), EventAdapter.OnIte
 
     override fun onItemClick(position: Int) {
         Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
-        viewModel.select(viewModel.eventList.value!![position])
-        Log.d(ContentValues.TAG, "New document added ${viewModel.selected.value?.eventName}")
+        viewModel.select(eventList[position])
         val action = DayViewFragmentDirections.actionDayViewFragmentToEventDetailsFragment()
         findNavController().navigate(action)
     }
 
     fun eventChangeListener(sdate: String = "1-4-2022 9:5", edate: String = "28-4-2022 11:5") {
-        Log.d(ContentValues.TAG, "DSAK DSAKÉLDSAÉLKDÉLSAKÉLDSAK $sdate $edate $currentWeek")
         val dateFormat = SimpleDateFormat("dd-MM-yyyy hh:mm")
         val date1 = dateFormat.parse(sdate)
         val date2 = dateFormat.parse(edate)

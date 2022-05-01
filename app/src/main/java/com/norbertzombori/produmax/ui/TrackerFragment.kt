@@ -40,7 +40,6 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
 
         viewModel.habitList.observe(viewLifecycleOwner) {
             habitsAdapter.notifyDataSetChanged()
-            Log.d(ContentValues.TAG, "New document added")
         }
 
         btn_edit_habits.setOnClickListener {
@@ -56,7 +55,7 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
 
     override fun onItemLongClick(position: Int) {
         MaterialAlertDialogBuilder(requireActivity())
-            .setTitle("Habit")
+            .setTitle(viewModel.habitList.value!![position].habitDescription)
             .setPositiveButton("Delete Habit") { _, _ ->
                 viewModel.deleteHabit(position)
                 habitsAdapter.notifyDataSetChanged()
@@ -67,28 +66,28 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
 
     override fun onItemClick(position: Int) {
         habitList = viewModel.habitList.value!!
-        if(!habitList[position].done){
+        if (!habitList[position].done) {
             viewModel.checkHabit(position)
-        }else{
+        } else {
             viewModel.unCheckHabit(position)
         }
         viewModel.changeDone(position)
         habitsAdapter.notifyItemChanged(position)
     }
 
-    private fun showEdit(position: Int){
+    private fun showEdit(position: Int) {
         val builder = AlertDialog.Builder(requireActivity())
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.edit_text_habit_layout, null)
         val editText = dialogLayout.findViewById<EditText>(R.id.et_editText)
 
-        with(builder){
+        with(builder) {
             setTitle("Enter the new name!")
-            setPositiveButton("OK"){ _, _ ->
+            setPositiveButton("OK") { _, _ ->
                 viewModel.editHabitName(position, editText.text.toString())
                 habitsAdapter.notifyItemChanged(position)
             }
-            setNegativeButton("Discard"){ _,_ ->
+            setNegativeButton("Discard") { _, _ ->
 
             }
             setView(dialogLayout)

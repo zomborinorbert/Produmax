@@ -13,6 +13,6 @@ class LoginRegisterViewModel : ViewModel() {
     }
 
     fun register(email: String, password: String, username: String, mainActivity: FragmentActivity){
-        appRepository.register(email, password, username, mainActivity)
+        appRepository.registerCheck(email, password, username, mainActivity)
     }
 }

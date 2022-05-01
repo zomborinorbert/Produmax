@@ -18,12 +18,12 @@ import com.google.firebase.ktx.Firebase
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
-import com.norbertzombori.produmax.viewmodels.CreateEventViewModel
+import com.norbertzombori.produmax.viewmodels.PlannerViewModel
 import kotlinx.android.synthetic.main.fragment_invites.recycler_view
 import com.google.firebase.Timestamp
 
 class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItemClickListener {
-    private lateinit var viewModel: CreateEventViewModel
+    private lateinit var viewModel: PlannerViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventList: MutableList<Event>
     private lateinit var eventAdapter: EventAdapter
@@ -32,7 +32,7 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setTitle("Invitations")
         val user = Firebase.auth.currentUser
-        viewModel = CreateEventViewModel()
+        viewModel = PlannerViewModel()
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.setHasFixedSize(true)

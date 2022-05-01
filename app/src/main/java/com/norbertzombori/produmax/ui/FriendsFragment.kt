@@ -45,7 +45,7 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
         }
 
         btn_send_friend_request.setOnClickListener {
-            viewModel.addFriend(et_enter_username.text.toString())
+            viewModel.addFriend(et_enter_username.text.toString(), requireActivity())
         }
     }
 
@@ -55,7 +55,8 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
             MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Do you want to accept this friend request?")
                 .setNegativeButton("No") { _, _ ->
-
+                    viewModel.declineFriendRequest(userList[position].displayName, position)
+                    friendsAdapter.notifyDataSetChanged()
                 }.setPositiveButton("Yes") { _, _ ->
                     viewModel.acceptFriendRequest(userList[position].displayName, position)
                     friendsAdapter.notifyDataSetChanged()

@@ -30,6 +30,10 @@ class HabitsViewModel : ViewModel() {
         }
     }
 
+    fun createNewHabit(description: String){
+        appRepository.createHabitForUser(description)
+    }
+
     fun checkHabit(position: Int) {
         habitList.value?.get(position)?.let { appRepository.addHabitForToday(it.habitDescription) }
     }

@@ -10,4 +10,8 @@ class HomeViewModel : ViewModel() {
     fun checkForNewEvent(){
         appRepository.checkForNewEvent()
     }
+
+    fun checkNewDayForTracker(){
+        appRepository.saveLoginDay()
+    }
 }

@@ -14,24 +14,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="event_name"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/listview_members"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
+        app:layout_constraintVertical_bias="0.249" />
 
     <TextView
         android:id="@+id/tv_event_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="event_date"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/listview_members"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_event_name"
-        app:layout_constraintVertical_bias="0.179" />
+        app:layout_constraintVertical_bias="0.162" />
 
     <Button
         android:id="@+id/btn_delete_event"
@@ -46,25 +47,52 @@
 
     <TextView
         android:id="@+id/tv_event_importance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="event_importance"
+        android:layout_width="53dp"
+        android:layout_height="33dp"
+        android:text="LOW"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/listview_members"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.021"
+        app:layout_constraintHorizontal_bias="0.367"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_event_date"
-        app:layout_constraintVertical_bias="0.335" />
+        app:layout_constraintVertical_bias="0.273" />
 
     <ListView
         android:id="@+id/listview_members"
         android:layout_width="341dp"
-        android:layout_height="384dp"
+        android:layout_height="454dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.704" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invitation list:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/listview_members"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_event_importance"
+        app:layout_constraintVertical_bias="0.603" />
+
+    <TextView
+        android:id="@+id/tv_event_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BLACK"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/listview_members"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toEndOf="@+id/tv_event_importance"
+        app:layout_constraintTop_toBottomOf="@+id/tv_event_date"
+        app:layout_constraintVertical_bias="0.281" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

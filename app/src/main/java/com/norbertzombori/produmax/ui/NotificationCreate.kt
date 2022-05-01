@@ -9,7 +9,6 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.norbertzombori.produmax.R
 
-
 const val notificationID = 1
 const val channelID = "channel1"
 var titleExtra = "titleExtra"
@@ -29,6 +28,4 @@ class NotificationCreate : BroadcastReceiver(){
         val manager = p0?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(notificationID, notification)
     }
-
-
 }

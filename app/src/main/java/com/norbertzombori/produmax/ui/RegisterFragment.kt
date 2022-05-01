@@ -30,7 +30,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
         btn_register_confirm.setOnClickListener {
-            if (et_register_email.text.length > 6 && et_register_password.text.length > 5) {
+            if (et_register_email.text.length > 6 && et_register_password.text.length > 5 && et_register_username.text.length > 5) {
                 viewModel.register(
                     et_register_email.text.toString(),
                     et_register_password.text.toString(),

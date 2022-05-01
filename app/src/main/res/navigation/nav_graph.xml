@@ -97,9 +97,6 @@
             android:id="@+id/action_homeFragment_to_friendsFragment"
             app:destination="@id/friendsFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_createTodoFragment2"
-            app:destination="@id/createTodoFragment2" />
-        <action
             android:id="@+id/action_homeFragment_to_toDoFragment"
             app:destination="@id/toDoFragment" />
         <action
@@ -121,9 +118,6 @@
         <action
             android:id="@+id/action_plannerFragment_to_invitesFragment"
             app:destination="@id/invitesFragment" />
-        <action
-            android:id="@+id/action_plannerFragment_to_eventDetailsFragment"
-            app:destination="@id/eventDetailsFragment" />
         <action
             android:id="@+id/action_plannerFragment_to_createEventFlagFragment"
             app:destination="@id/createEventFlagFragment" />

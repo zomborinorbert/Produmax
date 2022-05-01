@@ -11,7 +11,7 @@ import com.norbertzombori.produmax.data.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateEventViewModel : ViewModel() {
+class PlannerViewModel : ViewModel() {
     val appRepository = AppRepository()
     val eventList = MutableLiveData<MutableList<Event>>()
     val selected = MutableLiveData<Event>()
@@ -34,9 +34,7 @@ class CreateEventViewModel : ViewModel() {
                     for (document in documents) {
                         flagList.value?.add(document.toObject(EventFlag::class.java))
                         flagList.value = flagList.value
-                        Log.d(ContentValues.TAG, "DASJLKDJSADAS $document")
                     }
-                    Log.d(ContentValues.TAG, "DASJLKDJSADAS ${flagList.value}")
                 } else {
                     Log.d(ContentValues.TAG, "No such document")
                 }
@@ -44,6 +42,10 @@ class CreateEventViewModel : ViewModel() {
             .addOnFailureListener { exception ->
                 Log.d(ContentValues.TAG, "get failed with ", exception)
             }
+    }
+
+    fun createNewFlag(flagImportance: String, flagColor: String, flagName: String){
+        appRepository.createEventFlagForUser(flagImportance, flagColor, flagName)
     }
 
     fun select(event: Event) {
@@ -58,7 +60,6 @@ class CreateEventViewModel : ViewModel() {
         currentMonth.value = (currentMonth.value?.plus(month))
     }
 
-    fun getUserId() = appRepository.firebaseAuth.currentUser?.uid!!
 
     fun createEventForUser(
         name: String,
@@ -97,15 +98,6 @@ class CreateEventViewModel : ViewModel() {
 
         eventList.value = ArrayList()
         eventList.value = eventList.value
-
-        Log.d(
-            ContentValues.TAG,
-            "THIS IS THE FUCKING DATE TIMESTAMP IN THE VIEWMODEL ${Timestamp(date1)}"
-        )
-        Log.d(
-            ContentValues.TAG,
-            "THIS IS THE FUCKING DATE TIMESTAMP IN THE VIEWMODEL ${Timestamp(date2)}"
-        )
 
         appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")

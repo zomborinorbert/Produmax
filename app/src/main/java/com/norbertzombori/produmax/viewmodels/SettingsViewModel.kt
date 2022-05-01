@@ -11,4 +11,8 @@ class SettingsViewModel : ViewModel() {
     fun editProfileVisibility(setting: Boolean){
         appRepository.editProfileVisibility(setting)
     }
+
+    fun getProfileVisibility(){
+        appRepository.getProfileVisibility()
+    }
 }

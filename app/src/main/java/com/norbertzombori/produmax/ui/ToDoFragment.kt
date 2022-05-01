@@ -21,7 +21,8 @@ import kotlinx.android.synthetic.main.fragment_todos.*
 import kotlinx.android.synthetic.main.fragment_tracker.*
 import kotlinx.android.synthetic.main.fragment_tracker.recycler_view
 
-class ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickListener {
+class
+ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickListener {
     private val viewModel: TodoViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var todoList: MutableList<Todo>
@@ -41,7 +42,6 @@ class ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickL
 
         viewModel.todoList.observe(viewLifecycleOwner) {
             todoAdapter.notifyDataSetChanged()
-            Log.d(ContentValues.TAG, "New document added")
         }
 
         btn_create_todo.setOnClickListener {
@@ -61,7 +61,7 @@ class ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickL
 
     override fun onItemLongClick(position: Int) {
         MaterialAlertDialogBuilder(requireActivity())
-            .setTitle("Todo")
+            .setTitle(viewModel.todoList.value!![position].description)
             .setPositiveButton("Delete Todo") { _, _ ->
                 viewModel.deleteTodo(position)
                 todoAdapter.notifyDataSetChanged()
@@ -70,19 +70,19 @@ class ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickL
             }.show()
     }
 
-    private fun showEdit(position: Int){
+    private fun showEdit(position: Int) {
         val builder = AlertDialog.Builder(requireActivity())
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.edit_text_habit_layout, null)
         val editText = dialogLayout.findViewById<EditText>(R.id.et_editText)
 
-        with(builder){
+        with(builder) {
             setTitle("Enter the new name!")
-            setPositiveButton("OK"){ _, _ ->
+            setPositiveButton("OK") { _, _ ->
                 viewModel.editTodoDesc(position, editText.text.toString())
                 todoAdapter.notifyItemChanged(position)
             }
-            setNegativeButton("Discard"){ _,_ ->
+            setNegativeButton("Discard") { _, _ ->
 
             }
             setView(dialogLayout)

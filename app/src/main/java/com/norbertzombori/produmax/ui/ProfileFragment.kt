@@ -37,7 +37,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
         recyclerView.adapter = eventAdapter
 
 
-
         tv_profile_name.text = viewModel.selected.value?.displayName
         viewModel.selected.value?.displayName?.let { findUserById(it) }
     }
@@ -49,10 +48,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
                 if (documents != null) {
                     for (document in documents) {
                         val currentUser = document.toObject(User::class.java)
-                        if(currentUser.displayName == username){
-                            when(currentUser.profileVisibility){
+                        if (currentUser.displayName == username) {
+                            when (currentUser.profileVisibility) {
                                 true -> eventChangeListener(document.id)
-                                false -> tv_profile_name.text = viewModel.selected.value?.displayName + "This profile is private"
+                                false -> tv_profile_name.text =
+                                    viewModel.selected.value?.displayName + "This profile is private"
                             }
                         }
                     }
