@@ -50,14 +50,22 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
         invitationList = ArrayList()
 
         btn_add_todo.setOnClickListener {
-            membersList = ArrayList()
-            membersList.add(viewModel.appRepository.firebaseAuth.uid!!)
-            for (friend in invitationList) {
-                membersList.add(friend.displayName)
+            if(et_todo_desc.text.length in 5..29){
+                membersList = ArrayList()
+                membersList.add(viewModel.appRepository.firebaseAuth.uid!!)
+                for (friend in invitationList) {
+                    membersList.add(friend.displayName)
+                }
+                viewModel.createNewTodo(et_todo_desc.text.toString(), membersList)
+                val action = CreateTodoFragmentDirections.actionCreateTodoFragment2ToToDoFragment()
+                findNavController().navigate(action)
+            }else{
+                Toast.makeText(
+                    requireActivity(),
+                    "Todo name is too short or too long!(length should be between 5-29 char long)",
+                    Toast.LENGTH_LONG
+                ).show()
             }
-            viewModel.createNewTodo(et_todo_desc.text.toString(), membersList)
-            val action = CreateTodoFragmentDirections.actionCreateTodoFragment2ToToDoFragment()
-            findNavController().navigate(action)
         }
     }
 

@@ -54,11 +54,14 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     private var eventImportance = "LOW"
     private var eventColor = "BLACK"
 
+    private var dateSelected = false
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().setTitle("Event creation")
+        dateSelected = false
 
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
@@ -77,47 +80,65 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         invitationList = ArrayList()
 
         btn_create_event.setOnClickListener {
-            val membersList = ArrayList<String>()
-            membersList.add(viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!)
+            when {
+                !dateSelected -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Date is not yet selected!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                et_event_name.text.length !in 5..29 -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Event name is too short or too long!(length should be between 5-29 char long)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {
+                    val membersList = ArrayList<String>()
+                    membersList.add(viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!)
 
-            for (friend in invitationList) {
-                membersList.add(friend.displayName)
+                    for (friend in invitationList) {
+                        membersList.add(friend.displayName)
+                    }
+
+                    val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
+                    val newDateEnd = Date(savedYear - 1900, savedMonth, savedDay, savedHour + eventLength, savedMinute)
+
+
+                    viewModel.createEventForUser(
+                        viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!,
+                        et_event_name.text.toString(),
+                        newDate,
+                        newDateEnd,
+                        eventLength,
+                        eventImportance,
+                        eventColor,
+                        membersList,
+                        true
+                    )
+
+                    for (member in membersList.drop(1)) {
+                        viewModel.createEventForUser(
+                            member,
+                            et_event_name.text.toString(),
+                            newDate,
+                            newDateEnd,
+                            eventLength,
+                            eventImportance,
+                            eventColor,
+                            membersList,
+                            false
+                        )
+                    }
+
+                    scheduleNotification()
+
+                    val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
+                    findNavController().navigate(action)
+                }
             }
-
-            val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
-            val newDateEnd = Date(savedYear - 1900, savedMonth, savedDay, savedHour + eventLength, savedMinute)
-
-
-            viewModel.createEventForUser(
-                viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!,
-                et_event_name.text.toString(),
-                newDate,
-                newDateEnd,
-                eventLength,
-                eventImportance,
-                eventColor,
-                membersList,
-                true
-            )
-
-            for (member in membersList.drop(1)) {
-                viewModel.createEventForUser(
-                    member,
-                    et_event_name.text.toString(),
-                    newDate,
-                    newDateEnd,
-                    eventLength,
-                    eventImportance,
-                    eventColor,
-                    membersList,
-                    false
-                )
-            }
-
-            scheduleNotification()
-
-            val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
-            findNavController().navigate(action)
         }
 
         createLocalNotifications()
@@ -194,6 +215,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         savedMinute = minute
         invitationList = arrayListOf()
 
+        dateSelected = true
         textView_selected_date.text = "$savedYear-$savedMonth-$savedDay $savedHour $savedMinute"
     }
 

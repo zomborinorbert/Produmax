@@ -45,7 +45,15 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
         }
 
         btn_send_friend_request.setOnClickListener {
-            viewModel.addFriend(et_enter_username.text.toString(), requireActivity())
+            if(et_enter_username.text.length > 4){
+                viewModel.addFriend(et_enter_username.text.toString(), requireActivity())
+            }else{
+                Toast.makeText(
+                    requireActivity(),
+                    "Username is not long enough to be a valid username!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

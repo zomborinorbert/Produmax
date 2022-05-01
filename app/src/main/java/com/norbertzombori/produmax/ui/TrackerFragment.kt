@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -84,8 +85,17 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
         with(builder) {
             setTitle("Enter the new name!")
             setPositiveButton("OK") { _, _ ->
-                viewModel.editHabitName(position, editText.text.toString())
-                habitsAdapter.notifyItemChanged(position)
+                if(editText.text.length in 5..29){
+                    viewModel.editHabitName(position, editText.text.toString())
+                    habitsAdapter.notifyItemChanged(position)
+                }else{
+                    Toast.makeText(
+                        requireActivity(),
+                        "Habit name is too short or too long!(length should be between 5-29 char long)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    showEdit(position)
+                }
             }
             setNegativeButton("Discard") { _, _ ->
 

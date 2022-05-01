@@ -1,6 +1,7 @@
 package com.norbertzombori.produmax.ui
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,19 +31,36 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewModel.userMutableLiveData.observe(viewLifecycleOwner, userObserver)
 
         btn_register_confirm.setOnClickListener {
-            if (et_register_email.text.length > 6 && et_register_password.text.length > 5 && et_register_username.text.length > 5) {
-                viewModel.register(
-                    et_register_email.text.toString(),
-                    et_register_password.text.toString(),
-                    et_register_username.text.toString(),
-                    requireActivity()
-                )
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    "Email or password is not long enough!",
-                    Toast.LENGTH_LONG
-                ).show()
+            when {
+                isEmailValid(et_register_email.text.toString()) && et_register_password.text.length > 5 && et_register_username.text.length > 4 -> {
+                    viewModel.register(
+                        et_register_email.text.toString(),
+                        et_register_password.text.toString(),
+                        et_register_username.text.toString(),
+                        requireActivity()
+                    )
+                }
+                !isEmailValid(et_register_email.text.toString()) -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Email address is invalid!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                et_register_password.text.length < 6 -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Password is not long enough!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                et_register_username.text.length < 5 -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Username is not long enough!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
 
@@ -51,5 +69,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private fun updateUI() {
         val action = RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
         findNavController().navigate(action)
+    }
+
+    fun isEmailValid(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }

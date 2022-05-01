@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -17,9 +18,11 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.TodoAdapter
 import com.norbertzombori.produmax.data.Todo
 import com.norbertzombori.produmax.viewmodels.TodoViewModel
+import kotlinx.android.synthetic.main.fragment_create_todo.*
 import kotlinx.android.synthetic.main.fragment_todos.*
 import kotlinx.android.synthetic.main.fragment_tracker.*
 import kotlinx.android.synthetic.main.fragment_tracker.recycler_view
+import java.util.ArrayList
 
 class
 ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickListener {
@@ -79,8 +82,17 @@ ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickListene
         with(builder) {
             setTitle("Enter the new name!")
             setPositiveButton("OK") { _, _ ->
-                viewModel.editTodoDesc(position, editText.text.toString())
-                todoAdapter.notifyItemChanged(position)
+                if(editText.text.length in 5..29){
+                    viewModel.editTodoDesc(position, editText.text.toString())
+                    todoAdapter.notifyItemChanged(position)
+                }else{
+                    Toast.makeText(
+                        requireActivity(),
+                        "Todo name is too short or too long!(length should be between 5-29 char long)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    showEdit(position)
+                }
             }
             setNegativeButton("Discard") { _, _ ->
 

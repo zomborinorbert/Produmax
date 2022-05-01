@@ -43,18 +43,21 @@ class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag),
         create_flag_colors_spinner.onItemSelectedListener = this
 
         btn_add_event_flag.setOnClickListener {
-            if(et_flag_name.text.toString().length in 4..30){
-                viewModel.createNewFlag(flagImportance, flagColor, et_flag_name.text.toString())
+            when (et_flag_name.text.toString().length) {
+                in 4..30 -> {
+                    viewModel.createNewFlag(flagImportance, flagColor, et_flag_name.text.toString())
 
-                val action =
-                    CreateEventFlagFragmentDirections.actionCreateEventFlagFragmentToPlannerFragment()
-                findNavController().navigate(action)
-            }else{
-                Toast.makeText(
-                    requireActivity(),
-                    "The flag name should be at least 4 character long and maximum 30!",
-                    Toast.LENGTH_LONG
-                ).show()
+                    val action =
+                        CreateEventFlagFragmentDirections.actionCreateEventFlagFragmentToPlannerFragment()
+                    findNavController().navigate(action)
+                }
+                else -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "The flag name should be at least 4 character long and maximum 30!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
         }

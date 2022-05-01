@@ -1,6 +1,7 @@
 package com.norbertzombori.produmax.viewmodels
 
 
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,13 @@ class FriendsViewModel : ViewModel() {
     }
 
     fun addFriend(userName: String, mainActivity: FragmentActivity) {
+        userList.value?.forEach {
+            if(it.displayName == userName){
+                Toast.makeText(mainActivity, "User is already your friend!", Toast.LENGTH_LONG).show()
+                return
+            }
+        }
+
         appRepository.checkIfUserExists(userName, mainActivity)
     }
 

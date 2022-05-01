@@ -18,14 +18,17 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
         super.onViewCreated(view, savedInstanceState)
 
         btn_add_habit.setOnClickListener {
-            if(et_habit_desc.text.length in 5..29){
-                viewModel.createNewHabit(et_habit_desc.text.toString())
-            }else{
-                Toast.makeText(
-                    requireActivity(),
-                    "Habit name too short or too long!(length should be between 5-29 char long)",
-                    Toast.LENGTH_LONG
-                ).show()
+            when (et_habit_desc.text.length) {
+                in 5..29 -> {
+                    viewModel.createNewHabit(et_habit_desc.text.toString())
+                }
+                else -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Habit name too short or too long!(length should be between 5-29 char long)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
             val action = CreateHabitFragmentDirections.actionCreateHabitFragmentToTrackerFragment()
