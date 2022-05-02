@@ -15,4 +15,8 @@ class LoginRegisterViewModel : ViewModel() {
     fun register(email: String, password: String, username: String, mainActivity: FragmentActivity){
         appRepository.registerCheck(email, password, username, mainActivity)
     }
+
+    fun resetPassword(email: String, mainActivity: FragmentActivity){
+        appRepository.resetPassword(email, mainActivity)
+    }
 }

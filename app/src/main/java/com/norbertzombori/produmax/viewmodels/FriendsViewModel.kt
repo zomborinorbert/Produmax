@@ -14,6 +14,7 @@ class FriendsViewModel : ViewModel() {
     val appRepository = AppRepository()
     val userList = MutableLiveData<MutableList<Friend>>()
     val selected = MutableLiveData<Friend>()
+    val selectedPosition = MutableLiveData<Int>()
 
     init {
         userList.value = ArrayList()
@@ -22,6 +23,10 @@ class FriendsViewModel : ViewModel() {
 
     fun select(user: Friend) {
         selected.value = user
+    }
+
+    fun selectedPos(position: Int){
+        selectedPosition.value = position
     }
 
     fun addFriend(userName: String, mainActivity: FragmentActivity) {
@@ -62,6 +67,11 @@ class FriendsViewModel : ViewModel() {
 
                 }
             }
+    }
+
+    fun deleteFriend(displayName: String, position: Int) {
+        appRepository.deleteFriend(displayName)
+        userList.value?.removeAt(position)
     }
 
 }

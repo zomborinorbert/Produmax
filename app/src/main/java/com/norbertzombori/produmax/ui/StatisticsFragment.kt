@@ -1,7 +1,9 @@
 package com.norbertzombori.produmax.ui
 
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -29,7 +31,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setTitle("Statistics")
 
+        viewModel.appRepository.eventList.value?.clear()
+
         viewModel.appRepository.getStatistics()
+
 
         var habits: MutableList<String>
         habits = ArrayList()
@@ -83,8 +88,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             if (date in currentWeekDates) {
                 weeklyCount++
             }
-        }
 
+        }
+        Log.d(ContentValues.TAG, "THISWEEKDAYS: $currentWeekDates")
         return "This month: $daysInMonth/$monthlyCount*This week 7/$weeklyCount"
     }
 
@@ -92,7 +98,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val now = Calendar.getInstance()
         val format = SimpleDateFormat("yyyy-MM-dd")
         val days = ArrayList<String>(7)
-        val delta = -now[GregorianCalendar.DAY_OF_WEEK] + 2 //add 2 if your week start on monday
+        val delta = -now[GregorianCalendar.DAY_OF_WEEK] - 5 //add 2 if your week start on monday
         now.add(Calendar.DAY_OF_MONTH, delta)
         for (i in 0..6) {
             days.add(format.format(now.time))

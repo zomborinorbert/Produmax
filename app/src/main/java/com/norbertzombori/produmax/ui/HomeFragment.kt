@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.norbertzombori.produmax.R
+import com.norbertzombori.produmax.viewmodels.FriendsViewModel
 import com.norbertzombori.produmax.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.sql.Date
@@ -26,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private var viewModel: HomeViewModel = HomeViewModel()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,14 +38,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         setHasOptionsMenu(true)
 
-        viewModel.checkForNewEvent()
+        if(viewModel.appRepository.eventChecked.value == false){
+            viewModel.checkForNewEvent()
+        }
 
         viewModel.checkNewDayForTracker()
 
         tv_welcome_text.text = "Hello, \n${viewModel.appRepository.firebaseAuth.currentUser?.displayName}"
 
         val eventObserver = Observer<Boolean> { value ->
-            if(value) {
+            if(value == true) {
                 showAlertDialog()
             }
         }

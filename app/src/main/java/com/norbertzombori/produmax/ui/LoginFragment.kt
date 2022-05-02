@@ -1,8 +1,10 @@
 package com.norbertzombori.produmax.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -58,6 +60,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
 
         }
+
+        btn_forgot_password.setOnClickListener {
+            showEdit()
+        }
     }
 
     private fun updateUI() {
@@ -67,6 +73,34 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     fun isEmailValid(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun showEdit() {
+        val builder = AlertDialog.Builder(requireActivity())
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.edit_text_email, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.et_editText)
+
+        with(builder) {
+            setTitle("Reset your password!")
+            setPositiveButton("OK") { _, _ ->
+                if(isEmailValid(editText.text.toString())){
+                    viewModel.resetPassword(editText.text.toString(), requireActivity())
+                }else{
+                    Toast.makeText(
+                        requireActivity(),
+                        "Not a valid email address!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    showEdit()
+                }
+            }
+            setNegativeButton("Discard") { _, _ ->
+
+            }
+            setView(dialogLayout)
+            show()
+        }
     }
 
 }

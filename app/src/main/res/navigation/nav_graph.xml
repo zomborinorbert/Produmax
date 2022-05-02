@@ -212,7 +212,13 @@
         android:id="@+id/profileFragment"
         android:name="com.norbertzombori.produmax.ui.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment"
+            app:popUpTo="@id/friendsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.norbertzombori.produmax.ui.StatisticsFragment"

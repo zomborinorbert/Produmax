@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -19,6 +20,7 @@ class AppRepository {
     val db = Firebase.firestore
     val userMutableLiveData = MutableLiveData<FirebaseUser>()
     val newEventLiveData = MutableLiveData(false)
+    val eventChecked = MutableLiveData(false)
     val visibilityLiveData = MutableLiveData(false)
     val firebaseAuth = FirebaseAuth.getInstance()
     val eventList = MutableLiveData<MutableList<HabitStatistics>>()
@@ -112,6 +114,44 @@ class AppRepository {
                     Toast.makeText(mainActivity, "Failed to register", Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    fun resetPassword(email: String, mainActivity: FragmentActivity){
+        var foundEmail = false
+        val docRef = db.collection("users")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentUser = document.toObject(User::class.java)
+                        if (currentUser.email == email) {
+                            foundEmail = true
+                        }
+                    }
+                    if (foundEmail) {
+                        Log.d(TAG, "email found $email")
+                        Firebase.auth.sendPasswordResetEmail(email)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(mainActivity, "An email has been sent to the given email address!", Toast.LENGTH_LONG)
+                                        .show()
+                                }
+                            }
+                            .addOnFailureListener{
+                                Log.d(TAG, "get failed with ", it)
+                            }
+                    } else {
+                        Toast.makeText(mainActivity, "There is no user registered with this email address!", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+
     }
 
     private fun createUserCollection(userId: String, email: String, displayName: String) {
@@ -372,6 +412,7 @@ class AppRepository {
 
     fun disableNewEvent() {
         newEventLiveData.postValue(false)
+        eventChecked.postValue(true)
     }
 
 
@@ -861,6 +902,29 @@ class AppRepository {
                 Log.d(TAG, "get failed with ", exception)
             }
     }
+
+    fun deleteFriend(name: String){
+        deleteFriendRequest(name, firebaseAuth.currentUser?.uid!!)
+        val docRef = db.collection("users")
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                if (documents != null) {
+                    for (document in documents) {
+                        val currentUser = document.toObject(User::class.java)
+                        if (currentUser.displayName == name) {
+                            deleteFriendRequest(firebaseAuth.currentUser?.displayName!!, document.id)
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+
 
 
     fun getStatistics() {

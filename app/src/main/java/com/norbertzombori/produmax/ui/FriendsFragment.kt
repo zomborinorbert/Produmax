@@ -69,9 +69,9 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
                     viewModel.acceptFriendRequest(userList[position].displayName, position)
                     friendsAdapter.notifyDataSetChanged()
                 }.show()
-            Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
         }else if(userList[position].accepted){
             viewModel.select(viewModel.userList.value!![position])
+            viewModel.selectedPos(position)
             val action = FriendsFragmentDirections.actionFriendsFragmentToProfileFragment()
             findNavController().navigate(action)
         }

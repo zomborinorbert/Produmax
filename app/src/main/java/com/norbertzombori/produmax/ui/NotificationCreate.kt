@@ -20,8 +20,8 @@ class NotificationCreate : BroadcastReceiver(){
         val notification : Notification? = p0?.let {
             NotificationCompat.Builder(it, channelID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Test notification")
-                .setContentText(p1.getStringExtra(messageExtra))
+                .setContentTitle("Event")
+                .setContentText("Event ${p1.getStringExtra(messageExtra)} has started.")
                 .build()
         }
 

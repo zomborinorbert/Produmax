@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.Query
 import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.EventAdapter
 import com.norbertzombori.produmax.data.Event
@@ -39,6 +41,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
 
         tv_profile_name.text = viewModel.selected.value?.displayName
         viewModel.selected.value?.displayName?.let { findUserById(it) }
+
+        btn_delete_friend.setOnClickListener {
+            viewModel.deleteFriend(viewModel.selected.value!!.displayName,
+                viewModel.selectedPosition.value!!
+            )
+
+            val action = ProfileFragmentDirections.actionProfileFragmentToFriendsFragment()
+            findNavController().navigate(action)
+        }
     }
 
     fun findUserById(username: String) {
@@ -51,8 +62,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
                         if (currentUser.displayName == username) {
                             when (currentUser.profileVisibility) {
                                 true -> eventChangeListener(document.id)
-                                false -> tv_profile_name.text =
-                                    viewModel.selected.value?.displayName + "This profile is private"
+                                false -> {
+                                    tv_profile_name.text =
+                                        "${viewModel.selected.value?.displayName}"
+                                    tv_private_profile.text = "This profile is private."
+                                }
                             }
                         }
                     }
@@ -68,6 +82,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
     private fun eventChangeListener(userId: String) {
         viewModel.appRepository.db.collection("users").document(userId)
             .collection("events")
+            .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {
                     if (dc.type == DocumentChange.Type.ADDED) {
@@ -79,7 +94,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        return
     }
 }
 

@@ -14,6 +14,7 @@
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/activity_main.xml" value="0.317481884057971" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/calendar_day_layout.xml" value="0.1935897435897436" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/calendar_day_legend.xml" value="0.1935897435897436" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/edit_text_email.xml" value="0.75" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/edit_text_habit_layout.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/example_5_calendar_day.xml" value="0.1935897435897436" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/example_5_calendar_header.xml" value="0.5" />
@@ -28,7 +29,7 @@
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_invites.xml" value="0.40260416666666665" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_landing.xml" value="0.33" />
-        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_login.xml" value="0.33" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_planner.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_register.xml" value="0.33" />
