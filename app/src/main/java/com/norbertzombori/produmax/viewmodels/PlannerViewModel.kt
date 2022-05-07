@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PlannerViewModel : ViewModel() {
-    val appRepository = AppRepository()
+    val plannerRepository = PlannerRepository()
     val eventList = MutableLiveData<MutableList<Event>>()
     val selected = MutableLiveData<Event>()
     val selectedDay = MutableLiveData<String>()
@@ -27,7 +27,7 @@ class PlannerViewModel : ViewModel() {
     }
 
     fun getFlagList() {
-        val docRef = appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!).collection("flags")
+        val docRef = plannerRepository.db.collection("users").document(plannerRepository.firebaseAuth.currentUser?.uid!!).collection("flags")
         docRef.get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
@@ -45,7 +45,7 @@ class PlannerViewModel : ViewModel() {
     }
 
     fun createNewFlag(flagImportance: String, flagColor: String, flagName: String){
-        appRepository.createEventFlagForUser(flagImportance, flagColor, flagName)
+        plannerRepository.createEventFlagForUser(flagImportance, flagColor, flagName)
     }
 
     fun select(event: Event) {
@@ -72,7 +72,7 @@ class PlannerViewModel : ViewModel() {
         members: List<String>,
         accepted: Boolean
     ) {
-        appRepository.createEventForUserWithName(
+        plannerRepository.createEventForUserWithName(
             name,
             eventName,
             eventDate,
@@ -86,7 +86,7 @@ class PlannerViewModel : ViewModel() {
     }
 
     fun acceptInviteForEvent(event: Event) {
-        appRepository.acceptInviteForEvent(event)
+        plannerRepository.acceptInviteForEvent(event)
     }
 
     fun eventChangeListener(sdate: String = "1-4-2022 9:5", edate: String = "28-4-2022 11:5") {
@@ -99,7 +99,7 @@ class PlannerViewModel : ViewModel() {
         eventList.value = ArrayList()
         eventList.value = eventList.value
 
-        appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
+        plannerRepository.db.collection("users").document(plannerRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")
             .whereGreaterThan("eventDate",startDate)
             .whereLessThan("eventDate",endDate)
@@ -117,7 +117,7 @@ class PlannerViewModel : ViewModel() {
     }
 
     fun deleteEvent() {
-        appRepository.deleteEvent(selected.value!!.eventName)
+        plannerRepository.deleteEvent(selected.value!!.eventName)
         eventList.value?.remove(selected.value)
     }
 

@@ -4,12 +4,12 @@ package com.norbertzombori.produmax.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.*
-import com.norbertzombori.produmax.data.AppRepository
+import com.norbertzombori.produmax.data.TodoRepository
 import com.norbertzombori.produmax.data.Todo
 import java.util.*
 
 class TodoViewModel : ViewModel() {
-    val appRepository = AppRepository()
+    val todoRepository = TodoRepository()
     val todoList = MutableLiveData<MutableList<Todo>>()
     val selected = MutableLiveData<Todo>()
 
@@ -31,30 +31,31 @@ class TodoViewModel : ViewModel() {
     }
 
     fun checkTodo(position: Int) {
-        todoList.value?.get(position)?.let { appRepository.checkTodoForUser(it.description) }
+        todoList.value?.get(position)?.let { todoRepository.checkTodoForUser(it.description) }
     }
 
-    fun createNewTodo(description: String, members: List<String>){
-        appRepository.createTodoForUsers(description, members)
+    fun createNewTodo(description: String, members: List<String>) {
+        todoRepository.createTodoForUsers(description, members)
     }
 
     fun deleteTodo(position: Int) {
         todoList.value?.get(position)?.let {
-            appRepository.deleteTodoForUser(it.description)
+            todoRepository.deleteTodoForUser(it.description)
         }
         todoList.value?.removeAt(position)
     }
 
-    fun editTodoDesc(position: Int, newHabitDescription: String){
+    fun editTodoDesc(position: Int, newHabitDescription: String) {
         todoList.value?.get(position)?.let {
-            appRepository.editTodoDesc(it.description, newHabitDescription)
+            todoRepository.editTodoDesc(it.description, newHabitDescription)
             it.description = newHabitDescription
             todoList.value?.set(position, it)
         }
     }
 
     private fun eventChangeListener() {
-        appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
+        todoRepository.db.collection("users")
+            .document(todoRepository.firebaseAuth.currentUser?.uid!!)
             .collection("todos")
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

@@ -6,12 +6,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.*
-import com.norbertzombori.produmax.data.AppRepository
+import com.norbertzombori.produmax.data.FriendsRepository
 import com.norbertzombori.produmax.data.Friend
 import java.util.*
 
 class FriendsViewModel : ViewModel() {
-    val appRepository = AppRepository()
+    val friendsRepository = FriendsRepository()
     val userList = MutableLiveData<MutableList<Friend>>()
     val selected = MutableLiveData<Friend>()
     val selectedPosition = MutableLiveData<Int>()
@@ -37,11 +37,11 @@ class FriendsViewModel : ViewModel() {
             }
         }
 
-        appRepository.checkIfUserExists(userName, mainActivity)
+        friendsRepository.checkIfUserExists(userName, mainActivity)
     }
 
     fun acceptFriendRequest(name: String, position: Int) {
-        appRepository.acceptFriendRequestHelper(name)
+        friendsRepository.acceptFriendRequestHelper(name)
         val currentFriend = userList.value?.get(position)
         currentFriend?.let {
             it.accepted = true
@@ -50,13 +50,13 @@ class FriendsViewModel : ViewModel() {
     }
 
     fun declineFriendRequest(name: String, position: Int) {
-        appRepository.deleteFriendRequestHelper(name)
+        friendsRepository.deleteFriendRequestHelper(name)
         userList.value?.removeAt(position)
     }
 
 
     private fun eventChangeListener() {
-        appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
+        friendsRepository.db.collection("users").document(friendsRepository.firebaseAuth.currentUser?.uid!!)
             .collection("friends")
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {
@@ -70,7 +70,7 @@ class FriendsViewModel : ViewModel() {
     }
 
     fun deleteFriend(displayName: String, position: Int) {
-        appRepository.deleteFriend(displayName)
+        friendsRepository.deleteFriend(displayName)
         userList.value?.removeAt(position)
     }
 

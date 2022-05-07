@@ -51,7 +51,7 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
     }
 
     private fun eventChangeListener(userId: String) {
-        viewModel.appRepository.db.collection("users").document(userId).collection("events")
+        viewModel.plannerRepository.db.collection("users").document(userId).collection("events")
             .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

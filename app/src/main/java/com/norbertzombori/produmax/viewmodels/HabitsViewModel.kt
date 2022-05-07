@@ -4,12 +4,12 @@ package com.norbertzombori.produmax.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.*
-import com.norbertzombori.produmax.data.AppRepository
+import com.norbertzombori.produmax.data.HabitsRepository
 import com.norbertzombori.produmax.data.Habit
 import java.util.*
 
 class HabitsViewModel : ViewModel() {
-    val appRepository = AppRepository()
+    val habitsRepository = HabitsRepository()
     val habitList = MutableLiveData<MutableList<Habit>>()
     val selected = MutableLiveData<Habit>()
 
@@ -31,35 +31,35 @@ class HabitsViewModel : ViewModel() {
     }
 
     fun createNewHabit(description: String){
-        appRepository.createHabitForUser(description)
+        habitsRepository.createHabitForUser(description)
     }
 
     fun checkHabit(position: Int) {
-        habitList.value?.get(position)?.let { appRepository.addHabitForToday(it.habitDescription) }
+        habitList.value?.get(position)?.let { habitsRepository.addHabitForToday(it.habitDescription) }
     }
 
     fun unCheckHabit(position: Int) {
         habitList.value?.get(position)
-            ?.let { appRepository.deleteHabitForTodayHelper(it.habitDescription) }
+            ?.let { habitsRepository.deleteHabitForTodayHelper(it.habitDescription) }
     }
 
     fun deleteHabit(position: Int) {
         habitList.value?.get(position)?.let {
-            appRepository.deleteHabit(it.habitDescription)
+            habitsRepository.deleteHabit(it.habitDescription)
         }
         habitList.value?.removeAt(position)
     }
 
     fun editHabitName(position: Int, newHabitDescription: String){
         habitList.value?.get(position)?.let {
-            appRepository.editHabitName(it.habitDescription, newHabitDescription)
+            habitsRepository.editHabitName(it.habitDescription, newHabitDescription)
             it.habitDescription = newHabitDescription
             habitList.value?.set(position, it)
         }
     }
 
     private fun eventChangeListener() {
-        appRepository.db.collection("users").document(appRepository.firebaseAuth.currentUser?.uid!!)
+        habitsRepository.db.collection("users").document(habitsRepository.firebaseAuth.currentUser?.uid!!)
             .collection("habits")
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

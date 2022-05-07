@@ -56,7 +56,7 @@ class DayViewFragment : Fragment(R.layout.fragment_day_view), EventAdapter.OnIte
         val startDate = Timestamp(date1)
         val endDate = Timestamp(date2)
 
-        viewModel.appRepository.db.collection("users").document(viewModel.appRepository.firebaseAuth.currentUser?.uid!!)
+        viewModel.plannerRepository.db.collection("users").document(viewModel.plannerRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")
             .whereGreaterThan("eventDate",startDate)
             .whereLessThan("eventDate",endDate)

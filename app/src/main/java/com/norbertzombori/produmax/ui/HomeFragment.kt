@@ -38,13 +38,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         setHasOptionsMenu(true)
 
-        if(viewModel.appRepository.eventChecked.value == false){
+        if(viewModel.loginRegisterRepository.eventChecked.value == false){
             viewModel.checkForNewEvent()
         }
 
         viewModel.checkNewDayForTracker()
 
-        tv_welcome_text.text = "Hello, \n${viewModel.appRepository.firebaseAuth.currentUser?.displayName}"
+        tv_welcome_text.text = "Hello, \n${viewModel.loginRegisterRepository.firebaseAuth.currentUser?.displayName}"
 
         val eventObserver = Observer<Boolean> { value ->
             if(value == true) {
@@ -52,7 +52,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        viewModel.appRepository.newEventLiveData.observe(viewLifecycleOwner, eventObserver)
+        viewModel.loginRegisterRepository.newEventLiveData.observe(viewLifecycleOwner, eventObserver)
 
 
         btn_planner.setOnClickListener {
@@ -81,9 +81,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             .setTitle("New event invitation!")
             .setMessage("You have been invited to an event, do you want to check the invitation?")
             .setNegativeButton("Check them later"){ _, _ ->
-                viewModel.appRepository.disableNewEvent()
+                viewModel.disableNewEvent()
             }.setPositiveButton("See invitations"){ _, _ ->
-                viewModel.appRepository.disableNewEvent()
+                viewModel.disableNewEvent()
                 val action = HomeFragmentDirections.actionHomeFragmentToInvitesFragment()
                 findNavController().navigate(action)
             }.show()

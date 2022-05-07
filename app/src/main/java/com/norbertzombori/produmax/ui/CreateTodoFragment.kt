@@ -52,7 +52,7 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
         btn_add_todo.setOnClickListener {
             if(et_todo_desc.text.length in 5..29){
                 membersList = ArrayList()
-                membersList.add(viewModel.appRepository.firebaseAuth.uid!!)
+                membersList.add(viewModel.todoRepository.firebaseAuth.uid!!)
                 for (friend in invitationList) {
                     membersList.add(friend.displayName)
                 }

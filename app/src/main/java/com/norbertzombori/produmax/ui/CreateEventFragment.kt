@@ -97,7 +97,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
                 }
                 else -> {
                     val membersList = ArrayList<String>()
-                    membersList.add(viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!)
+                    membersList.add(viewModel.plannerRepository.firebaseAuth.currentUser!!.displayName!!)
 
                     for (friend in invitationList) {
                         membersList.add(friend.displayName)
@@ -108,7 +108,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
 
                     viewModel.createEventForUser(
-                        viewModel.appRepository.firebaseAuth.currentUser!!.displayName!!,
+                        viewModel.plannerRepository.firebaseAuth.currentUser!!.displayName!!,
                         et_event_name.text.toString(),
                         newDate,
                         newDateEnd,

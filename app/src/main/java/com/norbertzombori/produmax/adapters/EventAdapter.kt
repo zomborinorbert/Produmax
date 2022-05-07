@@ -32,7 +32,7 @@ class EventAdapter(
         val event: Event = eventList[position]
 
 
-        val dateFormat: DateFormat = SimpleDateFormat("yyyy MMMM dd hh:mm")
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy MMMM dd HH:mm")
         val strDateStart: String = dateFormat.format(Date(event.eventDate.seconds * 1000))
         val strDateEnd: String = dateFormat.format(Date(event.eventDateEnd.seconds * 1000))
         holder.textViewDate.text = "$strDateStart-${strDateEnd.split(' ')[3]}"

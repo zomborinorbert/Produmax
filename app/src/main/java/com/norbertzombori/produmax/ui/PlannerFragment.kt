@@ -129,8 +129,8 @@ class PlannerFragment : Fragment(R.layout.fragment_planner) {
 
 
     fun eventChangeListener() {
-        viewModel.appRepository.db.collection("users")
-            .document(viewModel.appRepository.firebaseAuth.currentUser?.uid!!)
+        viewModel.plannerRepository.db.collection("users")
+            .document(viewModel.plannerRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")
             .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->

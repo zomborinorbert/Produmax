@@ -2,17 +2,17 @@ package com.norbertzombori.produmax.viewmodels
 
 
 import androidx.lifecycle.ViewModel
-import com.norbertzombori.produmax.data.AppRepository
+import com.norbertzombori.produmax.data.LoginRegisterRepository
 
 class SettingsViewModel : ViewModel() {
-    val appRepository = AppRepository()
-    val visibilityLiveData = appRepository.visibilityLiveData
+    val loginRegisterRepository = LoginRegisterRepository()
+    val visibilityLiveData = loginRegisterRepository.visibilityLiveData
 
     fun editProfileVisibility(setting: Boolean){
-        appRepository.editProfileVisibility(setting)
+        loginRegisterRepository.editProfileVisibility(setting)
     }
 
     fun getProfileVisibility(){
-        appRepository.getProfileVisibility()
+        loginRegisterRepository.getProfileVisibility()
     }
 }

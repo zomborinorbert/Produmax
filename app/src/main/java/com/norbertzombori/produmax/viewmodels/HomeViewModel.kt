@@ -2,16 +2,20 @@ package com.norbertzombori.produmax.viewmodels
 
 
 import androidx.lifecycle.ViewModel
-import com.norbertzombori.produmax.data.AppRepository
+import com.norbertzombori.produmax.data.LoginRegisterRepository
 
 class HomeViewModel : ViewModel() {
-    val appRepository = AppRepository()
+    val loginRegisterRepository = LoginRegisterRepository()
 
     fun checkForNewEvent(){
-        appRepository.checkForNewEvent()
+        loginRegisterRepository.checkForNewEvent()
     }
 
     fun checkNewDayForTracker(){
-        appRepository.saveLoginDay()
+        loginRegisterRepository.saveLoginDay()
+    }
+
+    fun disableNewEvent(){
+        loginRegisterRepository.disableNewEvent()
     }
 }

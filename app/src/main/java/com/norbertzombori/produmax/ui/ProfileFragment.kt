@@ -53,7 +53,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
     }
 
     fun findUserById(username: String) {
-        val docRef = viewModel.appRepository.db.collection("users")
+        val docRef = viewModel.friendsRepository.db.collection("users")
         docRef.get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
@@ -80,7 +80,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
     }
 
     private fun eventChangeListener(userId: String) {
-        viewModel.appRepository.db.collection("users").document(userId)
+        viewModel.friendsRepository.db.collection("users").document(userId)
             .collection("events")
             .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->

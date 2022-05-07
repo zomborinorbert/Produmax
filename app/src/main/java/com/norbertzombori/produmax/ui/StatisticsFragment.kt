@@ -31,9 +31,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setTitle("Statistics")
 
-        viewModel.appRepository.eventList.value?.clear()
+        viewModel.habitsRepository.statList.value?.clear()
 
-        viewModel.appRepository.getStatistics()
+        viewModel.habitsRepository.getStatistics()
 
 
         var habits: MutableList<String>
@@ -50,7 +50,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
 
 
-        viewModel.appRepository.eventList.observe(viewLifecycleOwner) { it ->
+        viewModel.habitsRepository.statList.observe(viewLifecycleOwner) { it ->
             it?.forEach {
                 val current = "${it.habitName}: ${getMonthlyNumber(it)}"
                 if (!habits.contains(current)) {
