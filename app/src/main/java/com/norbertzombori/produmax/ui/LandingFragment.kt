@@ -22,17 +22,17 @@ class LandingFragment : Fragment(R.layout.fragment_landing) {
 
         auth = Firebase.auth
 
-        btn_login.setOnClickListener{
+        btn_login.setOnClickListener {
             val action = LandingFragmentDirections.actionLandingFragmentToLoginFragment()
             findNavController().navigate(action)
         }
 
-        btn_register.setOnClickListener{
+        btn_register.setOnClickListener {
             val action = LandingFragmentDirections.actionLandingFragmentToRegisterFragment()
             findNavController().navigate(action)
         }
 
-        if(auth.currentUser != null){
+        if (auth.currentUser != null) {
             val action = LandingFragmentDirections.actionLandingFragmentToHomeFragment()
             findNavController().navigate(action)
         }

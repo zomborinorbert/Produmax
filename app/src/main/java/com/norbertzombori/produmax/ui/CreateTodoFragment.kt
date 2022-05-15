@@ -50,9 +50,9 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
         invitationList = ArrayList()
 
         btn_add_todo.setOnClickListener {
-            if(et_todo_desc.text.length in 5..29){
+            if (et_todo_desc.text.length in 5..29) {
                 viewModel.todoList.value!!.forEach { x ->
-                    if(x.description == et_todo_desc.text.toString()){
+                    if (x.description == et_todo_desc.text.toString()) {
                         Toast.makeText(
                             requireActivity(),
                             "Todo with this name already exists!",
@@ -69,7 +69,7 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
                 viewModel.createNewTodo(et_todo_desc.text.toString(), membersList)
                 val action = CreateTodoFragmentDirections.actionCreateTodoFragment2ToToDoFragment()
                 findNavController().navigate(action)
-            }else{
+            } else {
                 Toast.makeText(
                     requireActivity(),
                     "Todo name is too short or too long!(length should be between 5-29 char long)",
@@ -81,7 +81,14 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
 
     override fun onItemClick(position: Int) {
         userList = friendsViewModel.userList.value!!
-
+        if(!userList[position].accepted){
+            Toast.makeText(
+                requireActivity(),
+                "User ${userList[position].displayName} has not accepted your friend request yet!",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
         if (invitationList.contains(userList[position])) {
             invitationList.remove(userList[position])
             Toast.makeText(

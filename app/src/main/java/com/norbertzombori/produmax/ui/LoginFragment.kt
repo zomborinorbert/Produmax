@@ -84,9 +84,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         with(builder) {
             setTitle("Reset your password!")
             setPositiveButton("OK") { _, _ ->
-                if(isEmailValid(editText.text.toString())){
+                if (isEmailValid(editText.text.toString())) {
                     viewModel.resetPassword(editText.text.toString(), requireActivity())
-                }else{
+                } else {
                     Toast.makeText(
                         requireActivity(),
                         "Not a valid email address!",

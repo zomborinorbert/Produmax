@@ -25,14 +25,15 @@ class FriendsViewModel : ViewModel() {
         selected.value = user
     }
 
-    fun selectedPos(position: Int){
+    fun selectedPos(position: Int) {
         selectedPosition.value = position
     }
 
     fun addFriend(userName: String, mainActivity: FragmentActivity) {
         userList.value?.forEach {
-            if(it.displayName == userName){
-                Toast.makeText(mainActivity, "User is already your friend!", Toast.LENGTH_LONG).show()
+            if (it.displayName == userName) {
+                Toast.makeText(mainActivity, "User is already your friend!", Toast.LENGTH_LONG)
+                    .show()
                 return
             }
         }
@@ -56,7 +57,8 @@ class FriendsViewModel : ViewModel() {
 
 
     private fun eventChangeListener() {
-        friendsRepository.db.collection("users").document(friendsRepository.firebaseAuth.currentUser?.uid!!)
+        friendsRepository.db.collection("users")
+            .document(friendsRepository.firebaseAuth.currentUser?.uid!!)
             .collection("friends")
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

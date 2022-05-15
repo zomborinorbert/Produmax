@@ -22,11 +22,13 @@ class EventDetailsFragment : Fragment(R.layout.fragment_event_details) {
 
         val arrayAdapter: ArrayAdapter<*>
 
-        var members : MutableList<String>
+        var members: MutableList<String>
         members = ArrayList()
 
-        arrayAdapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_list_item_1, members)
+        arrayAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1, members
+        )
         listview_members.adapter = arrayAdapter
 
         viewModel.selected.value!!.members.forEach {
@@ -37,8 +39,10 @@ class EventDetailsFragment : Fragment(R.layout.fragment_event_details) {
 
 
         val dateFormat: DateFormat = SimpleDateFormat("yyyy MMMM dd hh:mm")
-        val strDateStart: String = dateFormat.format(Date(viewModel.selected.value?.eventDate!!.seconds * 1000))
-        val strDateEnd: String = dateFormat.format(Date(viewModel.selected.value?.eventDateEnd!!.seconds * 1000))
+        val strDateStart: String =
+            dateFormat.format(Date(viewModel.selected.value?.eventDate!!.seconds * 1000))
+        val strDateEnd: String =
+            dateFormat.format(Date(viewModel.selected.value?.eventDateEnd!!.seconds * 1000))
 
         tv_event_name.text = viewModel.selected.value?.eventName
         tv_event_date.text = "$strDateStart-${strDateEnd.split(' ')[3]}"
@@ -48,7 +52,8 @@ class EventDetailsFragment : Fragment(R.layout.fragment_event_details) {
         btn_delete_event.setOnClickListener {
             viewModel.deleteEvent()
 
-            val action = EventDetailsFragmentDirections.actionEventDetailsFragmentToPlannerFragment()
+            val action =
+                EventDetailsFragmentDirections.actionEventDetailsFragmentToPlannerFragment()
             findNavController().navigate(action)
         }
     }

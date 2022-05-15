@@ -8,11 +8,11 @@ class SettingsViewModel : ViewModel() {
     val loginRegisterRepository = LoginRegisterRepository()
     val visibilityLiveData = loginRegisterRepository.visibilityLiveData
 
-    fun editProfileVisibility(setting: Boolean){
+    fun editProfileVisibility(setting: Boolean) {
         loginRegisterRepository.editProfileVisibility(setting)
     }
 
-    fun getProfileVisibility(){
+    fun getProfileVisibility() {
         loginRegisterRepository.getProfileVisibility()
     }
 }

@@ -27,7 +27,8 @@ class PlannerViewModel : ViewModel() {
     }
 
     fun getFlagList() {
-        val docRef = plannerRepository.db.collection("users").document(plannerRepository.firebaseAuth.currentUser?.uid!!).collection("flags")
+        val docRef = plannerRepository.db.collection("users")
+            .document(plannerRepository.firebaseAuth.currentUser?.uid!!).collection("flags")
         docRef.get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
@@ -44,7 +45,7 @@ class PlannerViewModel : ViewModel() {
             }
     }
 
-    fun createNewFlag(flagImportance: String, flagColor: String, flagName: String){
+    fun createNewFlag(flagImportance: String, flagColor: String, flagName: String) {
         plannerRepository.createEventFlagForUser(flagImportance, flagColor, flagName)
     }
 
@@ -52,11 +53,11 @@ class PlannerViewModel : ViewModel() {
         selected.value = event
     }
 
-    fun selectDay(day: String){
+    fun selectDay(day: String) {
         selectedDay.value = day
     }
 
-    fun setCurrentMonth(month: Int){
+    fun setCurrentMonth(month: Int) {
         currentMonth.value = (currentMonth.value?.plus(month))
     }
 
@@ -99,10 +100,11 @@ class PlannerViewModel : ViewModel() {
         eventList.value = ArrayList()
         eventList.value = eventList.value
 
-        plannerRepository.db.collection("users").document(plannerRepository.firebaseAuth.currentUser?.uid!!)
+        plannerRepository.db.collection("users")
+            .document(plannerRepository.firebaseAuth.currentUser?.uid!!)
             .collection("events")
-            .whereGreaterThan("eventDate",startDate)
-            .whereLessThan("eventDate",endDate)
+            .whereGreaterThan("eventDate", startDate)
+            .whereLessThan("eventDate", endDate)
             .orderBy("eventDate", Query.Direction.ASCENDING)
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

@@ -8,15 +8,20 @@ class LoginRegisterViewModel : ViewModel() {
     val loginRegisterRepository = LoginRegisterRepository()
     val userMutableLiveData = loginRegisterRepository.userMutableLiveData
 
-    fun login(email: String, password: String, mainActivity: FragmentActivity){
+    fun login(email: String, password: String, mainActivity: FragmentActivity) {
         loginRegisterRepository.login(email, password, mainActivity)
     }
 
-    fun register(email: String, password: String, username: String, mainActivity: FragmentActivity){
+    fun register(
+        email: String,
+        password: String,
+        username: String,
+        mainActivity: FragmentActivity
+    ) {
         loginRegisterRepository.registerCheck(email, password, username, mainActivity)
     }
 
-    fun resetPassword(email: String, mainActivity: FragmentActivity){
+    fun resetPassword(email: String, mainActivity: FragmentActivity) {
         loginRegisterRepository.resetPassword(email, mainActivity)
     }
 }

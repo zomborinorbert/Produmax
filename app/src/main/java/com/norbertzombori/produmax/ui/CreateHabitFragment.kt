@@ -21,7 +21,7 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
             when (et_habit_desc.text.length) {
                 in 5..29 -> {
                     viewModel.habitList.value!!.forEach { x ->
-                        if(et_habit_desc.text.toString() == x.habitDescription){
+                        if (et_habit_desc.text.toString() == x.habitDescription) {
                             Toast.makeText(
                                 requireActivity(),
                                 "Habit with this name already exists!",

@@ -30,12 +30,13 @@ class HabitsViewModel : ViewModel() {
         }
     }
 
-    fun createNewHabit(description: String){
+    fun createNewHabit(description: String) {
         habitsRepository.createHabitForUser(description)
     }
 
     fun checkHabit(position: Int) {
-        habitList.value?.get(position)?.let { habitsRepository.addHabitForToday(it.habitDescription) }
+        habitList.value?.get(position)
+            ?.let { habitsRepository.addHabitForToday(it.habitDescription) }
     }
 
     fun unCheckHabit(position: Int) {
@@ -50,7 +51,7 @@ class HabitsViewModel : ViewModel() {
         habitList.value?.removeAt(position)
     }
 
-    fun editHabitName(position: Int, newHabitDescription: String){
+    fun editHabitName(position: Int, newHabitDescription: String) {
         habitList.value?.get(position)?.let {
             habitsRepository.editHabitName(it.habitDescription, newHabitDescription)
             it.habitDescription = newHabitDescription
@@ -59,7 +60,8 @@ class HabitsViewModel : ViewModel() {
     }
 
     private fun eventChangeListener() {
-        habitsRepository.db.collection("users").document(habitsRepository.firebaseAuth.currentUser?.uid!!)
+        habitsRepository.db.collection("users")
+            .document(habitsRepository.firebaseAuth.currentUser?.uid!!)
             .collection("habits")
             .addSnapshotListener { value, _ ->
                 for (dc: DocumentChange in value?.documentChanges!!) {

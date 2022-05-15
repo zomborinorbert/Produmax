@@ -103,8 +103,15 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
                         membersList.add(friend.displayName)
                     }
 
-                    val newDate = Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
-                    val newDateEnd = Date(savedYear - 1900, savedMonth, savedDay, savedHour + eventLength, savedMinute)
+                    val newDate =
+                        Date(savedYear - 1900, savedMonth, savedDay, savedHour, savedMinute)
+                    val newDateEnd = Date(
+                        savedYear - 1900,
+                        savedMonth,
+                        savedDay,
+                        savedHour + eventLength,
+                        savedMinute
+                    )
 
 
                     viewModel.createEventForUser(
@@ -135,7 +142,8 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
                     scheduleNotification()
 
-                    val action = CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
+                    val action =
+                        CreateEventFragmentDirections.actionCreateEventFragmentToPlannerFragment()
                     findNavController().navigate(action)
                 }
             }
@@ -144,35 +152,51 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         createLocalNotifications()
 
         eventFlagList = ArrayList()
-        var flagList : MutableList<String>
+        var flagList: MutableList<String>
         flagList = ArrayList()
         val flagAdapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, flagList)
+            ArrayAdapter<String>(
+                requireActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                flagList
+            )
         flags_spinner.adapter = flagAdapter
         flags_spinner.onItemSelectedListener = this
 
-        val eventLengthItems = arrayOf(1, 2, 3, 4, 5, 6, 8, 9, 10 , 11, 12)
+        val eventLengthItems = arrayOf(1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12)
         val eventLengthAdapter: ArrayAdapter<Int> =
-            ArrayAdapter<Int>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, eventLengthItems)
+            ArrayAdapter<Int>(
+                requireActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                eventLengthItems
+            )
         planets_spinner.adapter = eventLengthAdapter
         planets_spinner.onItemSelectedListener = this
 
         val importanceItems = arrayOf("LOW", "MEDIUM", "HIGH")
-        importanceAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, importanceItems)
+        importanceAdapter = ArrayAdapter<String>(
+            requireActivity(),
+            android.R.layout.simple_spinner_dropdown_item,
+            importanceItems
+        )
         importance_spinner.adapter = importanceAdapter
         importance_spinner.onItemSelectedListener = this
 
         val colorItems = arrayOf("BLACK", "RED", "PURPLE", "GREEN", "YELLOW", "BLUE", "BROWN")
         colorAdapter =
-            ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, colorItems)
+            ArrayAdapter<String>(
+                requireActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                colorItems
+            )
         colors_spinner.adapter = colorAdapter
         colors_spinner.onItemSelectedListener = this
 
         viewModel.getFlagList()
 
-        viewModel.flagList.observe(viewLifecycleOwner){
-            it?.forEach{
-                if(!flagList.contains(it.flagName)){
+        viewModel.flagList.observe(viewLifecycleOwner) {
+            it?.forEach {
+                if (!flagList.contains(it.flagName)) {
                     flagList.add(it.flagName)
                     eventFlagList.add(it)
                     flagAdapter.notifyDataSetChanged()
@@ -220,7 +244,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        when(p0!!.id){
+        when (p0!!.id) {
             R.id.planets_spinner -> eventLength = p0?.getItemAtPosition(p2) as Int
             R.id.importance_spinner -> eventImportance = p0?.getItemAtPosition(p2) as String
             R.id.colors_spinner -> eventColor = p0?.getItemAtPosition(p2) as String
@@ -238,9 +262,9 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         }
     }
 
-    fun getEventFlagByFlagName(flagName: String) : EventFlag? {
+    fun getEventFlagByFlagName(flagName: String): EventFlag? {
         eventFlagList.forEach {
-            if(it.flagName == flagName){
+            if (it.flagName == flagName) {
                 return it
             }
         }
@@ -248,7 +272,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
+        return
     }
 
     private fun scheduleNotification() {
@@ -292,6 +316,14 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
     override fun onItemClick(position: Int) {
         userList = friendsViewModel.userList.value!!
+        if(!userList[position].accepted){
+            Toast.makeText(
+                requireActivity(),
+                "User ${userList[position].displayName} has not accepted your friend request yet!",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
         if (!invitationList.contains(userList[position])) {
             invitationList.add(userList[position])
             Toast.makeText(

@@ -50,14 +50,14 @@ class HabitsAdapter(
 
         override fun onClick(v: View?) {
             val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION){
+            if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(position)
             }
         }
 
         override fun onLongClick(p0: View?): Boolean {
             val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION){
+            if (position != RecyclerView.NO_POSITION) {
                 listener.onItemLongClick(position)
             }
             return true

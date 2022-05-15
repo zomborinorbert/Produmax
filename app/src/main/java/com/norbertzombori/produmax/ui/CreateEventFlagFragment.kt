@@ -72,7 +72,7 @@ class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag),
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
+        return
     }
 }
 

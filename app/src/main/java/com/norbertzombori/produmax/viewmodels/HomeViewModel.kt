@@ -7,15 +7,15 @@ import com.norbertzombori.produmax.data.LoginRegisterRepository
 class HomeViewModel : ViewModel() {
     val loginRegisterRepository = LoginRegisterRepository()
 
-    fun checkForNewEvent(){
+    fun checkForNewEvent() {
         loginRegisterRepository.checkForNewEvent()
     }
 
-    fun checkNewDayForTracker(){
+    fun checkNewDayForTracker() {
         loginRegisterRepository.saveLoginDay()
     }
 
-    fun disableNewEvent(){
+    fun disableNewEvent() {
         loginRegisterRepository.disableNewEvent()
     }
 }

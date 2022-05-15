@@ -35,7 +35,7 @@ class StatisticsAdapter(
     override fun getItemCount() = statList.size
 
 
-    inner class StatisticsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class StatisticsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val habitDesc: TextView = itemView.findViewById(R.id.tv_stat_habit_name)
         val month: TextView = itemView.findViewById(R.id.tv_stat_month)

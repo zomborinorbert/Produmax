@@ -82,20 +82,20 @@ ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickListene
         with(builder) {
             setTitle("Enter the new name!")
             setPositiveButton("OK") { _, _ ->
-                if(editText.text.length in 5..29){
+                if (editText.text.length in 5..29) {
                     viewModel.todoList.value!!.forEach { x ->
-                        if(x.description == editText.text.toString()){
+                        if (x.description == editText.text.toString()) {
                             Toast.makeText(
                                 requireActivity(),
                                 "Todo with this name already exists!",
                                 Toast.LENGTH_LONG
                             ).show()
-                            showEdit(position)
+                            return@setPositiveButton
                         }
                     }
                     viewModel.editTodoDesc(position, editText.text.toString())
                     todoAdapter.notifyItemChanged(position)
-                }else{
+                } else {
                     Toast.makeText(
                         requireActivity(),
                         "Todo name is too short or too long!(length should be between 5-29 char long)",

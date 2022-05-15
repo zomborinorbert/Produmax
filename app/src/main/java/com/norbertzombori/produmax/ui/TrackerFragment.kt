@@ -86,20 +86,20 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
         with(builder) {
             setTitle("Enter the new name!")
             setPositiveButton("OK") { _, _ ->
-                if(editText.text.length in 5..29){
+                if (editText.text.length in 5..29) {
                     viewModel.habitList.value!!.forEach { x ->
-                        if(editText.text.toString() == x.habitDescription){
+                        if (editText.text.toString() == x.habitDescription) {
                             Toast.makeText(
                                 requireActivity(),
                                 "Habit with this name already exists!",
                                 Toast.LENGTH_LONG
                             ).show()
-                            showEdit(position)
+                            return@setPositiveButton
                         }
                     }
                     viewModel.editHabitName(position, editText.text.toString())
                     habitsAdapter.notifyItemChanged(position)
-                }else{
+                } else {
                     Toast.makeText(
                         requireActivity(),
                         "Habit name is too short or too long!(length should be between 5-29 char long)",

@@ -95,17 +95,17 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     fun getWeekDates(): ArrayList<String> {
-        val now = Calendar.getInstance()
-        val format = SimpleDateFormat("yyyy-MM-dd")
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val days = ArrayList<String>(7)
-        var delta = -now[GregorianCalendar.DAY_OF_WEEK] + 2 //add 2 if your week start on monday
-        if (delta == 1){
-            delta = -6
+        var countFromMonday = -calendar[GregorianCalendar.DAY_OF_WEEK] + 2
+        if (countFromMonday == 1) {
+            countFromMonday = -6
         }
-        now.add(Calendar.DAY_OF_MONTH, delta)
+        calendar.add(Calendar.DAY_OF_MONTH, countFromMonday)
         for (i in 0..6) {
-            days.add(format.format(now.time))
-            now.add(Calendar.DAY_OF_MONTH, 1)
+            days.add(dateFormat.format(calendar.time))
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
         return days
     }

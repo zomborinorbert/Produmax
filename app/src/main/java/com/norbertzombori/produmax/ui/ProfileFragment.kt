@@ -43,7 +43,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), EventAdapter.OnItem
         viewModel.selected.value?.displayName?.let { findUserById(it) }
 
         btn_delete_friend.setOnClickListener {
-            viewModel.deleteFriend(viewModel.selected.value!!.displayName,
+            viewModel.deleteFriend(
+                viewModel.selected.value!!.displayName,
                 viewModel.selectedPosition.value!!
             )
 

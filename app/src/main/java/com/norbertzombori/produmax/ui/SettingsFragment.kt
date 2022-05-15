@@ -20,7 +20,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AdapterView.OnIte
         requireActivity().setTitle("Settings")
 
         viewModel.visibilityLiveData.observe(viewLifecycleOwner) {
-            if (it) profile_visibility_spinner.setSelection(1) else profile_visibility_spinner.setSelection(0)
+            if (it) profile_visibility_spinner.setSelection(1) else profile_visibility_spinner.setSelection(
+                0
+            )
         }
 
         val eventLengthItems = arrayOf("Private", "Public")
@@ -37,7 +39,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AdapterView.OnIte
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         if (check > 0) {
             val setting = p0?.getItemAtPosition(p2) as String
-            if (setting == "Private") viewModel.editProfileVisibility(false) else viewModel.editProfileVisibility(true)
+            if (setting == "Private") viewModel.editProfileVisibility(false) else viewModel.editProfileVisibility(
+                true
+            )
         }
         check++
     }

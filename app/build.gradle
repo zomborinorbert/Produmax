@@ -10,9 +10,10 @@ plugins {
 android {
     compileSdk 31
 
+
     defaultConfig {
         applicationId "com.norbertzombori.produmax"
-        minSdk 28
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
