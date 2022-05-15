@@ -162,10 +162,13 @@ class LoginRegisterRepository {
     }
 
     fun editProfileVisibility(setting: Boolean) {
+        val currentDay = LocalDate.now().dayOfMonth
+
         val newSetting = hashMapOf(
             "email" to firebaseAuth.currentUser?.email!!,
             "displayName" to firebaseAuth.currentUser?.displayName!!,
-            "profileVisibility" to setting
+            "profileVisibility" to setting,
+            "latestLogin" to currentDay
         )
 
         db.collection("users").document(firebaseAuth.currentUser?.uid!!).set(newSetting)

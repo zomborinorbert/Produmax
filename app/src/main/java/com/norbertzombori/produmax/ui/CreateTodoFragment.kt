@@ -52,12 +52,14 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),
         btn_add_todo.setOnClickListener {
             if(et_todo_desc.text.length in 5..29){
                 viewModel.todoList.value!!.forEach { x ->
-                    Toast.makeText(
-                        requireActivity(),
-                        "Todo with this name already exists!",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    if(x.description == et_todo_desc.text.toString()) return@setOnClickListener
+                    if(x.description == et_todo_desc.text.toString()){
+                        Toast.makeText(
+                            requireActivity(),
+                            "Todo with this name already exists!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@setOnClickListener
+                    }
                 }
                 membersList = ArrayList()
                 membersList.add(viewModel.todoRepository.firebaseAuth.uid!!)

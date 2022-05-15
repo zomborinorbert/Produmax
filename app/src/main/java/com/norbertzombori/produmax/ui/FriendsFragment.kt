@@ -41,7 +41,7 @@ class FriendsFragment : Fragment(R.layout.fragment_friends), FriendsAdapter.OnIt
 
         viewModel.userList.observe(viewLifecycleOwner) {
             friendsAdapter.notifyDataSetChanged()
-            Log.d(ContentValues.TAG, "New asdasdsa added")
+            Log.d(ContentValues.TAG, "New added")
         }
 
         btn_send_friend_request.setOnClickListener {

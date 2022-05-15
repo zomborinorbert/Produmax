@@ -18,6 +18,7 @@ import com.norbertzombori.produmax.R
 import com.norbertzombori.produmax.adapters.HabitsAdapter
 import com.norbertzombori.produmax.data.Habit
 import com.norbertzombori.produmax.viewmodels.HabitsViewModel
+import kotlinx.android.synthetic.main.fragment_create_habit.*
 import kotlinx.android.synthetic.main.fragment_tracker.*
 import kotlinx.android.synthetic.main.fragment_tracker.recycler_view
 
@@ -86,6 +87,16 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
             setTitle("Enter the new name!")
             setPositiveButton("OK") { _, _ ->
                 if(editText.text.length in 5..29){
+                    viewModel.habitList.value!!.forEach { x ->
+                        if(editText.text.toString() == x.habitDescription){
+                            Toast.makeText(
+                                requireActivity(),
+                                "Habit with this name already exists!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            showEdit(position)
+                        }
+                    }
                     viewModel.editHabitName(position, editText.text.toString())
                     habitsAdapter.notifyItemChanged(position)
                 }else{

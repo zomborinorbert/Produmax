@@ -20,7 +20,7 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
         btn_add_habit.setOnClickListener {
             when (et_habit_desc.text.length) {
                 in 5..29 -> {
-                    for(x in viewModel.habitList.value!!){
+                    viewModel.habitList.value!!.forEach { x ->
                         if(et_habit_desc.text.toString() == x.habitDescription){
                             Toast.makeText(
                                 requireActivity(),
