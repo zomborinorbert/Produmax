@@ -117,7 +117,7 @@ class PlannerViewModel : ViewModel() {
     }
 
     fun deleteEvent() {
-        plannerRepository.deleteEvent(selected.value!!.eventName)
+        selected.value?.let { plannerRepository.deleteEvent(it) }
         eventList.value?.remove(selected.value)
     }
 

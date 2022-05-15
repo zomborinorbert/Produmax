@@ -137,7 +137,7 @@ class PlannerRepository {
     }
 
 
-    fun deleteEvent(eventName: String) {
+    fun deleteEvent(event: Event) {
         val docRef =
             db.collection("users").document(firebaseAuth.currentUser?.uid!!).collection("events")
         docRef.get()
@@ -145,7 +145,7 @@ class PlannerRepository {
                 if (documents != null) {
                     for (document in documents) {
                         val currentEvent = document.toObject(Event::class.java)
-                        if (currentEvent.eventName == eventName) {
+                        if (currentEvent.eventName == event.eventName && currentEvent.eventDate == event.eventDate) {
                             db.collection("users").document(firebaseAuth.currentUser?.uid!!)
                                 .collection("events")
                                 .document(document.id).delete()

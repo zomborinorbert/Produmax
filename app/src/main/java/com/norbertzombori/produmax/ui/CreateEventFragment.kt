@@ -162,7 +162,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
         importance_spinner.adapter = importanceAdapter
         importance_spinner.onItemSelectedListener = this
 
-        val colorItems = arrayOf("BLACK", "RED", "PURPLE")
+        val colorItems = arrayOf("BLACK", "RED", "PURPLE", "GREEN", "YELLOW", "BLUE", "BROWN")
         colorAdapter =
             ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, colorItems)
         colors_spinner.adapter = colorAdapter
@@ -225,7 +225,6 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
             R.id.importance_spinner -> eventImportance = p0?.getItemAtPosition(p2) as String
             R.id.colors_spinner -> eventColor = p0?.getItemAtPosition(p2) as String
             R.id.flags_spinner -> {
-                Log.d("form","DSADdsadasSADSADAS $eventLength")
                 val currentFlag = getEventFlagByFlagName(p0?.getItemAtPosition(p2) as String)
 
                 eventColor = currentFlag!!.flagColor
@@ -254,7 +253,7 @@ class CreateEventFragment : DialogFragment(R.layout.fragment_create_event),
 
     private fun scheduleNotification() {
         val intent = Intent(activity?.applicationContext, NotificationCreate::class.java)
-        intent.putExtra(messageExtra, et_event_name.text.toString())
+        intent.putExtra(message, et_event_name.text.toString())
 
         val pendingIntent = PendingIntent.getBroadcast(
             activity?.applicationContext,

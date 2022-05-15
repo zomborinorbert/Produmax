@@ -32,7 +32,7 @@ class CreateEventFlagFragment : Fragment(R.layout.fragment_create_event_flag),
         create_flag_importance_spinner.adapter = importanceAdapter
         create_flag_importance_spinner.onItemSelectedListener = this
 
-        val colorItems = arrayOf("BLACK", "RED", "PURPLE")
+        val colorItems = arrayOf("BLACK", "RED", "PURPLE", "GREEN", "YELLOW", "BLUE", "BROWN")
         val colorAdapter: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 requireActivity(),

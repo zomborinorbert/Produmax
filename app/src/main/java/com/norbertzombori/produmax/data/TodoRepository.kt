@@ -96,6 +96,7 @@ class TodoRepository {
                             db.collection("users").document(firebaseAuth.currentUser?.uid!!)
                                 .collection("todos")
                                 .document(document.id).delete()
+                            break
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }

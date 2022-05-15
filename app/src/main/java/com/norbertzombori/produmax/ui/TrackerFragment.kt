@@ -60,7 +60,7 @@ class TrackerFragment : Fragment(R.layout.fragment_tracker), HabitsAdapter.OnIte
             .setPositiveButton("Delete Habit") { _, _ ->
                 viewModel.deleteHabit(position)
                 habitsAdapter.notifyDataSetChanged()
-            }.setNegativeButton("Edit Habit") { _, _ ->
+            }.setNegativeButton("Rename Habit") { _, _ ->
                 showEdit(position)
             }.show()
     }

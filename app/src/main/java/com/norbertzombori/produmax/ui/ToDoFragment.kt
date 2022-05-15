@@ -68,7 +68,7 @@ ToDoFragment : Fragment(R.layout.fragment_todos), TodoAdapter.OnItemClickListene
             .setPositiveButton("Delete Todo") { _, _ ->
                 viewModel.deleteTodo(position)
                 todoAdapter.notifyDataSetChanged()
-            }.setNegativeButton("Edit Todo") { _, _ ->
+            }.setNegativeButton("Rename Todo") { _, _ ->
                 showEdit(position)
             }.show()
     }

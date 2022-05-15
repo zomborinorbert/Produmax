@@ -80,7 +80,7 @@ class InvitesFragment : Fragment(R.layout.fragment_invites), EventAdapter.OnItem
 
     private fun scheduleNotification(time: Timestamp) {
         val intent = Intent(activity?.applicationContext, NotificationCreate::class.java)
-        intent.putExtra(messageExtra, "ACCEPTED INVITATION")
+        intent.putExtra(message, "ACCEPTED INVITATION")
 
         val pendingIntent = PendingIntent.getBroadcast(
             activity?.applicationContext,

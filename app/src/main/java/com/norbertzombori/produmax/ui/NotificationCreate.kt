@@ -11,17 +11,16 @@ import com.norbertzombori.produmax.R
 
 const val notificationID = 1
 const val channelID = "channel1"
-var titleExtra = "titleExtra"
-var messageExtra = "messageExtra"
+var message = "message"
 
 class NotificationCreate : BroadcastReceiver(){
 
     override fun onReceive(p0: Context?, p1: Intent) {
         val notification : Notification? = p0?.let {
             NotificationCompat.Builder(it, channelID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Event")
-                .setContentText("Event ${p1.getStringExtra(messageExtra)} has started.")
+                .setContentText("Event ${p1.getStringExtra(message)} has started.")
                 .build()
         }
 

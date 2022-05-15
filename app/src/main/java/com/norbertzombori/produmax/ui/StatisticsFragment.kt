@@ -98,7 +98,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val now = Calendar.getInstance()
         val format = SimpleDateFormat("yyyy-MM-dd")
         val days = ArrayList<String>(7)
-        val delta = -now[GregorianCalendar.DAY_OF_WEEK] - 5 //add 2 if your week start on monday
+        var delta = -now[GregorianCalendar.DAY_OF_WEEK] + 2 //add 2 if your week start on monday
+        if (delta == 1){
+            delta = -6
+        }
         now.add(Calendar.DAY_OF_MONTH, delta)
         for (i in 0..6) {
             days.add(format.format(now.time))

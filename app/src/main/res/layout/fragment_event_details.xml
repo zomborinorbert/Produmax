@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.249" />
+        app:layout_constraintVertical_bias="0.26999998" />
 
     <TextView
         android:id="@+id/tv_event_date"
@@ -61,7 +61,7 @@
     <ListView
         android:id="@+id/listview_members"
         android:layout_width="341dp"
-        android:layout_height="454dp"
+        android:layout_height="340dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
         app:layout_constraintHorizontal_bias="0.104"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_event_importance"
-        app:layout_constraintVertical_bias="0.603" />
+        app:layout_constraintVertical_bias="0.58000004" />
 
     <TextView
         android:id="@+id/tv_event_color"

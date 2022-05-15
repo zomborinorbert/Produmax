@@ -15,6 +15,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="24dp"
         android:hint="Enter their username"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         app:layout_constraintEnd_toStartOf="@+id/btn_send_friend_request"
         app:layout_constraintHorizontal_bias="0.5"
@@ -36,7 +37,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="367dp"
-        android:layout_height="614dp"
+        android:layout_height="514dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

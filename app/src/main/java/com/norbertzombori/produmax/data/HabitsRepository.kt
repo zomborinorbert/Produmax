@@ -147,6 +147,7 @@ class HabitsRepository {
                             db.collection("users").document(firebaseAuth.currentUser?.uid!!)
                                 .collection("habits")
                                 .document(document.id).delete()
+                            break
                         }
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }

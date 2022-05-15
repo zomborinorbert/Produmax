@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.norbertzombori.produmax"
-        minSdk 26
+        minSdk 28
         targetSdk 32
         versionCode 1
         versionName "1.0"

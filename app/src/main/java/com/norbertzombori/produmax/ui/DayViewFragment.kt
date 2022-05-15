@@ -43,7 +43,6 @@ class DayViewFragment : Fragment(R.layout.fragment_day_view), EventAdapter.OnIte
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(requireActivity(), "Item $position clicked", Toast.LENGTH_SHORT).show()
         viewModel.select(eventList[position])
         val action = DayViewFragmentDirections.actionDayViewFragmentToEventDetailsFragment()
         findNavController().navigate(action)

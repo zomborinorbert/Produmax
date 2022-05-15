@@ -20,6 +20,16 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
         btn_add_habit.setOnClickListener {
             when (et_habit_desc.text.length) {
                 in 5..29 -> {
+                    for(x in viewModel.habitList.value!!){
+                        if(et_habit_desc.text.toString() == x.habitDescription){
+                            Toast.makeText(
+                                requireActivity(),
+                                "Habit with this name already exists!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@setOnClickListener
+                        }
+                    }
                     viewModel.createNewHabit(et_habit_desc.text.toString())
                 }
                 else -> {
@@ -28,6 +38,7 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
                         "Habit name too short or too long!(length should be between 5-29 char long)",
                         Toast.LENGTH_LONG
                     ).show()
+                    return@setOnClickListener
                 }
             }
 

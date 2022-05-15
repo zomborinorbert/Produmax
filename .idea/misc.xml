@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.334" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable/baseline_logout_24.xml" value="0.208" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable/calendar_bg.xml" value="0.2105" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable/edit_text_border.xml" value="0.334" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable/example_2_selected_bg.xml" value="0.208" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/drawable/gradient.xml" value="0.334" />
@@ -22,7 +23,7 @@
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_create_event_flag.xml" value="0.33967391304347827" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_create_habit.xml" value="0.2703125" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_create_todo.xml" value="0.2703125" />
-        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_day_view.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_day_view.xml" value="0.33" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_edit_habits.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_event_details.xml" value="0.317481884057971" />
         <entry key="..\:/Users/Lenovo/Desktop/Szakdolgozat/Produmax/app/src/main/res/layout/fragment_friends.xml" value="0.33" />

@@ -1,6 +1,7 @@
 package com.norbertzombori.produmax.ui
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import kotlin.system.exitProcess
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by activityViewModels()
@@ -103,6 +105,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Firebase.auth.signOut()
             val action = HomeFragmentDirections.actionHomeFragmentToLandingFragment()
             findNavController().navigate(action)
+            requireActivity().finishAffinity()
             return true
         }
         return true
